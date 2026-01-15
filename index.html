@@ -2,8 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Tinnitus Relief Pro - Notched Sound Therapy</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Notched Sound Therapy & Frequency Matching for Tinnitus Relief">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS/Safari Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TinnitusRelief">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px)">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,8 +53,8 @@
         <div class="master-controls">
             <div class="master-volume">
                 <label for="masterVolume">🔊 Master Volume</label>
-                <input type="range" id="masterVolume" min="0" max="100" value="20">
-                <span id="masterVolumeDisplay">20%</span>
+                <input type="range" id="masterVolume" min="0" max="100" value="50">
+                <span id="masterVolumeDisplay">50%</span>
             </div>
         </div>
 
@@ -108,7 +140,7 @@
                     </div>
                     <div class="control-section"><h3>🕳️ Notch Settings</h3>
                         <div class="control-group"><label>Notch Frequency</label><input type="range" id="notchFreq" min="100" max="15000" value="4000"><div class="frequency-input-group"><input type="number" id="notchFreqInput" value="4000"><span>Hz</span></div><button class="btn btn-small" id="useMatchedFreqNoise">Use Matched Freq</button></div>
-                        <div class="control-group"><label>Notch Width</label><select id="notchWidth"><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
+                        <div class="control-group"><label>Notch Width</label><select id="notchWidth"><option value="hz50">±50 Hz (Narrow)</option><option value="hz100">±100 Hz</option><option value="hz250">±250 Hz</option><option value="0.25">0.25 Octave</option><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
                         <div class="control-group"><label>Notch Depth</label><select id="notchDepth"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option></select></div>
                     </div>
                 </div>
@@ -127,7 +159,7 @@
                 <div class="spectrum-container"><h3>Frequency Spectrum</h3><canvas id="musicSpectrum"></canvas></div>
                 <div class="control-section"><h3>🕳️ Music Notch Settings</h3>
                     <div class="control-group"><label>Notch Frequency</label><input type="range" id="musicNotchFreq" min="100" max="15000" value="4000"><div class="frequency-input-group"><input type="number" id="musicNotchFreqInput" value="4000"><span>Hz</span></div><button class="btn btn-small" id="useMatchedFreqMusic">Use Matched Freq</button></div>
-                    <div class="control-group"><label>Notch Width</label><select id="musicNotchWidth"><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
+                    <div class="control-group"><label>Notch Width</label><select id="musicNotchWidth"><option value="hz50">±50 Hz (Narrow)</option><option value="hz100">±100 Hz</option><option value="hz250">±250 Hz</option><option value="0.25">0.25 Octave</option><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
                     <div class="control-group"><label><input type="checkbox" id="musicNotchEnabled" checked> Enable Notch Filter</label></div>
                 </div>
             </div>
@@ -158,5 +190,20 @@
     <script src="js/visualizer.js"></script>
     <script src="js/session-manager.js"></script>
     <script src="app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

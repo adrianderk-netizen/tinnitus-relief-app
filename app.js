@@ -14,7 +14,7 @@ class TinnitusReliefApp {
         
         // Current mode and state
         this.currentMode = 'tone-matcher';
-        this.masterVolume = 0.2;
+        this.masterVolume = 0.5;
         
         // Tone Matcher State
         this.toneState = {
@@ -53,6 +53,7 @@ class TinnitusReliefApp {
         
         // Profiles
         this.profiles = this.loadProfiles();
+        this.currentProfile = null; // Track currently active profile
         
         this.init();
     }
@@ -84,8 +85,8 @@ class TinnitusReliefApp {
     bindTabEvents() {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const mode = e.target.dataset.mode;
-                this.switchMode(mode);
+                const mode = e.currentTarget.dataset.mode;
+                if (mode) this.switchMode(mode);
             });
         });
 
@@ -174,22 +175,33 @@ class TinnitusReliefApp {
     }
 
     startTone() {
-        this.audioEngine.init();
-        ['left', 'right'].forEach(ear => {
-            const state = this.toneState[ear];
-            state.osc = this.audioEngine.createOscillator(state.frequency + state.fineTune, state.waveform);
-            state.phaseGain = this.audioEngine.createGain(state.phaseInverted ? -1 : 1);
-            state.gain = this.audioEngine.createGain(state.enabled ? state.volume * this.masterVolume : 0);
-            state.panner = this.audioEngine.createPanner(ear === 'left' ? -1 : 1);
-            state.osc.connect(state.phaseGain);
-            state.phaseGain.connect(state.gain);
-            state.gain.connect(state.panner);
-            this.audioEngine.connectToMaster(state.panner);
-            state.osc.start();
-        });
-        this.toneState.isPlaying = true;
-        document.getElementById('startTone').disabled = true;
-        document.getElementById('stopTone').disabled = false;
+        // Guard: prevent starting if already playing
+        if (this.toneState.isPlaying) {
+            return;
+        }
+        
+        try {
+            this.audioEngine.init();
+            
+            ['left', 'right'].forEach(ear => {
+                const state = this.toneState[ear];
+                state.osc = this.audioEngine.createOscillator(state.frequency + state.fineTune, state.waveform);
+                state.phaseGain = this.audioEngine.createGain(state.phaseInverted ? -1 : 1);
+                state.gain = this.audioEngine.createGain(state.enabled ? state.volume * this.masterVolume : 0);
+                state.panner = this.audioEngine.createPanner(ear === 'left' ? -1 : 1);
+                state.osc.connect(state.phaseGain);
+                state.phaseGain.connect(state.gain);
+                state.gain.connect(state.panner);
+                this.audioEngine.connectToMaster(state.panner);
+                state.osc.start();
+            });
+            
+            this.toneState.isPlaying = true;
+            document.getElementById('startTone').disabled = true;
+            document.getElementById('stopTone').disabled = false;
+        } catch(e) {
+            console.error('Error in startTone:', e);
+        }
     }
 
     stopTone() {
@@ -240,7 +252,7 @@ class TinnitusReliefApp {
         document.getElementById('noiseVolume').addEventListener('input', (e) => { this.noiseState.volume = e.target.value / 100; document.getElementById('noiseVolumeDisplay').textContent = `${e.target.value}%`; if (this.noiseState.gain) this.noiseState.gain.gain.setTargetAtTime(this.noiseState.volume * this.masterVolume, this.audioEngine.currentTime, 0.01); });
         document.getElementById('notchFreq').addEventListener('input', (e) => this.setNoiseNotchFreq(parseInt(e.target.value)));
         document.getElementById('notchFreqInput').addEventListener('change', (e) => this.setNoiseNotchFreq(Math.max(100, Math.min(15000, parseInt(e.target.value)))));
-        document.getElementById('notchWidth').addEventListener('change', (e) => { this.noiseState.notchWidth = parseFloat(e.target.value); this.updateNoiseNotch(); });
+        document.getElementById('notchWidth').addEventListener('change', (e) => { this.noiseState.notchWidth = e.target.value; this.updateNoiseNotch(); });
         document.getElementById('notchDepth').addEventListener('change', (e) => { this.noiseState.notchDepth = parseFloat(e.target.value); this.updateNoiseNotch(); });
         document.getElementById('useMatchedFreqNoise').addEventListener('click', () => { const freq = this.matchedFrequencies.left || this.matchedFrequencies.right || 4000; this.setNoiseNotchFreq(freq); });
     }
@@ -260,6 +272,11 @@ class TinnitusReliefApp {
     }
 
     startNoise() {
+        // Guard: prevent starting if already playing
+        if (this.noiseState.isPlaying) {
+            return;
+        }
+        
         this.audioEngine.init();
         const state = this.noiseState;
         state.source = this.audioEngine.createNoiseSource(state.type);
@@ -309,7 +326,7 @@ class TinnitusReliefApp {
         document.getElementById('musicVolume').addEventListener('input', (e) => { this.musicState.volume = e.target.value / 100; document.getElementById('musicVolumeDisplay').textContent = `${e.target.value}%`; if (audioEl) audioEl.volume = this.musicState.volume * this.masterVolume; });
         document.getElementById('musicNotchFreq').addEventListener('input', (e) => this.setMusicNotchFreq(parseInt(e.target.value)));
         document.getElementById('musicNotchFreqInput').addEventListener('change', (e) => this.setMusicNotchFreq(Math.max(100, Math.min(15000, parseInt(e.target.value)))));
-        document.getElementById('musicNotchWidth').addEventListener('change', (e) => { this.musicState.notchWidth = parseFloat(e.target.value); this.updateMusicNotch(); });
+        document.getElementById('musicNotchWidth').addEventListener('change', (e) => { this.musicState.notchWidth = e.target.value; this.updateMusicNotch(); });
         document.getElementById('musicNotchEnabled').addEventListener('change', (e) => { this.musicState.notchEnabled = e.target.checked; this.updateMusicNotch(); });
         document.getElementById('useMatchedFreqMusic').addEventListener('click', () => { const freq = this.matchedFrequencies.left || this.matchedFrequencies.right || 4000; this.setMusicNotchFreq(freq); });
         
@@ -426,25 +443,156 @@ class TinnitusReliefApp {
     }
 
     saveCurrentProfile() {
-        const name = document.getElementById('profileName').value.trim();
+        let name = document.getElementById('profileName').value.trim();
+        
+        // If no name entered, use currently active profile
+        if (!name && this.currentProfile) {
+            name = this.currentProfile;
+        }
+        
         if (!name) { alert('Please enter a profile name'); return; }
-        this.profiles[name] = { masterVolume: this.masterVolume, matchedFrequencies: { ...this.matchedFrequencies }, toneState: JSON.parse(JSON.stringify(this.toneState)), noiseState: { type: this.noiseState.type, volume: this.noiseState.volume, notchFreq: this.noiseState.notchFreq, notchWidth: this.noiseState.notchWidth, notchDepth: this.noiseState.notchDepth }, musicState: { volume: this.musicState.volume, notchFreq: this.musicState.notchFreq, notchWidth: this.musicState.notchWidth } };
+        
+        // Check if this is a new profile (not updating an existing one)
+        const isNewProfile = !this.profiles[name];
+        
+        // If it's a new profile, start with empty session history; otherwise save the current session history
+        const sessionHistory = isNewProfile ? [] : this.sessionManager.getHistory();
+        
+        this.profiles[name] = { 
+            masterVolume: this.masterVolume, 
+            matchedFrequencies: { ...this.matchedFrequencies }, 
+            toneState: JSON.parse(JSON.stringify(this.toneState)), 
+            noiseState: { type: this.noiseState.type, volume: this.noiseState.volume, notchFreq: this.noiseState.notchFreq, notchWidth: this.noiseState.notchWidth, notchDepth: this.noiseState.notchDepth }, 
+            musicState: { volume: this.musicState.volume, notchFreq: this.musicState.notchFreq, notchWidth: this.musicState.notchWidth },
+            sessionHistory: sessionHistory
+        };
         this.saveProfiles();
         this.updateProfileDropdown();
         document.getElementById('profileName').value = '';
+        
+        // Set as current profile
+        this.currentProfile = name;
+        
+        // If new profile, reset the session history and update stats display
+        if (isNewProfile) {
+            this.sessionManager.setHistory([]);
+            this.updateStats();
+        }
+        
         alert(`Profile "${name}" saved!`);
     }
 
     loadSelectedProfile(name) {
         if (!name || !this.profiles[name]) return;
         const p = this.profiles[name];
+        
+        // Set as currently active profile
+        this.currentProfile = name;
+        
+        // Master Volume
         this.masterVolume = p.masterVolume;
         document.getElementById('masterVolume').value = this.masterVolume * 100;
         this.els.masterVolumeDisplay.textContent = `${Math.round(this.masterVolume * 100)}%`;
+        
+        // Matched Frequencies
         this.matchedFrequencies = { ...p.matchedFrequencies };
         if (this.matchedFrequencies.left) this.els.leftMatchedFreq.textContent = `${this.matchedFrequencies.left} Hz`;
+        else this.els.leftMatchedFreq.textContent = '-- Hz';
         if (this.matchedFrequencies.right) this.els.rightMatchedFreq.textContent = `${this.matchedFrequencies.right} Hz`;
-        document.getElementById('loadProfile').value = '';
+        else this.els.rightMatchedFreq.textContent = '-- Hz';
+        
+        // Tone Matcher State - restore for each ear
+        if (p.toneState) {
+            ['left', 'right'].forEach(ear => {
+                if (p.toneState[ear]) {
+                    const saved = p.toneState[ear];
+                    const state = this.toneState[ear];
+                    
+                    // Restore state values
+                    state.enabled = saved.enabled;
+                    state.frequency = saved.frequency;
+                    state.fineTune = saved.fineTune;
+                    state.volume = saved.volume;
+                    state.waveform = saved.waveform;
+                    state.phaseInverted = saved.phaseInverted;
+                    
+                    // Update UI elements
+                    const prefix = ear + 'Tone';
+                    document.getElementById(`${prefix}Enabled`).checked = state.enabled;
+                    document.getElementById(`${prefix}Freq`).value = state.frequency;
+                    document.getElementById(`${prefix}FreqInput`).value = state.frequency;
+                    document.getElementById(`${prefix}Volume`).value = state.volume * 100;
+                    document.getElementById(`${prefix}VolumeDisplay`).textContent = `${Math.round(state.volume * 100)}%`;
+                    document.getElementById(`${prefix}Waveform`).value = state.waveform;
+                    document.getElementById(`${prefix}FineTune`).value = state.fineTune;
+                    document.getElementById(`${prefix}FineTuneDisplay`).textContent = `${state.fineTune} Hz`;
+                    
+                    // Update phase inversion UI
+                    const statusEl = document.getElementById(`${prefix}PhaseStatus`);
+                    const invertBtn = document.getElementById(`${prefix}Invert`);
+                    if (state.phaseInverted) {
+                        statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
+                        invertBtn.classList.add('active');
+                    } else {
+                        statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
+                        invertBtn.classList.remove('active');
+                    }
+                    
+                    // Update visualizer
+                    this.visualizers[ear]?.setParams(state.frequency, state.waveform, 1, state.phaseInverted);
+                }
+            });
+        }
+        
+        // Notched Noise State
+        if (p.noiseState) {
+            this.noiseState.type = p.noiseState.type;
+            this.noiseState.volume = p.noiseState.volume;
+            this.noiseState.notchFreq = p.noiseState.notchFreq;
+            this.noiseState.notchWidth = p.noiseState.notchWidth;
+            this.noiseState.notchDepth = p.noiseState.notchDepth;
+            
+            // Update UI elements
+            document.getElementById('noiseType').value = this.noiseState.type;
+            document.getElementById('noiseVolume').value = this.noiseState.volume * 100;
+            document.getElementById('noiseVolumeDisplay').textContent = `${Math.round(this.noiseState.volume * 100)}%`;
+            document.getElementById('notchFreq').value = this.noiseState.notchFreq;
+            document.getElementById('notchFreqInput').value = this.noiseState.notchFreq;
+            document.getElementById('notchWidth').value = this.noiseState.notchWidth;
+            document.getElementById('notchDepth').value = this.noiseState.notchDepth;
+        }
+        
+        // Notched Music State
+        if (p.musicState) {
+            this.musicState.volume = p.musicState.volume;
+            this.musicState.notchFreq = p.musicState.notchFreq;
+            this.musicState.notchWidth = p.musicState.notchWidth;
+            
+            // Update UI elements
+            document.getElementById('musicVolume').value = this.musicState.volume * 100;
+            document.getElementById('musicVolumeDisplay').textContent = `${Math.round(this.musicState.volume * 100)}%`;
+            document.getElementById('musicNotchFreq').value = this.musicState.notchFreq;
+            document.getElementById('musicNotchFreqInput').value = this.musicState.notchFreq;
+            document.getElementById('musicNotchWidth').value = this.musicState.notchWidth;
+        }
+        
+        // Load profile-specific session history
+        // For backward compatibility: if profile doesn't have sessionHistory, try to use the global history
+        let profileHistory = p.sessionHistory;
+        if (!profileHistory) {
+            // This is an old profile without session history - try to recover from global localStorage
+            const globalHistory = localStorage.getItem('tinnitusSessionHistory');
+            profileHistory = globalHistory ? JSON.parse(globalHistory) : [];
+            
+            // Migrate this profile to include the session history
+            this.profiles[name].sessionHistory = profileHistory;
+            this.saveProfiles();
+            console.log(`Migrated session history to profile "${name}"`);
+        }
+        this.sessionManager.setHistory(profileHistory);
+        this.updateStats();
+        
+        alert(`Profile "${name}" loaded!`);
     }
 
     deleteSelectedProfile() {
@@ -482,5 +630,11 @@ class TinnitusReliefApp {
 }
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', () => { window.tinnitusApp = new TinnitusReliefApp(); });
+document.addEventListener('DOMContentLoaded', () => { 
+    try {
+        window.tinnitusApp = new TinnitusReliefApp(); 
+    } catch(e) {
+        console.error('Error initializing app:', e);
+    }
+});
 window.addEventListener('beforeunload', () => { if (window.tinnitusApp) { window.tinnitusApp.stopTone(); window.tinnitusApp.stopNoise(); } });

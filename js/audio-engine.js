@@ -11,21 +11,47 @@ class AudioEngine {
     createPanner(p = 0) { const n = this.audioContext.createStereoPanner(); n.pan.setValueAtTime(p, this.currentTime); return n; }
     createOscillator(f = 440, t = 'sine') { const o = this.audioContext.createOscillator(); o.type = t; o.frequency.setValueAtTime(f, this.currentTime); return o; }
     createNotchFilter(f = 1000, Q = 10) { const n = this.audioContext.createBiquadFilter(); n.type = 'notch'; n.frequency.setValueAtTime(f, this.currentTime); n.Q.setValueAtTime(Q, this.currentTime); return n; }
-    createNotchFilterBank(centerFreq, octaveWidth = 1, depth = 1) {
+    // Parse notch width - can be Hz-based (e.g., "hz50", "hz100") or octave-based (e.g., 0.5, 1)
+    parseNotchWidth(widthValue, centerFreq) {
+        if (typeof widthValue === 'string' && widthValue.startsWith('hz')) {
+            // Hz-based width (e.g., "hz50" = ±50 Hz)
+            const hzWidth = parseInt(widthValue.substring(2));
+            return { lowerFreq: centerFreq - hzWidth, upperFreq: centerFreq + hzWidth, isNarrow: true, hzWidth };
+        } else {
+            // Octave-based width
+            const octaveWidth = parseFloat(widthValue) || 1;
+            return { 
+                lowerFreq: centerFreq / Math.pow(2, octaveWidth / 2), 
+                upperFreq: centerFreq * Math.pow(2, octaveWidth / 2), 
+                isNarrow: false, 
+                octaveWidth 
+            };
+        }
+    }
+    createNotchFilterBank(centerFreq, widthValue = 1, depth = 1) {
         const filters = [];
-        const lowerFreq = centerFreq / Math.pow(2, octaveWidth / 2);
-        const upperFreq = centerFreq * Math.pow(2, octaveWidth / 2);
-        const numFilters = Math.ceil(octaveWidth * 4);
-        const freqStep = (upperFreq - lowerFreq) / numFilters;
-        for (let i = 0; i <= numFilters; i++) { const f = lowerFreq + (freqStep * i); filters.push(this.createNotchFilter(f, 30 * depth)); }
+        const parsed = this.parseNotchWidth(widthValue, centerFreq);
+        const lowerFreq = parsed.lowerFreq;
+        const upperFreq = parsed.upperFreq;
+        // For narrow Hz-based notches, use fewer filters with higher Q; for octave-based, use more filters
+        const numFilters = parsed.isNarrow ? Math.max(2, Math.ceil(parsed.hzWidth / 25)) : Math.ceil((parsed.octaveWidth || 1) * 4);
+        const freqStep = (upperFreq - lowerFreq) / Math.max(1, numFilters);
+        const baseQ = parsed.isNarrow ? 50 : 30; // Higher Q for narrower notches
+        for (let i = 0; i <= numFilters; i++) { const f = lowerFreq + (freqStep * i); filters.push(this.createNotchFilter(f, baseQ * depth)); }
         for (let i = 0; i < filters.length - 1; i++) filters[i].connect(filters[i + 1]);
+        const self = this;
         return {
             input: filters[0], output: filters[filters.length - 1], filters,
             update: (newCenterFreq, newWidth, newDepth) => {
-                const newLower = newCenterFreq / Math.pow(2, newWidth / 2);
-                const newUpper = newCenterFreq * Math.pow(2, newWidth / 2);
-                const newStep = (newUpper - newLower) / numFilters;
-                filters.forEach((f, i) => { f.frequency.setTargetAtTime(newLower + (newStep * i), this.currentTime, 0.01); f.Q.setTargetAtTime(30 * newDepth, this.currentTime, 0.01); });
+                const newParsed = self.parseNotchWidth(newWidth, newCenterFreq);
+                const newLower = newParsed.lowerFreq;
+                const newUpper = newParsed.upperFreq;
+                const newStep = (newUpper - newLower) / Math.max(1, numFilters);
+                const newBaseQ = newParsed.isNarrow ? 50 : 30;
+                filters.forEach((f, i) => { 
+                    f.frequency.setTargetAtTime(newLower + (newStep * i), self.currentTime, 0.01); 
+                    f.Q.setTargetAtTime(newBaseQ * newDepth, self.currentTime, 0.01); 
+                });
             }
         };
     }

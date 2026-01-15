@@ -7,6 +7,9 @@ class SessionManager {
     }
     loadHistory() { const saved = localStorage.getItem('tinnitusSessionHistory'); this.history = saved ? JSON.parse(saved) : []; }
     saveHistory() { localStorage.setItem('tinnitusSessionHistory', JSON.stringify(this.history)); }
+    clearHistory() { this.history = []; this.saveHistory(); }
+    setHistory(historyArray) { this.history = Array.isArray(historyArray) ? historyArray : []; this.saveHistory(); }
+    getHistory() { return [...this.history]; }
     setDuration(ms) { this.targetDuration = ms; }
     setDurationMinutes(min) { this.targetDuration = min * 60 * 1000; }
     start(mode, freq) {
