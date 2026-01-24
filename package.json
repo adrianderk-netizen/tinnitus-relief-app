@@ -1,0 +1,44 @@
+{
+  "name": "tinnitus-relief-pro",
+  "version": "1.0.0",
+  "description": "Notched Sound Therapy & Frequency Matching for Tinnitus Relief",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server . -p 8080 -o",
+    "ios": "npx cap sync ios && npx cap open ios",
+    "android": "npx cap sync android && npx cap open android",
+    "build": "echo 'No build step required for static HTML app'",
+    "sync": "npx cap sync"
+  },
+  "keywords": [
+    "tinnitus",
+    "sound-therapy",
+    "notched-audio",
+    "health",
+    "wellness"
+  ],
+  "author": "Paulabac, LLC",
+  "license": "PROPRIETARY",
+  "devDependencies": {
+    "@capacitor/cli": "^5.5.1",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/ios": "^5.5.1",
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6",
+    "@capacitor/keyboard": "^5.0.6"
+  },
+  "capacitor": {
+    "appId": "com.paulabac.tinnitusreliefpro",
+    "appName": "Tinnitus Relief Pro",
+    "webDir": ".",
+    "plugins": {
+      "SplashScreen": {
+        "launchShowDuration": 2000
+      }
+    }
+  }
+}

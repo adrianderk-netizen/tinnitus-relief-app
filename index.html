@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tinnitus Relief Pro - Notched Sound Therapy</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Notched Sound Therapy & Frequency Matching for Tinnitus Relief">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS/Safari Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TinnitusRelief">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
+    <link rel="apple-touch-startup-image" href="icons/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px)">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="onboarding-modal">
+        <div class="onboarding-container">
+            <button class="onboarding-skip" id="onboardingSkip">Skip</button>
+            
+            <div class="onboarding-slides" id="onboardingSlides">
+                <!-- Slide 1: Welcome + Theory + Disclaimer -->
+                <div class="onboarding-slide active" data-slide="0">
+                    <div class="slide-icon">🎧</div>
+                    <h2>Welcome to Tinnitus Relief Pro</h2>
+                    <p class="slide-subtitle">Science-Based Sound Therapy for Tinnitus Relief</p>
+                    
+                    <div class="theory-section">
+                        <h3>Understanding Tinnitus</h3>
+                        <p class="theory-text">Tinnitus is a persistent ringing, buzzing, or hissing sound in the ears that affects over 50 million Americans. It can impact sleep, concentration, and quality of life.</p>
+                        
+                        <h3>How Notched Sound Therapy Works</h3>
+                        <p class="theory-text">This app uses <strong>notched sound therapy</strong>—a clinically-studied approach that removes your specific tinnitus frequency from background sounds. Research suggests this may help reduce tinnitus perception over time by promoting neural plasticity, allowing your brain to "tune out" the phantom sound.</p>
+                        
+                        <div class="therapy-benefits">
+                            <div class="benefit-item">
+                                <span class="benefit-number">1</span>
+                                <div class="benefit-content">
+                                    <strong>Personalized</strong>
+                                    <span>Match your unique tinnitus frequency</span>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-number">2</span>
+                                <div class="benefit-content">
+                                    <strong>Daily Sessions</strong>
+                                    <span>30-60 minutes of customized therapy</span>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-number">3</span>
+                                <div class="benefit-content">
+                                    <strong>Track Progress</strong>
+                                    <span>Monitor improvement over weeks and months</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="medical-disclaimer">
+                        <strong>⚠️ Medical Disclaimer</strong>
+                        <p>This app is not a medical device and does not diagnose, treat, or cure any medical condition. Results may vary. Always consult a healthcare professional for medical advice.</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 2: Visual Guide - Find Your Frequency -->
+                <div class="onboarding-slide" data-slide="1">
+                    <div class="slide-icon-small">🎵</div>
+                    <h2>Step 1: Find Your Frequency</h2>
+                    <p class="slide-subtitle">Identify your unique tinnitus pitch</p>
+                    
+                    <div class="visual-guide">
+                        <div class="gif-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">📹</div>
+                                <p>Animated guide coming soon</p>
+                                <small>Shows: Adjusting frequency slider</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-steps">
+                        <div class="step-item-visual">
+                            <div class="step-badge">1</div>
+                            <div class="step-content">
+                                <strong>Put on headphones</strong>
+                                <p>Wear over-ear or in-ear headphones for best results</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">2</div>
+                            <div class="step-content">
+                                <strong>Start the tone</strong>
+                                <p>Tap "Start Tone" button in the Tone Matcher tab</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">3</div>
+                            <div class="step-content">
+                                <strong>Adjust frequency</strong>
+                                <p>Move slider until the tone matches your tinnitus</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">4</div>
+                            <div class="step-content">
+                                <strong>Mark your frequency</strong>
+                                <p>Tap "Mark as Tinnitus Frequency" to save</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="slide-tip">💡 <strong>Tip:</strong> Most tinnitus frequencies fall between 4,000-8,000 Hz</p>
+                </div>
+                
+                <!-- Slide 3: Visual Guide - Daily Therapy -->
+                <div class="onboarding-slide" data-slide="2">
+                    <div class="slide-icon-small">🎶</div>
+                    <h2>Step 2: Daily Therapy Sessions</h2>
+                    <p class="slide-subtitle">Use notched sound therapy to reduce perception</p>
+                    
+                    <div class="visual-guide">
+                        <div class="gif-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">📹</div>
+                                <p>Animated guide coming soon</p>
+                                <small>Shows: Starting notched noise therapy</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-steps">
+                        <div class="step-item-visual">
+                            <div class="step-badge">1</div>
+                            <div class="step-content">
+                                <strong>Switch to Notched Noise</strong>
+                                <p>Tap the "Notched Noise" tab at the top</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">2</div>
+                            <div class="step-content">
+                                <strong>Use matched frequency</strong>
+                                <p>Tap "Use Matched Freq" to apply your frequency</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">3</div>
+                            <div class="step-content">
+                                <strong>Start your session</strong>
+                                <p>Press "Start Noise" and set timer for 30-60 minutes</p>
+                            </div>
+                        </div>
+                        <div class="step-item-visual">
+                            <div class="step-badge">4</div>
+                            <div class="step-content">
+                                <strong>Listen daily</strong>
+                                <p>Consistency is key—use daily for best results</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-callout">
+                        <strong>📊 Expected Timeline:</strong>
+                        <p>Most users notice improvement after 4-8 weeks of consistent daily use</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 4: Free Trial Offer -->
+                <div class="onboarding-slide" data-slide="3">
+                    <div class="slide-icon-premium">✨</div>
+                    <h2>Try Premium Free for 7 Days</h2>
+                    <p class="slide-subtitle">Full access to all features during your trial</p>
+                    
+                    <div class="premium-features-grid">
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>All noise types (white, pink, brown)</span>
+                        </div>
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Notched music player</span>
+                        </div>
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Advanced frequency matching</span>
+                        </div>
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Unlimited session duration</span>
+                        </div>
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Progress tracking & analytics</span>
+                        </div>
+                        <div class="premium-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Export reports for doctors</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-preview">
+                        <div class="price-option">
+                            <div class="price-label">Monthly</div>
+                            <div class="price-value">$7.99<span>/month</span></div>
+                        </div>
+                        <div class="price-option featured">
+                            <div class="save-badge">Save 37%</div>
+                            <div class="price-label">Annual</div>
+                            <div class="price-value">$59.99<span>/year</span></div>
+                            <div class="price-detail">Just $5/month</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trial-cta">
+                        <button class="btn btn-trial-large" id="startTrialBtn">
+                            Start 7-Day Free Trial
+                        </button>
+                        <p class="trial-terms">Cancel anytime during trial • No charge until day 8</p>
+                        <button class="btn-text" id="restorePurchasesBtn">Restore Purchases</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="onboarding-dots" id="onboardingDots">
+                <span class="dot active" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+                <span class="dot" data-slide="2"></span>
+                <span class="dot" data-slide="3"></span>
+            </div>
+            
+            <div class="onboarding-buttons">
+                <button class="btn onboarding-prev" id="onboardingPrev" style="visibility: hidden;">← Back</button>
+                <button class="btn btn-start onboarding-next" id="onboardingNext">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paywall Modal -->
+    <div id="paywallModal" class="paywall-modal">
+        <div class="paywall-content">
+            <button class="paywall-close" id="paywallClose">×</button>
+            <div class="paywall-icon">🔒</div>
+            <h2>Unlock Premium Features</h2>
+            <p class="paywall-subtitle" id="paywallFeatureName">Access all advanced features</p>
+            
+            <div class="paywall-benefits">
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>All noise types (white, pink, brown)</span>
+                </div>
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>Notched music player</span>
+                </div>
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>Advanced frequency controls</span>
+                </div>
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>Unlimited session duration</span>
+                </div>
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>Full history & analytics</span>
+                </div>
+                <div class="paywall-benefit">
+                    <span class="benefit-checkmark">✓</span>
+                    <span>Multiple profiles</span>
+                </div>
+            </div>
+            
+            <div class="paywall-pricing">
+                <div class="price-card" id="monthlyCard">
+                    <div class="price-header">Monthly</div>
+                    <div class="price-amount">$7.99<span class="price-period">/month</span></div>
+                    <button class="btn btn-subscribe" id="subscribeMonthly">Subscribe Monthly</button>
+                </div>
+                
+                <div class="price-card featured" id="annualCard">
+                    <div class="best-value-badge">BEST VALUE</div>
+                    <div class="price-header">Annual</div>
+                    <div class="price-amount">$59.99<span class="price-period">/year</span></div>
+                    <div class="price-savings">Save 37% • Just $5/month</div>
+                    <button class="btn btn-subscribe" id="subscribeAnnual">Subscribe Annual</button>
+                </div>
+            </div>
+            
+            <div class="paywall-trial-note">
+                <p>✨ 7-day free trial • Cancel anytime</p>
+            </div>
+            
+            <div class="paywall-footer">
+                <button class="btn-text-small" id="paywallRestore">Restore Purchases</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Subscription Status Bar -->
+        <div class="subscription-status" id="subscriptionStatus" style="display: none;">
+            <div class="status-content">
+                <span class="status-icon">⭐</span>
+                <span class="status-text" id="statusText">Free Trial Active</span>
+                <span class="status-days" id="statusDays">6 days remaining</span>
+            </div>
+        </div>
+
+        <header>
+            <h1>🎧 Tinnitus Relief Pro</h1>
+            <p class="subtitle">Notched Sound Therapy & Frequency Matching</p>
+        </header>
+
+        <div class="warning-banner">
+            <strong>⚠️ Important:</strong> Start with volume at LOW levels. Use headphones for best results.
+        </div>
+
+        <!-- Master Controls -->
+        <div class="master-controls">
+            <div class="master-volume">
+                <label for="masterVolume">🔊 Master Volume</label>
+                <input type="range" id="masterVolume" min="0" max="100" value="50">
+                <span id="masterVolumeDisplay">50%</span>
+            </div>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+            <button class="tab-btn active" data-mode="tone-matcher">
+                🎵 Tone Matcher
+            </button>
+            <button class="tab-btn" data-mode="notched-noise">
+                📊 Notched Noise
+                <span class="premium-badge-tab">PREMIUM</span>
+            </button>
+            <button class="tab-btn" data-mode="notched-music">
+                🎶 Notched Music
+                <span class="premium-badge-tab">PREMIUM</span>
+            </button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Mode 1: Tone Matcher -->
+            <div class="tab-pane active" id="tone-matcher">
+                <div class="mode-header">
+                    <h2>Tone Matcher</h2>
+                    <p>Find your tinnitus frequency by adjusting until it matches what you hear.</p>
+                </div>
+                <div class="audio-controls">
+                    <button id="startTone" class="btn btn-start">▶️ Start Tone</button>
+                    <button id="stopTone" class="btn btn-stop" disabled>⏹️ Stop Tone</button>
+                </div>
+                <div class="ear-controls">
+                    <div class="ear-panel left-ear">
+                        <h3>👂 Left Ear</h3>
+                        <div class="wave-visualizer"><canvas id="leftToneWave"></canvas></div>
+                        <div class="control-group"><label><input type="checkbox" id="leftToneEnabled" checked> Enable</label></div>
+                        <div class="control-group">
+                            <label>Frequency (Hz)</label>
+                            <input type="range" id="leftToneFreq" min="100" max="15000" value="4000">
+                            <div class="frequency-input-group"><input type="number" id="leftToneFreqInput" value="4000"><span>Hz</span></div>
+                        </div>
+                        <div class="control-group"><label>Volume</label><input type="range" id="leftToneVolume" min="0" max="100" value="50"><span id="leftToneVolumeDisplay">50%</span></div>
+                        <div class="control-group"><label>Waveform</label><select id="leftToneWaveform"><option value="sine">Sine</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option><option value="triangle">Triangle</option></select></div>
+                        <div class="control-group fine-tune"><label>Fine Tune (±10 Hz)</label><input type="range" id="leftToneFineTune" min="-10" max="10" value="0" step="0.1"><span id="leftToneFineTuneDisplay">0 Hz</span></div>
+                        <button class="btn btn-mark" id="leftToneMark">📌 Mark as Tinnitus Frequency</button>
+                        <div class="phase-controls"><button class="btn btn-invert" id="leftToneInvert">🔄 Toggle Phase Inversion</button><div class="phase-status" id="leftTonePhaseStatus">Phase: <span class="normal">Normal</span></div></div>
+                    </div>
+                    <div class="ear-panel right-ear">
+                        <h3>👂 Right Ear</h3>
+                        <div class="wave-visualizer"><canvas id="rightToneWave"></canvas></div>
+                        <div class="control-group"><label><input type="checkbox" id="rightToneEnabled" checked> Enable</label></div>
+                        <div class="control-group">
+                            <label>Frequency (Hz)</label>
+                            <input type="range" id="rightToneFreq" min="100" max="15000" value="4000">
+                            <div class="frequency-input-group"><input type="number" id="rightToneFreqInput" value="4000"><span>Hz</span></div>
+                        </div>
+                        <div class="control-group"><label>Volume</label><input type="range" id="rightToneVolume" min="0" max="100" value="50"><span id="rightToneVolumeDisplay">50%</span></div>
+                        <div class="control-group"><label>Waveform</label><select id="rightToneWaveform"><option value="sine">Sine</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option><option value="triangle">Triangle</option></select></div>
+                        <div class="control-group fine-tune"><label>Fine Tune (±10 Hz)</label><input type="range" id="rightToneFineTune" min="-10" max="10" value="0" step="0.1"><span id="rightToneFineTuneDisplay">0 Hz</span></div>
+                        <button class="btn btn-mark" id="rightToneMark">📌 Mark as Tinnitus Frequency</button>
+                        <div class="phase-controls"><button class="btn btn-invert" id="rightToneInvert">🔄 Toggle Phase Inversion</button><div class="phase-status" id="rightTonePhaseStatus">Phase: <span class="normal">Normal</span></div></div>
+                    </div>
+                </div>
+                <div class="presets-section"><h3>📋 Common Frequencies</h3><div class="preset-buttons"><button class="btn btn-preset" data-freq="1000">1000 Hz</button><button class="btn btn-preset" data-freq="2000">2000 Hz</button><button class="btn btn-preset" data-freq="4000">4000 Hz</button><button class="btn btn-preset" data-freq="6000">6000 Hz</button><button class="btn btn-preset" data-freq="8000">8000 Hz</button></div></div>
+            </div>
+
+            <!-- Mode 2: Notched Noise -->
+            <div class="tab-pane" id="notched-noise">
+                <div class="mode-header"><h2>Notched Noise Therapy</h2><p>Broadband noise with a notch at your tinnitus frequency.</p></div>
+                <div class="audio-controls"><button id="startNoise" class="btn btn-start">▶️ Start Noise</button><button id="stopNoise" class="btn btn-stop" disabled>⏹️ Stop Noise</button></div>
+                <div class="spectrum-container"><h3>Frequency Spectrum</h3><canvas id="noiseSpectrum"></canvas></div>
+                <div class="notch-controls">
+                    <div class="control-section"><h3>🎛️ Noise Settings</h3>
+                        <div class="control-group"><label>Noise Type</label><select id="noiseType"><option value="white">White</option><option value="pink" selected>Pink</option><option value="brown">Brown</option></select></div>
+                        <div class="control-group"><label>Volume</label><input type="range" id="noiseVolume" min="0" max="100" value="50"><span id="noiseVolumeDisplay">50%</span></div>
+                    </div>
+                    <div class="control-section"><h3>🕳️ Notch Settings</h3>
+                        <div class="control-group"><label>Notch Frequency</label><input type="range" id="notchFreq" min="100" max="15000" value="4000"><div class="frequency-input-group"><input type="number" id="notchFreqInput" value="4000"><span>Hz</span></div><button class="btn btn-small" id="useMatchedFreqNoise">Use Matched Freq</button></div>
+                        <div class="control-group"><label>Notch Width</label><select id="notchWidth"><option value="hz50">±50 Hz (Narrow)</option><option value="hz100">±100 Hz</option><option value="hz250">±250 Hz</option><option value="0.25">0.25 Octave</option><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
+                        <div class="control-group"><label>Notch Depth</label><select id="notchDepth"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option></select></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 3: Notched Music -->
+            <div class="tab-pane" id="notched-music">
+                <div class="mode-header"><h2>Notched Music Player</h2><p>Listen to music with a notch filter at your tinnitus frequency.</p></div>
+                <div class="music-upload"><label for="musicFile" class="btn btn-upload">📁 Select Music File</label><input type="file" id="musicFile" accept="audio/*" style="display:none"><span id="musicFileName">No file selected</span></div>
+                <div class="music-player">
+                    <audio id="audioPlayer" style="display:none"></audio>
+                    <div class="player-controls"><button id="playMusic" class="btn btn-start" disabled>▶️ Play</button><button id="pauseMusic" class="btn btn-stop" disabled>⏸️ Pause</button></div>
+                    <div class="player-progress"><span id="musicCurrentTime">0:00</span><input type="range" id="musicSeek" min="0" max="100" value="0" disabled><span id="musicDuration">0:00</span></div>
+                    <div class="control-group"><label>Volume</label><input type="range" id="musicVolume" min="0" max="100" value="70"><span id="musicVolumeDisplay">70%</span></div>
+                </div>
+                <div class="spectrum-container"><h3>Frequency Spectrum</h3><canvas id="musicSpectrum"></canvas></div>
+                <div class="control-section"><h3>🕳️ Music Notch Settings</h3>
+                    <div class="control-group"><label>Notch Frequency</label><input type="range" id="musicNotchFreq" min="100" max="15000" value="4000"><div class="frequency-input-group"><input type="number" id="musicNotchFreqInput" value="4000"><span>Hz</span></div><button class="btn btn-small" id="useMatchedFreqMusic">Use Matched Freq</button></div>
+                    <div class="control-group"><label>Notch Width</label><select id="musicNotchWidth"><option value="hz50">±50 Hz (Narrow)</option><option value="hz100">±100 Hz</option><option value="hz250">±250 Hz</option><option value="0.25">0.25 Octave</option><option value="0.5">0.5 Octave</option><option value="1" selected>1 Octave</option><option value="1.5">1.5 Octaves</option><option value="2">2 Octaves</option></select></div>
+                    <div class="control-group"><label><input type="checkbox" id="musicNotchEnabled" checked> Enable Notch Filter</label></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Panel -->
+        <div class="session-panel">
+            <div class="session-timer">
+                <h3>⏱️ Session Timer</h3>
+                <div class="timer-display"><span id="timerRemaining">60:00</span><span class="timer-label">remaining</span></div>
+                <div class="timer-progress"><div class="progress-bar" id="timerProgressBar"></div></div>
+                <div class="timer-controls">
+                    <select id="timerDuration"><option value="15">15 min</option><option value="30">30 min</option><option value="60" selected>1 hour</option><option value="120">2 hours</option></select>
+                    <button id="timerStart" class="btn btn-small btn-start">Start</button><button id="timerPause" class="btn btn-small" disabled>Pause</button><button id="timerStop" class="btn btn-small btn-stop" disabled>Stop</button>
+                </div>
+            </div>
+            <div class="session-stats">
+                <h3>📊 Progress</h3>
+                <div class="stats-grid"><div class="stat"><span class="stat-value" id="statToday">0:00</span><span class="stat-label">Today</span></div><div class="stat"><span class="stat-value" id="statWeek">0:00</span><span class="stat-label">This Week</span></div><div class="stat"><span class="stat-value" id="statStreak">0</span><span class="stat-label">Streak</span></div><div class="stat"><span class="stat-value" id="statTotal">0:00</span><span class="stat-label">All Time</span></div></div>
+            </div>
+        </div>
+
+        <div class="profiles-section"><h3>💾 Profiles</h3><div class="profile-controls"><input type="text" id="profileName" placeholder="Profile name..."><button id="saveProfile" class="btn btn-save">Save</button><select id="loadProfile"><option value="">-- Load --</option></select><button id="deleteProfile" class="btn btn-delete">Delete</button></div></div>
+
+        <!-- Frequency Matching Panel -->
+        <div class="frequency-panel">
+            <h3>📍 Matched Tinnitus Frequencies</h3>
+            <div class="frequency-display">
+                <div class="freq-ear left">
+                    <span class="ear-label">Left Ear</span>
+                    <span class="freq-value" id="leftMatchedFreq">-- Hz</span>
+                </div>
+                <div class="freq-ear right">
+                    <span class="ear-label">Right Ear</span>
+                    <span class="freq-value" id="rightMatchedFreq">-- Hz</span>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>Use headphones. Start at low volume.</p></footer>
+    </div>
+    <script src="js/audio-engine.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/session-manager.js"></script>
+    <script src="js/subscription-manager.js"></script>
+    <!-- Phase 1 Enhancement Modules -->
+    <script src="js/wizard-manager.js"></script>
+    <script src="js/frequency-sweep.js"></script>
+    <script src="js/relief-journal.js"></script>
+    <script src="js/dashboard-manager.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

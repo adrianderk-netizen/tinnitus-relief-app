@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Icon Generator - Tinnitus Relief Pro</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a2e; color: white; }
+        h1 { color: #00d4ff; }
+        .icon-preview { display: inline-block; margin: 10px; text-align: center; }
+        .icon-preview canvas { border: 1px solid #333; border-radius: 20%; }
+        .icon-preview p { font-size: 12px; margin: 5px 0; }
+        button { background: #00d4ff; color: #0a1929; border: none; padding: 10px 20px; margin: 5px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        button:hover { background: #00b8e6; }
+        .instructions { background: #0a1929; padding: 20px; border-radius: 10px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>🎧 Tinnitus Relief Pro - Icon Generator</h1>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click "Generate All Icons" below</li>
+            <li>Right-click each icon and "Save image as..." to the <code>icons</code> folder</li>
+            <li>Or click "Download All" to download a zip (if supported)</li>
+        </ol>
+    </div>
+    
+    <button onclick="generateAllIcons()">Generate All Icons</button>
+    <button onclick="downloadAllIcons()">Download All Icons</button>
+    
+    <div id="icons-container"></div>
+    
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 167, 180, 192, 384, 512];
+        
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#0a1929');
+            gradient.addColorStop(1, '#1a365d');
+            
+            // Draw rounded rectangle background
+            const radius = size * 0.2;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Draw sound waves
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = Math.max(2, size * 0.03);
+            ctx.lineCap = 'round';
+            
+            const centerX = size * 0.35;
+            const centerY = size * 0.5;
+            
+            // Inner arc
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size * 0.12, -Math.PI * 0.4, Math.PI * 0.4);
+            ctx.stroke();
+            
+            // Middle arc
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size * 0.22, -Math.PI * 0.4, Math.PI * 0.4);
+            ctx.stroke();
+            
+            // Outer arc
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size * 0.32, -Math.PI * 0.4, Math.PI * 0.4);
+            ctx.stroke();
+            
+            // Draw headphone
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(2, size * 0.04);
+            
+            // Headband
+            ctx.beginPath();
+            ctx.arc(size * 0.65, size * 0.35, size * 0.2, Math.PI, 0);
+            ctx.stroke();
+            
+            // Left earpiece
+            ctx.fillStyle = '#00d4ff';
+            ctx.beginPath();
+            ctx.ellipse(size * 0.45, size * 0.45, size * 0.08, size * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Right earpiece
+            ctx.beginPath();
+            ctx.ellipse(size * 0.85, size * 0.45, size * 0.08, size * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Ear icon
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(1.5, size * 0.025);
+            ctx.beginPath();
+            ctx.arc(size * 0.65, size * 0.7, size * 0.12, -Math.PI * 0.8, Math.PI * 0.6);
+            ctx.stroke();
+            
+            // Inner ear detail
+            ctx.beginPath();
+            ctx.arc(size * 0.67, size * 0.72, size * 0.05, -Math.PI * 0.5, Math.PI * 0.5);
+            ctx.stroke();
+        }
+        
+        function generateAllIcons() {
+            const container = document.getElementById('icons-container');
+            container.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'icon-preview';
+                
+                const canvas = document.createElement('canvas');
+                canvas.id = `icon-${size}`;
+                drawIcon(canvas, size);
+                
+                const label = document.createElement('p');
+                label.textContent = `icon-${size}x${size}.png`;
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.textContent = 'Download';
+                downloadBtn.onclick = () => downloadIcon(canvas, size);
+                
+                wrapper.appendChild(canvas);
+                wrapper.appendChild(label);
+                wrapper.appendChild(downloadBtn);
+                container.appendChild(wrapper);
+            });
+        }
+        
+        function downloadIcon(canvas, size) {
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        function downloadAllIcons() {
+            sizes.forEach((size, index) => {
+                setTimeout(() => {
+                    const canvas = document.getElementById(`icon-${size}`);
+                    if (canvas) downloadIcon(canvas, size);
+                }, index * 300);
+            });
+        }
+        
+        // Generate on load
+        window.onload = generateAllIcons;
+    </script>
+</body>
+</html>
