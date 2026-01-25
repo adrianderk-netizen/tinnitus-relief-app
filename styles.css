@@ -1,6 +1,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #e0e0e0; line-height: 1.6; }
-.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #e0e0e0; line-height: 1.6; overflow-x: hidden; width: 100%; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; width: 100%; overflow-x: hidden; }
 header { text-align: center; margin-bottom: 20px; }
 header h1 { font-size: 2.5rem; color: #00d9ff; text-shadow: 0 0 20px rgba(0, 217, 255, 0.3); }
 .subtitle { font-size: 1.1rem; color: #a0a0a0; }
@@ -93,11 +93,11 @@ select { width: 100%; padding: 10px 12px; border: 2px solid #3a3a5a; border-radi
 .stat { background: rgba(0,0,0,0.2); border-radius: 10px; padding: 15px 10px; }
 .stat-value { display: block; font-size: 1.5rem; font-weight: bold; color: #00d9ff; font-family: monospace; }
 .stat-label { font-size: 0.8rem; color: #a0a0a0; }
-.profiles-section { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-.profiles-section h3 { text-align: center; margin-bottom: 15px; color: #00d9ff; }
-.profile-controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
-.profile-controls input[type="text"] { padding: 10px 15px; border: 2px solid #3a3a5a; border-radius: 8px; background: #1a1a2e; color: #e0e0e0; font-size: 1rem; min-width: 150px; }
-.profile-controls select { width: auto; min-width: 150px; }
+.profiles-section { display: none !important; }
+.profiles-section h3 { display: none; }
+.profile-controls { display: none; }
+.profile-controls input[type="text"] { display: none; }
+.profile-controls select { display: none; }
 footer { text-align: center; padding: 20px; color: #808080; font-size: 0.9rem; }
 .fine-tune span { display: block; text-align: center; font-size: 0.85rem; color: #00d9ff; margin-top: 4px; }
 @media (max-width: 768px) { header h1 { font-size: 1.8rem; } .mode-tabs { flex-direction: column; gap: 5px; } .tab-btn { border-radius: 8px; } .ear-controls { grid-template-columns: 1fr; } .frequency-display { flex-direction: column; align-items: center; } .freq-ear { max-width: 100%; } #timerRemaining { font-size: 2.5rem; } }
