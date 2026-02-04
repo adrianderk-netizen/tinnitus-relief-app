@@ -10,20 +10,20 @@ class SpectrumVisualizer {
     }
     initCanvas() { 
         if (!this.canvas) {
-            console.warn('[WaveformVisualizer] Canvas element not found');
+            console.warn('[SpectrumVisualizer] Canvas element not found');
             return;
         }
         const r = this.canvas.getBoundingClientRect(); 
-        // If canvas has no dimensions yet, use defaults and retry
+        // If canvas has no dimensions yet, use defaults
         if (r.width === 0 || r.height === 0) {
-            this.canvas.width = 600;
-            this.canvas.height = 120;
-            console.warn('[WaveformVisualizer] Canvas has no dimensions, using defaults:', this.canvas.id);
+            this.canvas.width = 800;
+            this.canvas.height = 200;
+            console.warn('[SpectrumVisualizer] Canvas has no dimensions, using defaults:', this.canvas.id);
         } else {
             this.canvas.width = r.width * 2;
             this.canvas.height = r.height * 2;
         }
-        console.log('[WaveformVisualizer] Canvas initialized:', this.canvas.id, `${this.canvas.width}x${this.canvas.height}`);
+        console.log('[SpectrumVisualizer] Canvas initialized:', this.canvas.id, `${this.canvas.width}x${this.canvas.height}`);
     }
     setAnalyzer(a) { this.analyzer = a; if (this.analyzer) this.analyzer.smoothingTimeConstant = 0.8; }
     setNotch(f, w = 1) { this.notchFrequency = f; this.notchWidth = w; }
