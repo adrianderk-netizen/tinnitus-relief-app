@@ -703,30 +703,46 @@ class TinnitusReliefApp {
 
     // === VISUALIZERS ===
     initVisualizers() {
-        // Add delay to ensure canvas elements are fully rendered in DOM
-        setTimeout(() => {
-            try {
-                console.log('[App] Initializing visualizers...');
-                this.visualizers.left = new WaveformVisualizer('leftToneWave');
-                this.visualizers.right = new WaveformVisualizer('rightToneWave');
-                this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
-                this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
-                
-                // Configure and start waveform visualizers
-                ['left', 'right'].forEach(ear => { 
-                    if (this.visualizers[ear]) {
-                        this.visualizers[ear].setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false);
-                        this.visualizers[ear].start();
-                        console.log(`[App] ${ear} visualizer started`);
-                    } else {
-                        console.error(`[App] ${ear} visualizer failed to initialize`);
+        // Use requestAnimationFrame to ensure DOM is fully rendered
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                try {
+                    console.log('[App] Initializing visualizers...');
+                    
+                    // Verify canvas elements exist before initialization
+                    const canvasIds = ['leftToneWave', 'rightToneWave', 'noiseSpectrum', 'musicSpectrum'];
+                    const missingCanvas = canvasIds.filter(id => !document.getElementById(id));
+                    
+                    if (missingCanvas.length > 0) {
+                        console.error('[App] Missing canvas elements:', missingCanvas);
+                        // Retry after a longer delay
+                        setTimeout(() => this.initVisualizers(), 1000);
+                        return;
                     }
-                });
-                console.log('[App] Visualizers initialized successfully');
-            } catch (e) {
-                console.error('[App] Error initializing visualizers:', e);
-            }
-        }, 500); // Increased delay for better canvas rendering
+                    
+                    this.visualizers.left = new WaveformVisualizer('leftToneWave');
+                    this.visualizers.right = new WaveformVisualizer('rightToneWave');
+                    this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
+                    this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
+                    
+                    // Configure and start waveform visualizers
+                    ['left', 'right'].forEach(ear => { 
+                        if (this.visualizers[ear] && this.visualizers[ear].canvas) {
+                            this.visualizers[ear].setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false);
+                            this.visualizers[ear].start();
+                            console.log(`[App] ${ear} visualizer started`);
+                        } else {
+                            console.error(`[App] ${ear} visualizer failed to initialize`);
+                        }
+                    });
+                    console.log('[App] Visualizers initialized successfully');
+                } catch (e) {
+                    console.error('[App] Error initializing visualizers:', e);
+                    // Retry once more
+                    setTimeout(() => this.initVisualizers(), 1000);
+                }
+            }, 300);
+        });
     }
 
     updateAllVolumes() {
@@ -1070,8 +1086,10 @@ class TinnitusReliefApp {
             if (profilesSection) {
                 const indicator = document.createElement('div');
                 indicator.className = 'active-profile-indicator';
-                indicator.innerHTML = `📌 Active Profile: <strong>${this.currentProfile}</strong>`;
+                indicator.textContent = `📌 Active Profile: ${this.currentProfile}`;
                 profilesSection.after(indicator);
+            } else {
+                console.log('[App] Profile section not found, current profile:', this.currentProfile);
             }
         }
     }
