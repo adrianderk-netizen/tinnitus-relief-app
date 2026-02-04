@@ -620,12 +620,14 @@ class TinnitusReliefApp {
                     // Update phase inversion UI
                     const statusEl = document.getElementById(`${prefix}PhaseStatus`);
                     const invertBtn = document.getElementById(`${prefix}Invert`);
-                    if (state.phaseInverted) {
-                        statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
-                        invertBtn.classList.add('active');
-                    } else {
-                        statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
-                        invertBtn.classList.remove('active');
+                    if (statusEl && invertBtn) {
+                        if (state.phaseInverted) {
+                            statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
+                            invertBtn.classList.add('active');
+                        } else {
+                            statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
+                            invertBtn.classList.remove('active');
+                        }
                     }
                     
                     // Update visualizer
@@ -850,12 +852,14 @@ class TinnitusReliefApp {
                         // Update phase inversion UI
                         const statusEl = document.getElementById(`${prefix}PhaseStatus`);
                         const invertBtn = document.getElementById(`${prefix}Invert`);
-                        if (earState.phaseInverted) {
-                            statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
-                            invertBtn.classList.add('active');
-                        } else {
-                            statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
-                            invertBtn.classList.remove('active');
+                        if (statusEl && invertBtn) {
+                            if (earState.phaseInverted) {
+                                statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
+                                invertBtn.classList.add('active');
+                            } else {
+                                statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
+                                invertBtn.classList.remove('active');
+                            }
                         }
                         
                         // Update visualizer
