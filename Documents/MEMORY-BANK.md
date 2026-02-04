@@ -1,9 +1,9 @@
 # Tinnitus Relief Pro - Memory Bank
 ## Project Context & State Documentation
 
-**Last Updated:** February 3, 2026  
+**Last Updated:** February 4, 2026  
 **Status:** ✅ Production - Live on Netlify  
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 ---
 
@@ -39,7 +39,7 @@ Provide accessible, evidence-based sound therapy for tinnitus management through
 ### Repository
 - **GitHub:** https://github.com/adrianderk-netizen/tinnitus-relief-app.git
 - **Active Branch:** Dev
-- **Latest Commit:** 680ecce (Test cases documentation)
+- **Latest Commit:** faaa715 (Visualizer fix - Known Issue #1)
 
 ### Recent Deployment Fixes (Critical)
 **Issue:** PWA showed "Page not found" when installed on mobile home screen
@@ -79,7 +79,7 @@ tinnitus-relief-app/
 ├── app.js                  # Core app initialization
 ├── styles.css             # Complete styling (single file)
 ├── manifest.json          # PWA manifest (paths: /)
-├── sw.js                  # Service worker (cache: v4)
+├── sw.js                  # Service worker (cache: v5)
 ├── capacitor.config.json  # Capacitor config (for native builds)
 ├── README.md              # Project documentation
 ├── ImprovementPlan.md     # Feature roadmap
@@ -345,7 +345,7 @@ tinnitus-relief-app/
 ## 🔑 Important Technical Details
 
 ### Service Worker Cache Strategy
-- **Cache Name:** `tinnitus-relief-v4`
+- **Cache Name:** `tinnitus-relief-v5`
 - **Strategy:** Cache first, falling back to network
 - **Cached Resources:**
   - All HTML, CSS, JS files
@@ -374,6 +374,19 @@ tinnitus-relief-app/
 ---
 
 ## 🚀 Recent Development History
+
+### February 4, 2026 (PM)
+- **Commit faaa715:** Fixed visualizer initialization and cache issue (Known Issue #1)
+  - **Problem:** Visualizers not displaying after cache clear
+  - **Root Cause:** Stale service worker cache (v4) + canvas initialization timing
+  - **Solution:**
+    - Updated service worker cache from v4 → v5
+    - Improved canvas initialization with `requestAnimationFrame` wrapper
+    - Added canvas element verification before initialization
+    - Added automatic retry logic if elements not ready
+    - Fixed profile indicator null reference (changed `innerHTML` to `textContent`)
+  - **Impact:** Visualizers should now load properly after cache clears
+  - **Files Modified:** `sw.js`, `app.js`
 
 ### February 3, 2026
 - **Commit 680ecce:** Added comprehensive test cases documentation
