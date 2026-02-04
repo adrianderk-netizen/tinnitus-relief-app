@@ -1,5 +1,5 @@
 // Service Worker for Tinnitus Relief Pro PWA
-const CACHE_NAME = 'tinnitus-relief-v10';
+const CACHE_NAME = 'tinnitus-relief-v11';
 const BASE_PATH = '';
 const urlsToCache = [
   '/',

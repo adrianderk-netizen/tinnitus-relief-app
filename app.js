@@ -701,6 +701,10 @@ class TinnitusReliefApp {
 
     updateProfileDropdown() {
         const sel = document.getElementById('loadProfile');
+        if (!sel) {
+            console.warn('[App] Load profile select not found');
+            return;
+        }
         sel.innerHTML = '<option value="">-- Load Profile --</option>';
         Object.keys(this.profiles).forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o); });
     }
