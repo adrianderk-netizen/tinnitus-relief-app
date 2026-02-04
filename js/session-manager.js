@@ -3,6 +3,7 @@ class SessionManager {
         this.isRunning = false; this.isPaused = false; this.startTime = null; this.pausedTime = 0;
         this.targetDuration = 60 * 60 * 1000; this.timerInterval = null; this.currentSession = null;
         this.callbacks = { onTick: null, onComplete: null, onStart: null, onStop: null };
+        this.wakeLock = null; // Wake Lock API to prevent screen sleep
         this.loadHistory();
     }
     loadHistory() { const saved = localStorage.getItem('tinnitusSessionHistory'); this.history = saved ? JSON.parse(saved) : []; }
@@ -12,17 +13,19 @@ class SessionManager {
     getHistory() { return [...this.history]; }
     setDuration(ms) { this.targetDuration = ms; }
     setDurationMinutes(min) { this.targetDuration = min * 60 * 1000; }
-    start(mode, freq) {
+    async start(mode, freq) {
         if (this.isRunning && !this.isPaused) return;
         if (this.isPaused) { this.isPaused = false; this.startTime = Date.now() - this.pausedTime; }
         else { this.startTime = Date.now(); this.pausedTime = 0; this.currentSession = { id: Date.now(), date: new Date().toISOString(), mode, frequency: freq, duration: 0, completed: false }; }
         this.isRunning = true; this.startTimer();
+        await this.requestWakeLock(); // Keep screen on during session
         if (this.callbacks.onStart) this.callbacks.onStart(this.currentSession);
     }
     pause() { if (!this.isRunning || this.isPaused) return; this.isPaused = true; this.pausedTime = Date.now() - this.startTime; this.stopTimer(); }
     stop() {
         if (!this.isRunning) return;
         this.stopTimer();
+        this.releaseWakeLock(); // Release wake lock
         if (this.currentSession) {
             this.currentSession.duration = Date.now() - this.startTime;
             this.currentSession.completed = this.currentSession.duration >= this.targetDuration;
@@ -30,6 +33,28 @@ class SessionManager {
             if (this.callbacks.onStop) this.callbacks.onStop(this.currentSession);
         }
         this.isRunning = false; this.isPaused = false; this.currentSession = null; this.pausedTime = 0;
+    }
+    async requestWakeLock() {
+        if ('wakeLock' in navigator) {
+            try {
+                this.wakeLock = await navigator.wakeLock.request('screen');
+                console.log('[SessionManager] Wake Lock active - screen will stay on');
+                this.wakeLock.addEventListener('release', () => {
+                    console.log('[SessionManager] Wake Lock released');
+                });
+            } catch (err) {
+                console.warn('[SessionManager] Wake Lock not available:', err.name, err.message);
+            }
+        } else {
+            console.warn('[SessionManager] Wake Lock API not supported by this browser');
+        }
+    }
+    releaseWakeLock() {
+        if (this.wakeLock) {
+            this.wakeLock.release().then(() => {
+                this.wakeLock = null;
+            });
+        }
     }
     startTimer() { this.stopTimer(); this.timerInterval = setInterval(() => this.tick(), 1000); }
     stopTimer() { if (this.timerInterval) { clearInterval(this.timerInterval); this.timerInterval = null; } }

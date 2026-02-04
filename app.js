@@ -79,8 +79,8 @@ class TinnitusReliefApp {
         this.bindSubscriptionEvents(); // NEW: Subscription event handlers
         this.initVisualizers();
         this.initOnboarding();
-        this.autoRestoreState(); // Restore last session settings
-        this.autoLoadLastProfile(); // Load last used profile
+        this.autoLoadLastProfile(); // Load last used profile FIRST
+        this.autoRestoreState(); // Then restore last session settings (overrides profile if needed)
         this.updateUI();
         this.updateStats();
         this.updateActiveProfileIndicator();
@@ -683,11 +683,24 @@ class TinnitusReliefApp {
 
     // === VISUALIZERS ===
     initVisualizers() {
-        this.visualizers.left = new WaveformVisualizer('leftToneWave');
-        this.visualizers.right = new WaveformVisualizer('rightToneWave');
-        this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
-        this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
-        ['left', 'right'].forEach(ear => { this.visualizers[ear]?.setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false); this.visualizers[ear]?.start(); });
+        // Add small delay to ensure canvas elements are fully rendered in DOM
+        setTimeout(() => {
+            try {
+                this.visualizers.left = new WaveformVisualizer('leftToneWave');
+                this.visualizers.right = new WaveformVisualizer('rightToneWave');
+                this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
+                this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
+                ['left', 'right'].forEach(ear => { 
+                    if (this.visualizers[ear]) {
+                        this.visualizers[ear].setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false);
+                        this.visualizers[ear].start();
+                    }
+                });
+                console.log('Visualizers initialized successfully');
+            } catch (e) {
+                console.error('Error initializing visualizers:', e);
+            }
+        }, 100);
     }
 
     updateAllVolumes() {

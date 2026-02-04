@@ -8,29 +8,29 @@
 
 ## Test Run #1
 
-**Date:** [Enter date]  
+**Date:** [02-Feb-26]  
 **Tester:** Carlo  
 **Build/Commit:** e38031e (Latest - Documentation organization)  
 **Test Environment:**
-- Device: [e.g., iPhone 14 Pro, Samsung Galaxy S22, Desktop PC]
-- OS: [e.g., iOS 16.5, Android 13, Windows 11]
-- Browser: [e.g., Safari 16, Chrome 118, Edge]
-- Screen Size: [e.g., 390x844, 1920x1080]
-- Connection: [WiFi, 4G, 5G]
+- Device: [iPhone 16 Pro]
+- OS: [iOS 26.21]
+- Browser: [Only as iPhone App initially]
+- Screen Size: [iPhone 16]
+- Connection: [WiFi]
 
 ---
 
 ## 1. PWA Installation & Offline Functionality
 
 ### Test Case 1.1: PWA Installation - iOS Safari
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Navigated to production URL
-2. [ ] Tapped Share button
-3. [ ] Selected "Add to Home Screen"
-4. [ ] Tapped "Add"
-5. [ ] Tapped app icon on home screen
+1. [x] Navigated to production URL
+2. [x] Tapped Share button
+3. [x] Selected "Add to Home Screen"
+4. [x] Tapped "Add"
+5. [x] Tapped app icon on home screen
 
 **Expected Result:**
 - App installs successfully
@@ -39,22 +39,23 @@
 - Loads without "Page not found" error
 
 **Actual Result:**
-[Describe what happened]
+- App loaded with no issues
+- No landing page provided so the user had no context or instructions on how to use the app creating a negative first impression.
 
 **Notes:**
-[Any observations, issues, or additional context]
+- First impressions are critical for Apps to survive extended subscription longevity and potential competition. So, we have to "knock this out of the park".
 
 **Screenshots/Evidence:**
-[Reference any screenshots taken]
+- N/A
 
 **Bugs Found:**
-- [ ] None
+- [x] None
 - [ ] [BUG-XXX] [Description]
 
 ---
 
 ### Test Case 1.2: PWA Installation - Android Chrome
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [x] ⏭️ SKIPPED
 
 **Steps Executed:**
 1. [ ] Navigated to production URL
@@ -72,18 +73,18 @@
 ---
 
 ### Test Case 1.3: Offline Functionality
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Opened PWA while online
-2. [ ] Navigated through all tabs
-3. [ ] Closed app
-4. [ ] Enabled airplane mode
-5. [ ] Opened PWA again
-6. [ ] Tested basic features
+1. [x] Opened PWA while online
+2. [x] Navigated through all tabs
+3. [x] Closed app
+4. [x] Enabled airplane mode
+5. [x] Opened PWA again
+6. [x] Tested basic features
 
 **Actual Result:**
-[Describe what happened]
+- Features worked as expected
 
 **Notes:**
 [Any observations]
@@ -93,24 +94,25 @@
 ## 2. Tone Matcher Feature
 
 ### Test Case 2.1: Basic Frequency Matching
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Clicked "Start Tone"
-2. [ ] Verified audio in both ears
-3. [ ] Adjusted Left Ear frequency (4000 → 8000 Hz)
-4. [ ] Adjusted volume slider
-5. [ ] Changed waveform (Sine → Square)
-6. [ ] Clicked "Stop Tone"
+1. [x] Clicked "Start Tone"
+2. [x] Verified audio in both ears
+3. [x] Adjusted Left Ear frequency (4000 → 8000 Hz)
+4. [x] Adjusted volume slider
+5. [x] Changed waveform (Sine → Square)
+6. [x] Clicked "Stop Tone"
 
 **Actual Result:**
-[Describe what happened]
+- The visual display for the wave pattern does NOT WORK for any wave pattern selected
+- All functions worked as expected
 
 **Audio Quality:**
-- [ ] No clicking/popping
-- [ ] Smooth frequency transitions
-- [ ] Clear waveform differences
-- [ ] Volume controls responsive
+- [x] No clicking/popping
+- [x] Smooth frequency transitions
+- [x] Clear waveform differences
+- [x] Volume controls responsive
 
 **Notes:**
 [Any observations]
@@ -118,42 +120,43 @@
 ---
 
 ### Test Case 2.2: Mark Tinnitus Frequency
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Set Left Ear to specific frequency (e.g., 6500 Hz)
-2. [ ] Clicked "Mark as Tinnitus Frequency"
-3. [ ] Set Right Ear to different frequency
-4. [ ] Clicked "Mark as Tinnitus Frequency"
-5. [ ] Scrolled to "Your Tinnitus Frequencies"
-6. [ ] Refreshed page to verify persistence
+1. [x] Set Left Ear to specific frequency (e.g., 6500 Hz)
+2. [x] Clicked "Mark as Tinnitus Frequency"
+3. [x] Set Right Ear to different frequency
+4. [x] Clicked "Mark as Tinnitus Frequency"
+5. [x] Scrolled to "Your Tinnitus Frequencies"
+6. [x] Refreshed page to verify persistence
 
 **Actual Result:**
-[Describe what happened]
+- Marked frequency works for both ears.
+- Marked frequency does NOT persist on refresh
 
 **Notes:**
-[Any observations]
+- This is a problem that will cause user frustration. The app should retain the user's previous frequency settings AND VOLUMES
 
 ---
 
 ### Test Case 2.3: Fine Tune Adjustment
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- Not really noticeable, but seems that would be expected for such small increments
 
 ---
 
 ### Test Case 2.4: Phase Inversion
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- I only noticed that something happened when I toggled the inversion button, but there was no discernable different in the tone so I'm not sure if that is what is supposed to happen.
 
 ---
 
 ### Test Case 2.5: Common Frequency Presets
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
 [Describe what happened]
@@ -163,67 +166,67 @@
 ## 3. Notched Noise Therapy (Premium)
 
 ### Test Case 3.1: White/Pink Noise Generation
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
 
 **Notes:**
-[Test after activating trial or skip if testing free tier only]
-
+- I did NOT get any warning message to activate my Subscription in order to use the feature.
+- The Frequency Spectrum visual is BLANK (Black screen)
 ---
 
 ### Test Case 3.2: Notch Configuration
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
 
 ---
 
 ## 4. Notched Music Therapy (Premium)
 
 ### Test Case 4.1: Music Upload
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [x] ⏭️ SKIPPED / [ ] 🔒 LOCKED
 
 ---
 
 ### Test Case 4.2: Music Playback Controls
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED / [ ] 🔒 LOCKED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [x] ⏭️ SKIPPED / [ ] 🔒 LOCKED
 
 ---
 
 ## 5. Session Management
 
 ### Test Case 5.1: Session Timer
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Selected "1 hour" duration
-2. [ ] Clicked "Start"
-3. [ ] Verified countdown from 60:00
-4. [ ] Observed progress bar
-5. [ ] Clicked "Pause"
-6. [ ] Clicked "Start" (resume)
-7. [ ] Clicked "Stop"
+1. [x] Selected "1 hour" duration
+2. [x] Clicked "Start"
+3. [x] Verified countdown from 60:00
+4. [x] Observed progress bar
+5. [x] Clicked "Pause"
+6. [x] Clicked "Start" (resume)
+7. [x] Clicked "Stop"
 
 **Actual Result:**
-[Describe what happened]
+- The Session Timer time setting (15 min, 30 min, 1 hour, 2 hour) should have a visual up/down arrow on the button or something that shows it's "settable". 
 
 **Timer Accuracy:**
-- [ ] Countdown accurate
-- [ ] Progress bar synced
-- [ ] Pause/resume works correctly
-- [ ] Stats updated properly
+- [x] Countdown accurate
+- [x] Progress bar synced
+- [x] Pause/resume works correctly
+- [x] Stats updated properly
 
 ---
 
 ### Test Case 5.2: Session Statistics
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- The "Progress" works BUT does NOT persist. If the App is closed it gets reset to "0" which is a problem
 
 ---
 
 ## 6. Relief Journal
 
 ### Test Case 6.1: Daily Check-In Prompt
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
 1. [ ] Opened app (first time today)
@@ -234,32 +237,32 @@
 6. [ ] Clicked "Save Check-In"
 
 **Actual Result:**
-[Describe what happened]
+- THIS FEATURE WAS NOT IN THE APP AND COULD NOT BE TESTED
 
 **Known Issue:** Check-in may appear multiple times (tracked as P2 bug)
 
 ---
 
 ### Test Case 6.2: Journal Chart Visualization
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- FEATURE NOT IN APP
 
 ---
 
 ### Test Case 6.3: Journal Export
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- FEATURE NOT IN APP
 
 ---
 
 ## 7. Onboarding Experience
 
 ### Test Case 7.1: First-Time User Onboarding
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps to Test:**
 1. Clear localStorage or use incognito mode
@@ -269,15 +272,15 @@
 5. Complete or skip onboarding
 
 **Actual Result:**
-[Describe what happened]
+- NOT IN APP
 
 ---
 
 ### Test Case 7.2: Wizard Tutorial
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- NOT IN APP
 
 ---
 
@@ -287,12 +290,12 @@
 **Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Checklist:**
-- [ ] No horizontal scrolling
+- [X] No horizontal scrolling
 - [ ] Quick actions in 2-column grid
-- [ ] Frequency display side-by-side
-- [ ] Touch targets minimum 44x44px
-- [ ] All text readable
-- [ ] Buttons properly sized
+- [X] Frequency display side-by-side
+- [X] Touch targets minimum 44x44px
+- [X] All text readable
+- [X] Buttons properly sized
 
 **Actual Result:**
 [Describe what happened]
@@ -300,10 +303,10 @@
 ---
 
 ### Test Case 8.2: Mobile Layout - Landscape
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [X] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- Phone orientation changed to landscape and the app was responsive. But, I'm not sure if this adheres to best practices and standards for App. PLEASE CHECK.
 
 ---
 
@@ -316,14 +319,14 @@
 - [ ] Proper padding on edges
 
 **Actual Result:**
-[Describe what happened]
+- I'm not familiar with this concept and wasn't sure what to do to test. Please review.
 
 ---
 
 ## 9. Audio Engine
 
 ### Test Case 9.1: Audio Context Initialization
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
 [Describe what happened]
@@ -334,7 +337,7 @@
 ---
 
 ### Test Case 9.2: Stereo Channel Separation
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
 [Describe what happened]
@@ -342,7 +345,7 @@
 ---
 
 ### Test Case 9.3: Master Volume Control
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
 [Describe what happened]
@@ -350,7 +353,7 @@
 ---
 
 ### Test Case 9.4: Waveform Generation
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Known Issue:** Waveform visualizers may not display (tracked as P2 bug)
 
@@ -362,15 +365,15 @@
 ## 10. Premium Features & Paywall
 
 ### Test Case 10.1: Free Trial Activation
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- No subscription / activation presented at any time
 
 ---
 
 ### Test Case 10.2: Paywall Display
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
 [Describe what happened]
@@ -378,7 +381,7 @@
 ---
 
 ### Test Case 10.3: Trial Expiration
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Note:** May need to manipulate localStorage to test
 
@@ -464,7 +467,7 @@
 ## UX/Design Feedback
 
 ### Positive Observations
-- [What worked well]
+- [What worked well] - The app seamed unchanged from the very first usable version - disappointing
 - [What users would appreciate]
 - [Good design choices]
 
@@ -498,7 +501,7 @@
 ### Recommendation
 - [ ] ✅ **APPROVED** - Ready for release
 - [ ] ⚠️ **APPROVED WITH WARNINGS** - Known issues acceptable
-- [ ] ❌ **NOT APPROVED** - Critical issues must be fixed
+- [x] ❌ **NOT APPROVED** - Critical issues must be fixed
 
 ### Overall Assessment
 [Your overall impression of app stability, usability, and readiness]
