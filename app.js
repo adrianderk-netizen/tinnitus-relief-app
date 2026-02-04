@@ -705,46 +705,11 @@ class TinnitusReliefApp {
 
     // === VISUALIZERS ===
     initVisualizers() {
-        // Use requestAnimationFrame to ensure DOM is fully rendered
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                try {
-                    console.log('[App] Initializing visualizers...');
-                    
-                    // Verify canvas elements exist before initialization
-                    const canvasIds = ['leftToneWave', 'rightToneWave', 'noiseSpectrum', 'musicSpectrum'];
-                    const missingCanvas = canvasIds.filter(id => !document.getElementById(id));
-                    
-                    if (missingCanvas.length > 0) {
-                        console.error('[App] Missing canvas elements:', missingCanvas);
-                        // Retry after a longer delay
-                        setTimeout(() => this.initVisualizers(), 1000);
-                        return;
-                    }
-                    
-                    this.visualizers.left = new WaveformVisualizer('leftToneWave');
-                    this.visualizers.right = new WaveformVisualizer('rightToneWave');
-                    this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
-                    this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
-                    
-                    // Configure and start waveform visualizers
-                    ['left', 'right'].forEach(ear => { 
-                        if (this.visualizers[ear] && this.visualizers[ear].canvas) {
-                            this.visualizers[ear].setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false);
-                            this.visualizers[ear].start();
-                            console.log(`[App] ${ear} visualizer started`);
-                        } else {
-                            console.error(`[App] ${ear} visualizer failed to initialize`);
-                        }
-                    });
-                    console.log('[App] Visualizers initialized successfully');
-                } catch (e) {
-                    console.error('[App] Error initializing visualizers:', e);
-                    // Retry once more
-                    setTimeout(() => this.initVisualizers(), 1000);
-                }
-            }, 300);
-        });
+        this.visualizers.left = new WaveformVisualizer('leftToneWave');
+        this.visualizers.right = new WaveformVisualizer('rightToneWave');
+        this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
+        this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
+        ['left', 'right'].forEach(ear => { this.visualizers[ear]?.setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false); this.visualizers[ear]?.start(); });
     }
 
     updateAllVolumes() {
