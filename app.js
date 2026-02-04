@@ -683,24 +683,30 @@ class TinnitusReliefApp {
 
     // === VISUALIZERS ===
     initVisualizers() {
-        // Add small delay to ensure canvas elements are fully rendered in DOM
+        // Add delay to ensure canvas elements are fully rendered in DOM
         setTimeout(() => {
             try {
+                console.log('[App] Initializing visualizers...');
                 this.visualizers.left = new WaveformVisualizer('leftToneWave');
                 this.visualizers.right = new WaveformVisualizer('rightToneWave');
                 this.visualizers.noiseSpectrum = new SpectrumVisualizer('noiseSpectrum');
                 this.visualizers.musicSpectrum = new SpectrumVisualizer('musicSpectrum');
+                
+                // Configure and start waveform visualizers
                 ['left', 'right'].forEach(ear => { 
                     if (this.visualizers[ear]) {
                         this.visualizers[ear].setParams(this.toneState[ear].frequency, this.toneState[ear].waveform, 1, false);
                         this.visualizers[ear].start();
+                        console.log(`[App] ${ear} visualizer started`);
+                    } else {
+                        console.error(`[App] ${ear} visualizer failed to initialize`);
                     }
                 });
-                console.log('Visualizers initialized successfully');
+                console.log('[App] Visualizers initialized successfully');
             } catch (e) {
-                console.error('Error initializing visualizers:', e);
+                console.error('[App] Error initializing visualizers:', e);
             }
-        }, 100);
+        }, 500); // Increased delay for better canvas rendering
     }
 
     updateAllVolumes() {

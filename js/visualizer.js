@@ -8,7 +8,16 @@ class SpectrumVisualizer {
         this.notchWidth = 1;
         this.initCanvas();
     }
-    initCanvas() { if (!this.canvas) return; const r = this.canvas.getBoundingClientRect(); this.canvas.width = r.width * 2 || 800; this.canvas.height = r.height * 2 || 200; }
+    initCanvas() { 
+        if (!this.canvas) {
+            console.warn('[SpectrumVisualizer] Canvas element not found');
+            return;
+        }
+        const r = this.canvas.getBoundingClientRect(); 
+        this.canvas.width = r.width * 2 || 800; 
+        this.canvas.height = r.height * 2 || 200;
+        console.log('[SpectrumVisualizer] Canvas initialized:', this.canvas.id, `${this.canvas.width}x${this.canvas.height}`);
+    }
     setAnalyzer(a) { this.analyzer = a; if (this.analyzer) this.analyzer.smoothingTimeConstant = 0.8; }
     setNotch(f, w = 1) { this.notchFrequency = f; this.notchWidth = w; }
     clearNotch() { this.notchFrequency = null; }
@@ -61,7 +70,16 @@ class WaveformVisualizer {
         this.waveParams = { frequency: 1000, waveform: 'sine', amplitude: 1, inverted: false };
         this.initCanvas();
     }
-    initCanvas() { if (!this.canvas) return; const r = this.canvas.getBoundingClientRect(); this.canvas.width = r.width * 2 || 600; this.canvas.height = r.height * 2 || 120; }
+    initCanvas() { 
+        if (!this.canvas) {
+            console.warn('[WaveformVisualizer] Canvas element not found');
+            return;
+        }
+        const r = this.canvas.getBoundingClientRect(); 
+        this.canvas.width = r.width * 2 || 600; 
+        this.canvas.height = r.height * 2 || 120;
+        console.log('[WaveformVisualizer] Canvas initialized:', this.canvas.id, `${this.canvas.width}x${this.canvas.height}`);
+    }
     setParams(f, w, a = 1, inv = false) { this.waveParams = { frequency: f, waveform: w, amplitude: a, inverted: inv }; }
     getWaveformValue(wf, phase) {
         const p = ((phase % 1) + 1) % 1;
