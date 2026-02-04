@@ -297,12 +297,14 @@ class TinnitusReliefApp {
         }
         const statusEl = document.getElementById(`${ear}TonePhaseStatus`);
         const invertBtn = document.getElementById(`${ear}ToneInvert`);
-        if (state.phaseInverted) {
-            statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
-            invertBtn.classList.add('active');
-        } else {
-            statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
-            invertBtn.classList.remove('active');
+        if (statusEl && invertBtn) {
+            if (state.phaseInverted) {
+                statusEl.innerHTML = 'Phase: <span class="inverted">INVERTED (180°)</span>';
+                invertBtn.classList.add('active');
+            } else {
+                statusEl.innerHTML = 'Phase: <span class="normal">Normal</span>';
+                invertBtn.classList.remove('active');
+            }
         }
         this.visualizers[ear]?.setParams(state.frequency, state.waveform, 1, state.phaseInverted);
         this.autoSaveState();
