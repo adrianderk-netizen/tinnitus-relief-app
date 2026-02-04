@@ -506,9 +506,29 @@ class TinnitusReliefApp {
     saveProfiles() { localStorage.setItem('tinnitusProfiles', JSON.stringify(this.profiles)); }
 
     bindProfileEvents() {
-        document.getElementById('saveProfile').addEventListener('click', () => this.saveCurrentProfile());
-        document.getElementById('loadProfile').addEventListener('change', (e) => this.loadSelectedProfile(e.target.value));
-        document.getElementById('deleteProfile').addEventListener('click', () => this.deleteSelectedProfile());
+        const saveBtn = document.getElementById('saveProfile');
+        const loadSelect = document.getElementById('loadProfile');
+        const deleteBtn = document.getElementById('deleteProfile');
+        
+        // Add null checks to prevent crashes if elements don't exist
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => this.saveCurrentProfile());
+        } else {
+            console.warn('[App] Save profile button not found');
+        }
+        
+        if (loadSelect) {
+            loadSelect.addEventListener('change', (e) => this.loadSelectedProfile(e.target.value));
+        } else {
+            console.warn('[App] Load profile select not found');
+        }
+        
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => this.deleteSelectedProfile());
+        } else {
+            console.warn('[App] Delete profile button not found');
+        }
+        
         this.updateProfileDropdown();
     }
 
