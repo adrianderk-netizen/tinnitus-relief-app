@@ -35,6 +35,8 @@ class SpectrumVisualizer {
         this.ctx.fillStyle = 'rgba(0,0,0,0.4)'; this.ctx.fillRect(0, 0, w, h);
         this.ctx.strokeStyle = 'rgba(255,255,255,0.1)'; this.ctx.lineWidth = 1;
         [100,500,1000,2000,5000,10000].forEach(f => { const x = this.freqToX(f); this.ctx.beginPath(); this.ctx.moveTo(x, 0); this.ctx.lineTo(x, h); this.ctx.stroke(); });
+        
+        // Draw notch indicator if set
         if (this.notchFrequency) {
             const lower = this.notchFrequency / Math.pow(2, this.notchWidth / 2);
             const upper = this.notchFrequency * Math.pow(2, this.notchWidth / 2);
@@ -45,25 +47,47 @@ class SpectrumVisualizer {
             this.ctx.fillStyle = '#ff5252'; this.ctx.font = 'bold 24px sans-serif'; this.ctx.textAlign = 'center';
             this.ctx.fillText(`${Math.round(this.notchFrequency)} Hz`, cx, 30);
         }
+        
+        // Draw spectrum data if analyzer available
         if (this.analyzer) {
             const bufLen = this.analyzer.frequencyBinCount, data = new Uint8Array(bufLen);
             this.analyzer.getByteFrequencyData(data);
-            const sr = this.analyzer.context.sampleRate;
-            const gradient = this.ctx.createLinearGradient(0, h, 0, 0);
-            gradient.addColorStop(0, '#00d9ff'); gradient.addColorStop(0.5, '#00ff88'); gradient.addColorStop(1, '#ff6b6b');
-            for (let i = 0; i < bufLen; i++) {
-                const f = (i * sr) / (this.analyzer.fftSize);
-                if (f < 20 || f > 20000) continue;
-                const x = this.freqToX(f), barH = (data[i] / 255) * h * 0.9;
-                let inNotch = false;
-                if (this.notchFrequency) {
-                    const lower = this.notchFrequency / Math.pow(2, this.notchWidth / 2);
-                    const upper = this.notchFrequency * Math.pow(2, this.notchWidth / 2);
-                    inNotch = f >= lower && f <= upper;
+            
+            // Check if we're getting any data
+            const hasData = data.some(val => val > 0);
+            
+            if (hasData) {
+                const sr = this.analyzer.context.sampleRate;
+                const gradient = this.ctx.createLinearGradient(0, h, 0, 0);
+                gradient.addColorStop(0, '#00d9ff'); gradient.addColorStop(0.5, '#00ff88'); gradient.addColorStop(1, '#ff6b6b');
+                for (let i = 0; i < bufLen; i++) {
+                    const f = (i * sr) / (this.analyzer.fftSize);
+                    if (f < 20 || f > 20000) continue;
+                    const x = this.freqToX(f), barH = (data[i] / 255) * h * 0.9;
+                    let inNotch = false;
+                    if (this.notchFrequency) {
+                        const lower = this.notchFrequency / Math.pow(2, this.notchWidth / 2);
+                        const upper = this.notchFrequency * Math.pow(2, this.notchWidth / 2);
+                        inNotch = f >= lower && f <= upper;
+                    }
+                    this.ctx.fillStyle = inNotch ? 'rgba(255,82,82,0.5)' : gradient;
+                    this.ctx.fillRect(x - 2, h - barH, 4, barH);
                 }
-                this.ctx.fillStyle = inNotch ? 'rgba(255,82,82,0.5)' : gradient;
-                this.ctx.fillRect(x - 2, h - barH, 4, barH);
+            } else {
+                // No data yet - show "listening" message
+                this.ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                this.ctx.font = 'bold 32px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText('🎧 Listening for audio...', w / 2, h / 2);
             }
+        } else {
+            // No analyzer - show instruction
+            this.ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            this.ctx.font = 'bold 32px sans-serif';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText('▶️ Start audio to see spectrum', w / 2, h / 2);
         }
     }
     start() { if (this.animationId) return; const animate = () => { this.draw(); this.animationId = requestAnimationFrame(animate); }; animate(); }

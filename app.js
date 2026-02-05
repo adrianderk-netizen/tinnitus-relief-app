@@ -101,6 +101,11 @@ class TinnitusReliefApp {
             // Initialize wizard manager
             this.wizardManager = new WizardManager(this);
             
+            // Initialize consolidated tone matcher UI
+            if (window.ToneMatcherUI) {
+                this.toneMatcherUI = new ToneMatcherUI(this);
+            }
+
             // Initialize frequency sweep
             this.frequencySweep = new FrequencySweepManager(this.audioEngine);
             this.frequencySweep.init();
@@ -114,11 +119,17 @@ class TinnitusReliefApp {
             this.dashboardManager.init();
             
             // Connect frequency sweep callbacks
-            this.frequencySweep.on('onMatch', (freq, confidence) => {
-                this.matchedFrequencies.left = freq;
-                this.matchedFrequencies.right = freq;
-                this.els.leftMatchedFreq.textContent = `${freq} Hz`;
-                this.els.rightMatchedFreq.textContent = `${freq} Hz`;
+            this.frequencySweep.on('onMatch', (freq, confidence, earSelection = 'both') => {
+                // Save frequency based on which ear(s) the user was listening with
+                if (earSelection === 'left' || earSelection === 'both') {
+                    this.matchedFrequencies.left = freq;
+                    this.els.leftMatchedFreq.textContent = `${freq} Hz`;
+                }
+                if (earSelection === 'right' || earSelection === 'both') {
+                    this.matchedFrequencies.right = freq;
+                    this.els.rightMatchedFreq.textContent = `${freq} Hz`;
+                }
+                
                 this.autoSaveState();
                 this.dashboardManager?.updateMatchedFrequency();
                 

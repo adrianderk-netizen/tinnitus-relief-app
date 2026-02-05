@@ -344,8 +344,11 @@ class FrequencySweepManager {
         this.calculateConfidence();
         this.updateMatchesList();
 
+        // Get which ear(s) the user was listening with
+        const earSelection = document.getElementById('sweepEar')?.value || 'both';
+
         if (this.callbacks.onMatch) {
-            this.callbacks.onMatch(matchedFreq, this.confidenceLevel);
+            this.callbacks.onMatch(matchedFreq, this.confidenceLevel, earSelection);
         }
     }
 
@@ -447,9 +450,12 @@ class FrequencySweepManager {
     }
 
     useFrequency(freq) {
+        // Get which ear(s) the user was listening with
+        const earSelection = document.getElementById('sweepEar')?.value || 'both';
+        
         // This will be called by the app to set the matched frequency
         if (this.callbacks.onMatch) {
-            this.callbacks.onMatch(freq, this.confidenceLevel);
+            this.callbacks.onMatch(freq, this.confidenceLevel, earSelection);
         }
     }
 
