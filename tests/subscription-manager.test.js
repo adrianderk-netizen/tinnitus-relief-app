@@ -289,6 +289,52 @@ describe('SubscriptionManager', () => {
     });
   });
 
+  describe('Trial Expiry Branches in initMockMode', () => {
+    it('should clear trial and set isPremium=false when trialEndDate is in the past', async () => {
+      const pastDate = new Date(Date.now() - 48 * 60 * 60 * 1000); // 2 days ago
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: true,
+        trialEndDate: pastDate.toISOString()
+      }));
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isTrialActive).toBe(false);
+      expect(mgr.isPremium).toBe(false);
+      expect(localStorage.getItem('mockSubscriptionState')).toBeNull();
+    });
+
+    it('should preserve trial and calculate trialDaysRemaining when trialEndDate is in the future', async () => {
+      const futureDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000); // 3 days from now
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: true,
+        trialEndDate: futureDate.toISOString()
+      }));
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isTrialActive).toBe(true);
+      expect(mgr.trialEndDate).toBeInstanceOf(Date);
+      expect(mgr.trialDaysRemaining).toBe(3);
+    });
+
+    it('should use fallback values for missing fields in saved state', async () => {
+      // Provide a saved state without isPremium, isTrialActive, subscriptionType
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({}));
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isPremium).toBe(false);
+      expect(mgr.isTrialActive).toBe(false);
+      expect(mgr.subscriptionType).toBeNull();
+    });
+  });
+
   describe('Edge Cases', () => {
     it('should handle missing localStorage gracefully', async () => {
       const mgr = new SubscriptionManager();

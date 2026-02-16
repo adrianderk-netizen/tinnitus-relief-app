@@ -482,6 +482,26 @@ describe('GuidedMatchingWizard', () => {
       expect(bothBtn.classList.contains('selected')).toBe(false);
     });
 
+    it('should render right ear button with selected class when selectedEar is right', () => {
+      wizard.selectedEar = 'right';
+      wizard.showStep(1);
+      const rightBtn = document.querySelector('.gs-ear-btn[data-ear="right"]');
+      expect(rightBtn.classList.contains('selected')).toBe(true);
+      const bothBtn = document.querySelector('.gs-ear-btn[data-ear="both"]');
+      expect(bothBtn.classList.contains('selected')).toBe(false);
+      const leftBtn = document.querySelector('.gs-ear-btn[data-ear="left"]');
+      expect(leftBtn.classList.contains('selected')).toBe(false);
+    });
+
+    it('should render left ear button with selected class when selectedEar is left', () => {
+      wizard.selectedEar = 'left';
+      wizard.showStep(1);
+      const leftBtn = document.querySelector('.gs-ear-btn[data-ear="left"]');
+      expect(leftBtn.classList.contains('selected')).toBe(true);
+      const bothBtn = document.querySelector('.gs-ear-btn[data-ear="both"]');
+      expect(bothBtn.classList.contains('selected')).toBe(false);
+    });
+
     it('should allow switching between ears', () => {
       const leftBtn = document.querySelector('.gs-ear-btn[data-ear="left"]');
       const rightBtn = document.querySelector('.gs-ear-btn[data-ear="right"]');
@@ -1031,6 +1051,42 @@ describe('GuidedMatchingWizard', () => {
     it('should handle missing wizardManager gracefully', () => {
       mockApp.wizardManager = null;
       expect(() => wizard.saveResult(testFreq)).not.toThrow();
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // renderConfirm with empty matchedFrequencies
+  // ---------------------------------------------------------------
+  describe('renderConfirm with empty matches', () => {
+    it('should render with avg=0 when matchedFrequencies is empty', () => {
+      wizard.launch();
+      wizard.matchedFrequencies = [];
+      wizard.showStep(3);
+      const body = document.getElementById('guidedBody');
+      expect(body.innerHTML).toContain('0 Hz');
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // stopSweep error handling (try/catch on oscillator)
+  // ---------------------------------------------------------------
+  describe('stopSweep with failing oscillator', () => {
+    it('should handle oscillator.stop() throwing an error', () => {
+      wizard.launch();
+      wizard.showStep(2);
+      wizard.startSweep();
+      // Make stop throw
+      wizard.oscillator.stop = vi.fn(() => { throw new Error('already stopped'); });
+      expect(() => wizard.stopSweep()).not.toThrow();
+    });
+
+    it('should handle oscillator.disconnect() throwing an error', () => {
+      wizard.launch();
+      wizard.showStep(2);
+      wizard.startSweep();
+      // Make disconnect throw
+      wizard.oscillator.disconnect = vi.fn(() => { throw new Error('already disconnected'); });
+      expect(() => wizard.stopSweep()).not.toThrow();
     });
   });
 

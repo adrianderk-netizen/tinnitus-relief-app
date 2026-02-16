@@ -234,6 +234,35 @@ describe('WizardManager', () => {
     });
   });
 
+  describe('Celebration OK Button', () => {
+    beforeEach(() => {
+      localStorage.setItem('tinnitusOnboardingComplete', 'true');
+      wizard = new WizardManager(mockApp);
+    });
+
+    it('should remove active class and remove celebration element after clicking OK', () => {
+      wizard.completeWizard();
+      const celebration = document.querySelector('.wizard-celebration');
+      expect(celebration).not.toBeNull();
+
+      // Trigger the active class (added via setTimeout 100ms)
+      vi.advanceTimersByTime(100);
+      expect(celebration.classList.contains('active')).toBe(true);
+
+      // Click the OK button
+      const okBtn = document.getElementById('celebrationOk');
+      expect(okBtn).not.toBeNull();
+      okBtn.click();
+
+      // Active class should be removed immediately
+      expect(celebration.classList.contains('active')).toBe(false);
+
+      // Celebration element should be removed after 300ms
+      vi.advanceTimersByTime(300);
+      expect(document.querySelector('.wizard-celebration')).toBeNull();
+    });
+  });
+
   describe('Skip Wizard', () => {
     beforeEach(() => {
       localStorage.setItem('tinnitusOnboardingComplete', 'true');
@@ -298,6 +327,15 @@ describe('WizardManager', () => {
       wizard = new WizardManager(mockApp);
       wizard.completeWizard();
       expect(wizard.isComplete()).toBe(true);
+    });
+  });
+
+  describe('updateWizardStep when not in wizard mode', () => {
+    it('should return early from updateWizardStep when isWizardMode is false', () => {
+      wizard = new WizardManager(mockApp);
+      wizard.isWizardMode = false;
+      // Should not throw even though no banner exists
+      expect(() => wizard.updateWizardStep()).not.toThrow();
     });
   });
 

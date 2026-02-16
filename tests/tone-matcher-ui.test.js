@@ -351,6 +351,18 @@ describe('ToneMatcherUI', () => {
       expect(mockApp.autoSaveState).toHaveBeenCalled();
     });
 
+    it('should call applyAudioSettings when updating setting while playing', () => {
+      vi.useFakeTimers();
+      ui.startTone();
+      mockApp.stopTone.mockClear();
+
+      ui.updateSetting('frequency', 6000);
+
+      // applyAudioSettings calls stopTone
+      expect(mockApp.stopTone).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
     it('should sync frequency slider and input on frequency change', () => {
       ui.updateSetting('frequency', 7777);
       const freqSlider = document.getElementById('unifiedToneFreq');
@@ -514,6 +526,55 @@ describe('ToneMatcherUI', () => {
     });
   });
 
+  // ── Wizard Step Completion on Mark ─────────────────────
+
+  describe('Wizard Step Completion on Mark', () => {
+    it('should call wizard.completeCurrentStep when marking in wizard mode', () => {
+      mockApp.wizard = {
+        isWizardMode: true,
+        completeCurrentStep: vi.fn(),
+      };
+      ui.markFrequency();
+      expect(mockApp.wizard.completeCurrentStep).toHaveBeenCalledWith('frequency-marked');
+    });
+
+    it('should not call wizard.completeCurrentStep when not in wizard mode', () => {
+      mockApp.wizard = {
+        isWizardMode: false,
+        completeCurrentStep: vi.fn(),
+      };
+      ui.markFrequency();
+      expect(mockApp.wizard.completeCurrentStep).not.toHaveBeenCalled();
+    });
+
+    it('should not error when wizard is undefined', () => {
+      mockApp.wizard = undefined;
+      expect(() => ui.markFrequency()).not.toThrow();
+    });
+  });
+
+  // ── Phase Inversion While Playing ─────────────────────
+
+  describe('Phase Inversion While Playing', () => {
+    it('should call applyAudioSettings when toggling phase while playing', () => {
+      vi.useFakeTimers();
+      ui.startTone();
+      mockApp.stopTone.mockClear();
+
+      ui.togglePhaseInversion();
+
+      // applyAudioSettings stops and restarts the tone
+      expect(mockApp.stopTone).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
+    it('should NOT call applyAudioSettings when toggling phase while not playing', () => {
+      ui.togglePhaseInversion();
+      expect(mockApp.stopTone).not.toHaveBeenCalled();
+      expect(mockApp.startTone).not.toHaveBeenCalled();
+    });
+  });
+
   // ── Phase Inversion ─────────────────────────────────────
 
   describe('Phase Inversion', () => {
@@ -540,6 +601,13 @@ describe('ToneMatcherUI', () => {
       ui.togglePhaseInversion();
       expect(ui.leftSettings.phaseInverted).toBe(true);
       expect(ui.rightSettings.phaseInverted).toBe(false);
+    });
+
+    it('should invert only right ear when right is selected', () => {
+      ui.selectEar('right');
+      ui.togglePhaseInversion();
+      expect(ui.rightSettings.phaseInverted).toBe(true);
+      expect(ui.leftSettings.phaseInverted).toBe(false);
     });
 
     it('should update phase status text on toggle', () => {
