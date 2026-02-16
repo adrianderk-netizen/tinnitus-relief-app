@@ -48,16 +48,19 @@ class WizardManager {
     checkWizardStatus() {
         // Check if wizard has been completed before
         const wizardCompleted = localStorage.getItem('tinnitusWizardComplete');
-        const hasMatchedFreq = localStorage.getItem('tinnitusLastSession');
         
-        if (wizardCompleted === 'true' || hasMatchedFreq) {
+        if (wizardCompleted === 'true') {
+            // Wizard was explicitly completed
             this.wizardComplete = true;
             this.isWizardMode = false;
         } else {
             // Start wizard for first-time users after onboarding
             const onboardingComplete = localStorage.getItem('tinnitusOnboardingComplete');
             if (onboardingComplete === 'true') {
+                console.log('[Wizard] Starting wizard for first-time user');
                 this.startWizard();
+            } else {
+                console.log('[Wizard] Waiting for onboarding to complete');
             }
         }
     }
@@ -253,3 +256,5 @@ class WizardManager {
         return this.steps[this.currentStep];
     }
 }
+window.WizardManager = WizardManager;
+export { WizardManager };

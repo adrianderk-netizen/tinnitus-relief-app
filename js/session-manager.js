@@ -90,3 +90,4 @@ class SessionManager {
     on(event, cb) { if (this.callbacks.hasOwnProperty(event)) this.callbacks[event] = cb; }
 }
 window.SessionManager = SessionManager;
+export { SessionManager };

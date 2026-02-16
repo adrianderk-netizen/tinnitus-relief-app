@@ -15,6 +15,9 @@ class TinnitusReliefApp {
         this.frequencySweep = null;
         this.journalManager = null;
         this.dashboardManager = null;
+        this.guidedMatching = null;
+        this.notificationManager = null;
+        this.exportManager = null;
         
         // Matched frequencies for each ear
         this.matchedFrequencies = { left: null, right: null };
@@ -96,29 +99,65 @@ class TinnitusReliefApp {
     }
     
     initPhase1Enhancements() {
-        // Wait for DOM to be fully ready
+        // Initialize journal manager eagerly so button handlers work immediately
+        this.journalManager = new ReliefJournalManager();
+        this.journalManager.init();
+
+        // Wait for DOM to be fully ready for remaining enhancements
         setTimeout(() => {
             // Initialize wizard manager
             this.wizardManager = new WizardManager(this);
-            
+
+            // Initialize consolidated tone matcher UI
+            if (window.ToneMatcherUI) {
+                this.toneMatcherUI = new ToneMatcherUI(this);
+            }
+
             // Initialize frequency sweep
             this.frequencySweep = new FrequencySweepManager(this.audioEngine);
             this.frequencySweep.init();
-            
-            // Initialize journal manager
-            this.journalManager = new ReliefJournalManager();
-            this.journalManager.init();
-            
+
             // Initialize dashboard
             this.dashboardManager = new DashboardManager(this);
             this.dashboardManager.init();
             
+            // Initialize guided matching wizard
+            this.guidedMatching = new GuidedMatchingWizard(this);
+
+            // Initialize notification manager
+            this.notificationManager = new NotificationManager();
+            this.notificationManager.init();
+
+            // Initialize export manager
+            this.exportManager = new ExportManager(this);
+
+            // Setup background audio support
+            this.audioEngine.setupBackgroundAudio();
+            this.audioEngine.setupMediaSession({
+                onPlay: () => {
+                    if (this.noiseState?.source && !this.noiseState.isPlaying) {
+                        document.getElementById('noiseToggle')?.click();
+                    }
+                },
+                onPause: () => {
+                    if (this.noiseState?.isPlaying) {
+                        document.getElementById('noiseToggle')?.click();
+                    }
+                }
+            });
+
             // Connect frequency sweep callbacks
-            this.frequencySweep.on('onMatch', (freq, confidence) => {
-                this.matchedFrequencies.left = freq;
-                this.matchedFrequencies.right = freq;
-                this.els.leftMatchedFreq.textContent = `${freq} Hz`;
-                this.els.rightMatchedFreq.textContent = `${freq} Hz`;
+            this.frequencySweep.on('onMatch', (freq, confidence, earSelection = 'both') => {
+                // Save frequency based on which ear(s) the user was listening with
+                if (earSelection === 'left' || earSelection === 'both') {
+                    this.matchedFrequencies.left = freq;
+                    this.els.leftMatchedFreq.textContent = `${freq} Hz`;
+                }
+                if (earSelection === 'right' || earSelection === 'both') {
+                    this.matchedFrequencies.right = freq;
+                    this.els.rightMatchedFreq.textContent = `${freq} Hz`;
+                }
+                
                 this.autoSaveState();
                 this.dashboardManager?.updateMatchedFrequency();
                 
@@ -165,6 +204,13 @@ class TinnitusReliefApp {
         document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
         document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
         document.getElementById(mode).classList.add('active');
+
+        // Reinitialize visualizer canvases now that the tab is visible
+        if (mode === 'notched-noise') {
+            this.visualizers.noiseSpectrum?.reinitCanvas();
+        } else if (mode === 'notched-music') {
+            this.visualizers.musicSpectrum?.reinitCanvas();
+        }
     }
 
     // === TONE MATCHER ===
@@ -1207,3 +1253,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 window.addEventListener('beforeunload', () => { if (window.tinnitusApp) { window.tinnitusApp.stopTone(); window.tinnitusApp.stopNoise(); } });
+export { TinnitusReliefApp };

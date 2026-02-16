@@ -86,5 +86,46 @@ class AudioEngine {
     createMediaElementSource(el) { return this.audioContext.createMediaElementSource(el); }
     setMasterVolume(v) { if (this.masterGain) this.masterGain.gain.setTargetAtTime(v, this.currentTime, 0.01); }
     connectToMaster(node) { node.connect(this.masterGain); }
+
+    // -- Background Audio Support --
+
+    setupBackgroundAudio() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && this.audioContext) {
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume().then(() => {
+                        console.log('[AudioEngine] Resumed after visibility change');
+                    });
+                }
+            }
+        });
+    }
+
+    setupMediaSession(callbacks = {}) {
+        if (!('mediaSession' in navigator)) return;
+
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'Tinnitus Relief Therapy',
+            artist: 'Tinnitus Relief Pro',
+            album: 'Sound Therapy'
+        });
+
+        if (callbacks.onPlay) {
+            navigator.mediaSession.setActionHandler('play', callbacks.onPlay);
+        }
+        if (callbacks.onPause) {
+            navigator.mediaSession.setActionHandler('pause', callbacks.onPause);
+        }
+        if (callbacks.onStop) {
+            navigator.mediaSession.setActionHandler('stop', callbacks.onStop);
+        }
+    }
+
+    updateMediaSessionPlayback(isPlaying) {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+        }
+    }
 }
 window.AudioEngine = AudioEngine;
+export { AudioEngine };

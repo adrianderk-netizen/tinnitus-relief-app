@@ -8,7 +8,7 @@
 
 ## Test Run #1
 
-**Date:** [02-Feb-26]  
+**Date:** [05-Feb-26]  
 **Tester:** Carlo  
 **Build/Commit:** e38031e (Latest - Documentation organization)  
 **Test Environment:**
@@ -40,7 +40,6 @@
 
 **Actual Result:**
 - App loaded with no issues
-- No landing page provided so the user had no context or instructions on how to use the app creating a negative first impression.
 
 **Notes:**
 - First impressions are critical for Apps to survive extended subscription longevity and potential competition. So, we have to "knock this out of the park".
@@ -68,7 +67,7 @@
 [Describe what happened]
 
 **Notes:**
-[Any observations]
+- As of now there are no plans to create an app for android
 
 ---
 
@@ -94,7 +93,7 @@
 ## 2. Tone Matcher Feature
 
 ### Test Case 2.1: Basic Frequency Matching
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
 1. [x] Clicked "Start Tone"
@@ -105,8 +104,7 @@
 6. [x] Clicked "Stop Tone"
 
 **Actual Result:**
-- The visual display for the wave pattern does NOT WORK for any wave pattern selected
-- All functions worked as expected
+- The visual display for the wave pattern works
 
 **Audio Quality:**
 - [x] No clicking/popping
@@ -120,7 +118,7 @@
 ---
 
 ### Test Case 2.2: Mark Tinnitus Frequency
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
 1. [x] Set Left Ear to specific frequency (e.g., 6500 Hz)
@@ -132,10 +130,10 @@
 
 **Actual Result:**
 - Marked frequency works for both ears.
-- Marked frequency does NOT persist on refresh
+- Marked frequency does persist on refresh
 
 **Notes:**
-- This is a problem that will cause user frustration. The app should retain the user's previous frequency settings AND VOLUMES
+
 
 ---
 
@@ -159,7 +157,7 @@
 **Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- Frequencies work as expected
 
 ---
 
@@ -205,7 +203,7 @@
 7. [x] Clicked "Stop"
 
 **Actual Result:**
-- The Session Timer time setting (15 min, 30 min, 1 hour, 2 hour) should have a visual up/down arrow on the button or something that shows it's "settable". 
+- The Session Timer time setting (15 min, 30 min, 1 hour, 2 hour) should have a visual up/down arrow on the button or something that shows it's "Selectable"
 
 **Timer Accuracy:**
 - [x] Countdown accurate
@@ -216,11 +214,10 @@
 ---
 
 ### Test Case 5.2: Session Statistics
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ]⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-- The "Progress" works BUT does NOT persist. If the App is closed it gets reset to "0" which is a problem
-
+- work as expected
 ---
 
 ## 6. Relief Journal
@@ -229,40 +226,40 @@
 **Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps Executed:**
-1. [ ] Opened app (first time today)
-2. [ ] Daily check-in modal appeared
-3. [ ] Selected severity (1-10)
-4. [ ] Added notes (optional)
-5. [ ] Selected tags
-6. [ ] Clicked "Save Check-In"
+1. [x] Opened app (first time today)
+2. [x] Daily check-in modal appeared
+3. [x] Selected severity (1-10)
+4. [x] Added notes (optional)
+5. [x] Selected tags
+6. [x] Clicked "Save Check-In"
 
 **Actual Result:**
-- THIS FEATURE WAS NOT IN THE APP AND COULD NOT BE TESTED
+- Will test tomorrow as app has been accessed several times today
 
 **Known Issue:** Check-in may appear multiple times (tracked as P2 bug)
 
 ---
 
 ### Test Case 6.2: Journal Chart Visualization
-**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-- FEATURE NOT IN APP
+- not many data points to view
 
 ---
 
 ### Test Case 6.3: Journal Export
-**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [x] ⏭️ SKIPPED
 
 **Actual Result:**
-- FEATURE NOT IN APP
+- using an iPhone
 
 ---
 
 ## 7. Onboarding Experience
 
 ### Test Case 7.1: First-Time User Onboarding
-**Status:** [ ] ✅ PASS / [X] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [x] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Steps to Test:**
 1. Clear localStorage or use incognito mode
@@ -272,7 +269,7 @@
 5. Complete or skip onboarding
 
 **Actual Result:**
-- NOT IN APP
+- NOT very attractive. steps need to be clearer
 
 ---
 
@@ -287,7 +284,7 @@
 ## 8. Mobile Responsiveness
 
 ### Test Case 8.1: Mobile Layout - Portrait
-**Status:** [ ] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Checklist:**
 - [X] No horizontal scrolling
@@ -298,7 +295,7 @@
 - [X] Buttons properly sized
 
 **Actual Result:**
-[Describe what happened]
+- not sure what the quick actions are 
 
 ---
 
@@ -353,40 +350,40 @@
 ---
 
 ### Test Case 9.4: Waveform Generation
-**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Known Issue:** Waveform visualizers may not display (tracked as P2 bug)
 
 **Actual Result:**
-[Describe what happened]
+- All wave patterns appeared as expected
 
 ---
 
 ## 10. Premium Features & Paywall
 
 ### Test Case 10.1: Free Trial Activation
-**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-- No subscription / activation presented at any time
+- activation presented
 
 ---
 
 ### Test Case 10.2: Paywall Display
-**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Actual Result:**
-[Describe what happened]
+- Subscription price appears the first time you go into a "Premium" area then displays "7 days remaining"
 
 ---
 
 ### Test Case 10.3: Trial Expiration
-**Status:** [ ] ✅ PASS / [x] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
+**Status:** [x] ✅ PASS / [ ] ❌ FAIL / [ ] ⚠️ PARTIAL / [ ] ⏭️ SKIPPED
 
 **Note:** May need to manipulate localStorage to test
 
 **Actual Result:**
-[Describe what happened]
+- Displays # of days remaining
 
 ---
 
