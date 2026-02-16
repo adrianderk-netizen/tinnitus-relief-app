@@ -16,7 +16,7 @@ class SubscriptionManager {
         this.mode = this.detectMode();
         
         // RevenueCat configuration
-        this.revenueCatApiKey = 'test_LWPwZNGxjlhaZwGQEtFJrGvFvnk';
+        this.revenueCatApiKey = 'test_XoSzeDdocAQjUQNXJvJxhmEmDdq';
         
         // Feature flags
         this.features = {

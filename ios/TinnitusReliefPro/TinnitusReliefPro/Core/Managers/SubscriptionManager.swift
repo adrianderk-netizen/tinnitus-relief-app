@@ -33,7 +33,7 @@ final class SubscriptionManager {
 
     // MARK: - Private
 
-    private static let apiKey = "appl_YOUR_KEY_HERE"
+    private static let apiKey = "test_XoSzeDdocAQjUQNXJvJxhmEmDdq"
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
                                 category: "SubscriptionManager")
 
