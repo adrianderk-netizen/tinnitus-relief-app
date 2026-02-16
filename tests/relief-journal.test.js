@@ -574,4 +574,104 @@ describe('ReliefJournalManager', () => {
             expect(document.querySelector('.daily-checkin-modal')).toBeNull();
         });
     });
+
+    // ---------------------------------------------------------------
+    // renderChart with empty entries returns early
+    // ---------------------------------------------------------------
+    describe('renderChart with no entries', () => {
+        it('should return early from renderChart when no recent entries exist', () => {
+            journal.init();
+            // entries is empty, so renderChart should return early at the length check
+            expect(() => journal.renderChart()).not.toThrow();
+        });
+
+        it('should return early when all entries are older than 30 days', () => {
+            journal.init();
+            // Add entries that are older than 30 days so recentEntries filter yields empty
+            const oldDate = new Date();
+            oldDate.setDate(oldDate.getDate() - 60);
+            journal.entries = [
+                { date: oldDate.toISOString(), severity: 5, notes: '', tags: [] },
+            ];
+            // entries.length > 0 but recentEntries.length === 0 after 30-day filter
+            expect(() => journal.renderChart()).not.toThrow();
+        });
+    });
+
+    // ---------------------------------------------------------------
+    // renderEntriesList with missing DOM element
+    // ---------------------------------------------------------------
+    describe('renderEntriesList with missing entriesList', () => {
+        it('should return early when entriesList element is missing', () => {
+            // Don't call init() so the journal panel (and #entriesList) is not created
+            expect(() => journal.renderEntriesList()).not.toThrow();
+        });
+    });
+
+    // ---------------------------------------------------------------
+    // showAllEntries with entry without notes
+    // ---------------------------------------------------------------
+    describe('showAllEntries with entries lacking notes', () => {
+        it('should render entries without notes (no notes div)', () => {
+            journal.addEntry(5, '', []);
+            journal.showAllEntries();
+            const modal = document.querySelector('.journal-all-entries-modal');
+            expect(modal).not.toBeNull();
+            expect(modal.innerHTML).toContain('5/10');
+            // Should not contain entry-notes-full when notes is empty
+            expect(modal.innerHTML).not.toContain('entry-notes-full');
+        });
+    });
+
+    // ---------------------------------------------------------------
+    // Toast removal after timeout
+    // ---------------------------------------------------------------
+    describe('Toast notification removal', () => {
+        it('should remove toast from DOM after 3000ms + 300ms', () => {
+            journal.showDailyCheckIn();
+
+            // Select severity and save to trigger toast
+            const severityBtns = document.querySelectorAll('.severity-btn');
+            severityBtns[4].click();
+            document.getElementById('saveCheckIn').click();
+
+            const toast = document.querySelector('.toast-notification');
+            expect(toast).not.toBeNull();
+
+            // Advance past the 3000ms visible timeout + 300ms remove timeout
+            vi.advanceTimersByTime(3300);
+
+            expect(document.querySelector('.toast-notification')).toBeNull();
+        });
+    });
+
+    // ---------------------------------------------------------------
+    // Journal UI button handlers (bindEvents)
+    // ---------------------------------------------------------------
+    describe('Journal UI button handlers', () => {
+        beforeEach(() => {
+            journal.init();
+        });
+
+        it('should call showDailyCheckIn when addJournalEntry button is clicked', () => {
+            const spy = vi.spyOn(journal, 'showDailyCheckIn');
+            journal.bindEvents();
+            document.getElementById('addJournalEntry').click();
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call exportReport when exportJournal button is clicked', () => {
+            const spy = vi.spyOn(journal, 'exportReport');
+            journal.bindEvents();
+            document.getElementById('exportJournal').click();
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call showAllEntries when viewAllEntries button is clicked', () => {
+            const spy = vi.spyOn(journal, 'showAllEntries');
+            journal.bindEvents();
+            document.getElementById('viewAllEntries').click();
+            expect(spy).toHaveBeenCalled();
+        });
+    });
 });

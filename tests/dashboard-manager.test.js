@@ -392,6 +392,55 @@ describe('DashboardManager', () => {
     });
   });
 
+  describe('Missing DOM Elements (early returns)', () => {
+    it('should not throw when statusIndicator and statusText are missing', () => {
+      // Remove the DOM elements that updateStatus needs
+      document.getElementById('statusIndicator')?.remove();
+      document.getElementById('statusText')?.remove();
+      expect(() => dashboard.updateStatus()).not.toThrow();
+    });
+
+    it('should not throw when matchedFreqDashboard container is missing', () => {
+      document.getElementById('matchedFreqDashboard')?.remove();
+      document.getElementById('dashboardFreqValue')?.remove();
+      expect(() => dashboard.updateMatchedFrequency()).not.toThrow();
+    });
+
+    it('should not throw when tipText element is missing', () => {
+      document.getElementById('tipText')?.remove();
+      expect(() => dashboard.updateTips()).not.toThrow();
+    });
+
+  });
+
+  describe('ScrollIntoView on quick actions', () => {
+    beforeEach(() => {
+      dashboard.init();
+    });
+
+    it('should scrollIntoView notched-noise element when quickStartTherapy clicked and element exists', () => {
+      const target = document.createElement('div');
+      target.id = 'notched-noise';
+      target.scrollIntoView = vi.fn();
+      document.body.appendChild(target);
+
+      const btn = document.getElementById('quickStartTherapy');
+      btn.click();
+      expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+    });
+
+    it('should scrollIntoView tone-matcher element when quickFindFrequency clicked and no guidedMatching', () => {
+      const target = document.createElement('div');
+      target.id = 'tone-matcher';
+      target.scrollIntoView = vi.fn();
+      document.body.appendChild(target);
+
+      const btn = document.getElementById('quickFindFrequency');
+      btn.click();
+      expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+    });
+  });
+
   describe('Tips Display (updateTips)', () => {
     beforeEach(() => {
       dashboard.init();

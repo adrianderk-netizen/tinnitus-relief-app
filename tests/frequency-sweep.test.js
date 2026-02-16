@@ -667,6 +667,93 @@ describe('FrequencySweepManager', () => {
             const matchesContainer = document.getElementById('sweepMatches');
             expect(matchesContainer.style.display).toBe('block');
         });
+
+        it('should default to both when sweepEar element is missing in markCurrentFrequency', () => {
+            const matchCb = vi.fn();
+            sweep.on('onMatch', matchCb);
+
+            sweep.start();
+            sweep.currentFreq = 4000;
+
+            // Remove sweepEar element to trigger the ?.value || 'both' fallback on line 348
+            document.getElementById('sweepEar')?.remove();
+
+            sweep.markCurrentFrequency();
+
+            expect(matchCb).toHaveBeenCalledWith(4000, expect.any(Number), 'both');
+        });
+    });
+
+    describe('Use This Frequency button and useFrequency()', () => {
+        it('should call useFrequency when .btn-use-freq is clicked', () => {
+            sweep.init();
+            sweep.start();
+            sweep.currentFreq = 5000;
+
+            // markCurrentFrequency internally calls updateMatchesList which creates the button
+            sweep.markCurrentFrequency();
+
+            const useFreqSpy = vi.spyOn(sweep, 'useFrequency');
+            const btn = document.querySelector('.btn-use-freq');
+            expect(btn).not.toBeNull();
+            btn.click();
+
+            expect(useFreqSpy).toHaveBeenCalledWith(5000);
+        });
+
+        it('should call onMatch callback with freq, confidence, and ear via useFrequency', () => {
+            sweep.init();
+            const matchCb = vi.fn();
+            sweep.on('onMatch', matchCb);
+
+            sweep.start();
+            sweep.currentFreq = 6000;
+            sweep.matchedFrequencies = [6000];
+            sweep.calculateConfidence();
+
+            // Set ear
+            const earSelect = document.getElementById('sweepEar');
+            earSelect.value = 'right';
+
+            sweep.useFrequency(6000);
+
+            expect(matchCb).toHaveBeenCalledWith(6000, expect.any(Number), 'right');
+        });
+
+        it('should default to both when sweepEar element is missing in useFrequency', () => {
+            sweep.init();
+            const matchCb = vi.fn();
+            sweep.on('onMatch', matchCb);
+
+            sweep.matchedFrequencies = [5000];
+            sweep.calculateConfidence();
+
+            // Remove sweepEar element to test fallback
+            document.getElementById('sweepEar')?.remove();
+
+            sweep.useFrequency(5000);
+
+            expect(matchCb).toHaveBeenCalledWith(5000, expect.any(Number), 'both');
+        });
+
+        it('should not throw when onMatch callback is not set', () => {
+            sweep.init();
+            sweep.matchedFrequencies = [5000];
+            sweep.calculateConfidence();
+
+            expect(() => sweep.useFrequency(5000)).not.toThrow();
+        });
+
+        it('should handle updateMatchesList with missing DOM elements', () => {
+            sweep.init();
+            // Remove the matches container
+            document.getElementById('sweepMatches')?.remove();
+            document.getElementById('matchesList')?.remove();
+
+            sweep.matchedFrequencies = [5000];
+            // Should not throw
+            expect(() => sweep.updateMatchesList()).not.toThrow();
+        });
     });
 
     describe('Confidence Calculation', () => {
@@ -753,6 +840,14 @@ describe('FrequencySweepManager', () => {
     describe('Ear Selection', () => {
         beforeEach(() => {
             sweep.init();
+        });
+
+        it('should default to both when sweepEar element is missing in start()', () => {
+            // Remove sweepEar element to trigger the ?.value || 'both' fallback on line 187
+            document.getElementById('sweepEar')?.remove();
+            sweep.start();
+            // pan=0 corresponds to 'both'
+            expect(mockAudioEngine.createPanner).toHaveBeenCalledWith(0);
         });
 
         it('should create panner with pan=0 for both ears (default)', () => {

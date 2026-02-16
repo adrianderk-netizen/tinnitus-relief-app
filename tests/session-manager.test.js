@@ -297,6 +297,37 @@ describe('SessionManager', () => {
     });
   });
 
+  describe('Wake Lock', () => {
+    it('should handle wake lock release event', async () => {
+      await sessionManager.start('tone', 440);
+
+      // Capture the release event listener
+      const addListenerCalls = mockWakeLockSentinel.addEventListener.mock.calls;
+      const releaseCall = addListenerCalls.find(c => c[0] === 'release');
+      expect(releaseCall).toBeDefined();
+
+      // Trigger the release handler
+      expect(() => releaseCall[1]()).not.toThrow();
+    });
+
+    it('should still start session when wakeLock.request rejects', async () => {
+      navigator.wakeLock.request = vi.fn().mockRejectedValue(new Error('NotAllowedError'));
+
+      await sessionManager.start('tone', 440);
+
+      expect(sessionManager.isRunning).toBe(true);
+    });
+
+    it('should still start session when navigator.wakeLock is undefined', async () => {
+      // Must delete the property entirely so 'wakeLock' in navigator is false
+      delete navigator.wakeLock;
+
+      await sessionManager.start('tone', 440);
+
+      expect(sessionManager.isRunning).toBe(true);
+    });
+  });
+
   describe('Edge Cases', () => {
     it('should handle starting an already running session', async () => {
       await sessionManager.start('tone', 440);
@@ -363,6 +394,15 @@ describe('SessionManager', () => {
       // Should not throw errors
       expect(sessionManager.isRunning).toBe(false);
     });
+  });
+});
+
+describe('SessionManager - setHistory edge case', () => {
+  it('should default to empty array when non-array passed to setHistory', () => {
+    localStorage.clear();
+    const sm = new SessionManager();
+    sm.setHistory('not an array');
+    expect(sm.getHistory()).toEqual([]);
   });
 });
 

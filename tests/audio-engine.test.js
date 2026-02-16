@@ -452,6 +452,50 @@ describe('AudioEngine', () => {
       expect(addEventSpy).toHaveBeenCalledWith('visibilitychange', expect.any(Function));
       addEventSpy.mockRestore();
     });
+
+    it('should resume suspended AudioContext on visibilitychange with visible state', () => {
+      engine.setupBackgroundAudio();
+
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        writable: true,
+        configurable: true,
+      });
+      mockCtx.state = 'suspended';
+
+      document.dispatchEvent(new Event('visibilitychange'));
+
+      expect(mockCtx.resume).toHaveBeenCalled();
+    });
+
+    it('should NOT resume AudioContext when already running', () => {
+      engine.setupBackgroundAudio();
+
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        writable: true,
+        configurable: true,
+      });
+      mockCtx.state = 'running';
+      mockCtx.resume.mockClear();
+
+      document.dispatchEvent(new Event('visibilitychange'));
+
+      expect(mockCtx.resume).not.toHaveBeenCalled();
+    });
+
+    it('should not error on visibilitychange with null audioContext', () => {
+      engine.setupBackgroundAudio();
+      engine.audioContext = null;
+
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        writable: true,
+        configurable: true,
+      });
+
+      expect(() => document.dispatchEvent(new Event('visibilitychange'))).not.toThrow();
+    });
   });
 
   describe('Media Session', () => {
@@ -497,6 +541,72 @@ describe('AudioEngine', () => {
   });
 });
 
+describe('AudioEngine - webkitAudioContext Fallback', () => {
+  it('should fall back to webkitAudioContext when AudioContext is unavailable', () => {
+    const mockCtx = createEnhancedMockAudioContext();
+    global.window = global.window || {};
+    global.window.AudioContext = undefined;
+    global.window.webkitAudioContext = vi.fn(() => mockCtx);
+
+    global.MediaMetadata = global.MediaMetadata || vi.fn((data) => data);
+    if (!global.navigator) global.navigator = {};
+    global.navigator.mediaSession = {
+      metadata: null,
+      playbackState: 'none',
+      setActionHandler: vi.fn(),
+    };
+
+    const engine = new AudioEngine();
+    engine.init();
+    expect(engine.audioContext).toBe(mockCtx);
+    expect(global.window.webkitAudioContext).toHaveBeenCalled();
+
+    // Restore
+    global.window.AudioContext = vi.fn(() => mockCtx);
+  });
+});
+
+describe('AudioEngine - mediaSession unavailable', () => {
+  it('should return early when mediaSession not in navigator', () => {
+    const mockCtx = createEnhancedMockAudioContext();
+    global.window = global.window || {};
+    global.window.AudioContext = vi.fn(() => mockCtx);
+    global.window.webkitAudioContext = undefined;
+    global.MediaMetadata = global.MediaMetadata || vi.fn((data) => data);
+
+    const savedMediaSession = global.navigator.mediaSession;
+    delete global.navigator.mediaSession;
+
+    const engine = new AudioEngine();
+    engine.init();
+    // Should not throw even without mediaSession
+    expect(() => engine.setupMediaSession()).not.toThrow();
+
+    // Restore
+    global.navigator.mediaSession = savedMediaSession;
+  });
+});
+
+describe('AudioEngine - NotchFilterBank update with Hz-based width', () => {
+  it('should update filter bank with Hz-based width via update method', () => {
+    const mockCtx = createEnhancedMockAudioContext();
+    global.window = global.window || {};
+    global.window.AudioContext = vi.fn(() => mockCtx);
+    global.window.webkitAudioContext = undefined;
+
+    const engine = new AudioEngine();
+    engine.init();
+
+    const bank = engine.createNotchFilterBank(4000, 1, 1);
+    // Call update with Hz-based width to cover the isNarrow=true branch in update
+    bank.update(5000, 'hz100', 1);
+
+    bank.filters.forEach((f) => {
+      expect(f.frequency.setTargetAtTime).toHaveBeenCalled();
+    });
+  });
+});
+
 describe('AudioEngine - Edge Cases', () => {
   let engine;
 
@@ -533,6 +643,35 @@ describe('AudioEngine - Edge Cases', () => {
     oscs.forEach((osc, i) => {
       expect(osc.frequency.setValueAtTime).toHaveBeenCalledWith(440 * (i + 1), engine.currentTime);
     });
+  });
+});
+
+describe('AudioEngine - octaveWidth fallback in createNotchFilterBank', () => {
+  let engine;
+
+  beforeEach(() => {
+    const mockCtx = createEnhancedMockAudioContext();
+    global.window = global.window || {};
+    global.window.AudioContext = vi.fn(() => mockCtx);
+    global.window.webkitAudioContext = undefined;
+
+    engine = new AudioEngine();
+    engine.init();
+  });
+
+  it('should fall back to 1 when octaveWidth is 0', () => {
+    // Stub parseNotchWidth to return an object with octaveWidth=0 (falsy)
+    // This exercises the `parsed.octaveWidth || 1` fallback on line 37
+    vi.spyOn(engine, 'parseNotchWidth').mockReturnValue({
+      lowerFreq: 900,
+      upperFreq: 1100,
+      isNarrow: false,
+      octaveWidth: 0,
+    });
+
+    const bank = engine.createNotchFilterBank(1000, 1, 1);
+    // With octaveWidth=0, fallback to 1 → numFilters = ceil(1 * 4) = 4
+    expect(bank.filters.length).toBe(5); // 0..numFilters inclusive
   });
 });
 

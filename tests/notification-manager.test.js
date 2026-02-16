@@ -87,6 +87,14 @@ describe('NotificationManager', () => {
       expect(manager.permission).toBe('denied');
     });
 
+    it('should fall back to default when Notification.permission is undefined', () => {
+      const MockNotif = createMockNotificationClass('default');
+      MockNotif.permission = undefined;
+      globalThis.Notification = MockNotif;
+      manager = new NotificationManager();
+      expect(manager.permission).toBe('default');
+    });
+
     it('should call loadSettings during construction', () => {
       localStorage.setItem('tinnitusReminderSettings', JSON.stringify({
         enabled: true,
