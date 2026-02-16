@@ -102,22 +102,27 @@ class SubscriptionManager {
         // Load saved mock state from localStorage
         const savedState = localStorage.getItem('mockSubscriptionState');
         if (savedState) {
-            const state = JSON.parse(savedState);
-            this.isPremium = state.isPremium || false;
-            this.isTrialActive = state.isTrialActive || false;
-            this.subscriptionType = state.subscriptionType || null;
-            
-            // Check if trial expired
-            if (this.isTrialActive && state.trialEndDate) {
-                const trialEnd = new Date(state.trialEndDate);
-                if (new Date() > trialEnd) {
-                    this.isTrialActive = false;
-                    this.isPremium = false;
-                    localStorage.removeItem('mockSubscriptionState');
-                } else {
-                    this.trialEndDate = trialEnd;
-                    this.trialDaysRemaining = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
+            try {
+                const state = JSON.parse(savedState);
+                this.isPremium = state.isPremium || false;
+                this.isTrialActive = state.isTrialActive || false;
+                this.subscriptionType = state.subscriptionType || null;
+
+                // Check if trial expired
+                if (this.isTrialActive && state.trialEndDate) {
+                    const trialEnd = new Date(state.trialEndDate);
+                    if (new Date() > trialEnd) {
+                        this.isTrialActive = false;
+                        this.isPremium = false;
+                        localStorage.removeItem('mockSubscriptionState');
+                    } else {
+                        this.trialEndDate = trialEnd;
+                        this.trialDaysRemaining = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
+                    }
                 }
+            } catch {
+                console.warn('[SubscriptionManager] Corrupted subscription data, resetting');
+                localStorage.removeItem('mockSubscriptionState');
             }
         }
         
@@ -460,3 +465,4 @@ class SubscriptionManager {
 
 // Export for use in app.js
 window.SubscriptionManager = SubscriptionManager;
+export { SubscriptionManager };

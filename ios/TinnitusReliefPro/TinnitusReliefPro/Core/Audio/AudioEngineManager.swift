@@ -73,6 +73,21 @@ final class AudioEngineManager {
     // Matched frequency storage
     var matchedFrequency: Float?
 
+    /// Current playback position in seconds for the loaded music file.
+    var musicCurrentTime: Double {
+        guard isMusicPlaying,
+              let nodeTime = musicPlayer.lastRenderTime,
+              nodeTime.isSampleTimeValid,
+              let playerTime = musicPlayer.playerTime(forNodeTime: nodeTime) else { return 0 }
+        return Double(playerTime.sampleTime) / playerTime.sampleRate
+    }
+
+    /// Total duration in seconds of the loaded music file.
+    var musicDuration: Double {
+        guard let file = musicFile else { return 0 }
+        return Double(file.length) / file.processingFormat.sampleRate
+    }
+
     // MARK: - Private audio graph components
 
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",

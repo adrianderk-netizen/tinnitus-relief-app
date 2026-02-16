@@ -1,90 +1,43 @@
 /**
  * Session Manager Tests
  * Tests session timing, statistics, and data persistence
+ * Uses the REAL SessionManager class from ../js/session-manager.js
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { waitFor } from './setup.js';
-
-// Mock SessionManager behavior
-class MockSessionManager {
-  constructor() {
-    this.targetDuration = 60 * 60 * 1000; // 1 hour in ms
-    this.elapsed = 0;
-    this.isRunning = false;
-    this.isPaused = false;
-    this.startTime = null;
-    this.callbacks = {};
-  }
-
-  setDurationMinutes(minutes) {
-    this.targetDuration = minutes * 60 * 1000;
-  }
-
-  start() {
-    if (!this.isRunning) {
-      this.isRunning = true;
-      this.isPaused = false;
-      this.startTime = Date.now();
-    } else if (this.isPaused) {
-      this.isPaused = false;
-      this.startTime = Date.now() - this.elapsed;
-    }
-  }
-
-  pause() {
-    if (this.isRunning && !this.isPaused) {
-      this.isPaused = true;
-      this.elapsed = Date.now() - this.startTime;
-    }
-  }
-
-  stop() {
-    this.isRunning = false;
-    this.isPaused = false;
-    const finalElapsed = this.elapsed || (Date.now() - this.startTime);
-    this.elapsed = 0;
-    this.startTime = null;
-    return finalElapsed;
-  }
-
-  getProgress() {
-    if (!this.isRunning) return { elapsed: 0, remaining: this.targetDuration, progress: 0 };
-    
-    const currentElapsed = this.isPaused ? this.elapsed : (Date.now() - this.startTime);
-    const remaining = Math.max(0, this.targetDuration - currentElapsed);
-    const progress = Math.min(1, currentElapsed / this.targetDuration);
-    
-    return { elapsed: currentElapsed, remaining, progress };
-  }
-
-  getStats() {
-    // Mock stats from localStorage
-    return {
-      todayTime: 1800000, // 30 minutes
-      weekTime: 7200000, // 2 hours
-      totalTime: 36000000, // 10 hours
-      streak: 5,
-      todayTimeFormatted: '30:00',
-      weekTimeFormatted: '2:00:00',
-      totalTimeFormatted: '10:00:00'
-    };
-  }
-
-  on(event, callback) {
-    this.callbacks[event] = callback;
-  }
-}
+import { SessionManager } from '../js/session-manager.js';
 
 describe('SessionManager', () => {
   let sessionManager;
+  let mockWakeLockSentinel;
 
   beforeEach(() => {
-    sessionManager = new MockSessionManager();
     vi.useFakeTimers();
+    localStorage.clear();
+
+    // Mock navigator.wakeLock so requestWakeLock doesn't throw
+    mockWakeLockSentinel = {
+      release: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+    Object.defineProperty(navigator, 'wakeLock', {
+      value: {
+        request: vi.fn().mockResolvedValue(mockWakeLockSentinel),
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    sessionManager = new SessionManager();
   });
 
   afterEach(() => {
+    // Ensure timers are stopped to avoid leaking intervals
+    if (sessionManager.isRunning) {
+      sessionManager.stop();
+    }
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -96,115 +49,262 @@ describe('SessionManager', () => {
 
     it('should handle various duration presets', () => {
       const durations = [15, 30, 60, 120];
-      
+
       durations.forEach(minutes => {
         sessionManager.setDurationMinutes(minutes);
         expect(sessionManager.targetDuration).toBe(minutes * 60 * 1000);
       });
     });
+
+    it('should set duration in milliseconds', () => {
+      sessionManager.setDuration(120000);
+      expect(sessionManager.targetDuration).toBe(120000);
+    });
   });
 
   describe('Session Control', () => {
-    it('should start a session', () => {
-      sessionManager.start();
+    it('should start a session', async () => {
+      await sessionManager.start('tone', 440);
       expect(sessionManager.isRunning).toBe(true);
       expect(sessionManager.isPaused).toBe(false);
     });
 
-    it('should pause a running session', () => {
-      sessionManager.start();
+    it('should pause a running session', async () => {
+      await sessionManager.start('tone', 440);
       sessionManager.pause();
-      
+
       expect(sessionManager.isRunning).toBe(true);
       expect(sessionManager.isPaused).toBe(true);
     });
 
-    it('should resume a paused session', () => {
-      sessionManager.start();
+    it('should resume a paused session', async () => {
+      await sessionManager.start('tone', 440);
       sessionManager.pause();
-      sessionManager.start(); // Resume
-      
+      await sessionManager.start('tone', 440); // Resume
+
       expect(sessionManager.isRunning).toBe(true);
       expect(sessionManager.isPaused).toBe(false);
     });
 
-    it('should stop a session and reset', () => {
-      sessionManager.start();
-      const elapsed = sessionManager.stop();
-      
+    it('should stop a session and reset', async () => {
+      await sessionManager.start('tone', 440);
+      sessionManager.stop();
+
       expect(sessionManager.isRunning).toBe(false);
       expect(sessionManager.isPaused).toBe(false);
-      expect(elapsed).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should fire onStart callback when starting', async () => {
+      const onStart = vi.fn();
+      sessionManager.on('onStart', onStart);
+      await sessionManager.start('tone', 440);
+
+      expect(onStart).toHaveBeenCalledTimes(1);
+      expect(onStart).toHaveBeenCalledWith(
+        expect.objectContaining({ mode: 'tone', frequency: 440 })
+      );
+    });
+
+    it('should fire onStop callback when stopping', async () => {
+      const onStop = vi.fn();
+      sessionManager.on('onStop', onStop);
+      await sessionManager.start('tone', 440);
+      sessionManager.stop();
+
+      expect(onStop).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('Progress Tracking', () => {
-    it('should calculate progress correctly', () => {
-      sessionManager.setDurationMinutes(60); // 1 hour
-      sessionManager.start();
-      
-      // Simulate 30 minutes elapsed
-      vi.advanceTimersByTime(30 * 60 * 1000);
-      
-      const progress = sessionManager.getProgress();
-      expect(progress.progress).toBeCloseTo(0.5, 1);
+  describe('Elapsed and Remaining Time', () => {
+    it('should track elapsed time correctly', async () => {
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(30 * 60 * 1000); // 30 minutes
+
+      const elapsed = sessionManager.getElapsed();
+      expect(elapsed).toBe(30 * 60 * 1000);
     });
 
-    it('should not exceed 100% progress', () => {
+    it('should calculate remaining time correctly', async () => {
+      sessionManager.setDurationMinutes(60); // 1 hour
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(15 * 60 * 1000); // 15 minutes
+
+      const remaining = sessionManager.getRemaining();
+      expect(remaining).toBe(45 * 60 * 1000);
+    });
+
+    it('should not go below 0 for remaining time', async () => {
       sessionManager.setDurationMinutes(1); // 1 minute
-      sessionManager.start();
-      
-      // Simulate 2 minutes elapsed
-      vi.advanceTimersByTime(2 * 60 * 1000);
-      
-      const progress = sessionManager.getProgress();
-      expect(progress.progress).toBe(1);
-      expect(progress.remaining).toBe(0);
+      await sessionManager.start('tone', 440);
+
+      // Advance to just before the 60s tick that triggers auto-stop
+      // The tick fires every 1000ms; at 60s the onComplete fires and stops the session.
+      // Advance 59 seconds so we are still running with 1s remaining.
+      vi.advanceTimersByTime(59 * 1000);
+      expect(sessionManager.getRemaining()).toBe(1000);
+
+      // After the session auto-completes (at the 60s tick), remaining resets because
+      // isRunning becomes false and getElapsed returns 0 => remaining = targetDuration.
+      vi.advanceTimersByTime(1000);
+      expect(sessionManager.isRunning).toBe(false);
     });
 
-    it('should show correct remaining time', () => {
+    it('should return 0 elapsed when not running', () => {
+      expect(sessionManager.getElapsed()).toBe(0);
+    });
+  });
+
+  describe('Tick and Progress', () => {
+    it('should call onTick with progress info', async () => {
+      const onTick = vi.fn();
+      sessionManager.on('onTick', onTick);
       sessionManager.setDurationMinutes(60); // 1 hour
-      sessionManager.start();
-      
-      // Simulate 15 minutes elapsed
-      vi.advanceTimersByTime(15 * 60 * 1000);
-      
-      const progress = sessionManager.getProgress();
-      expect(progress.remaining).toBe(45 * 60 * 1000);
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(30 * 60 * 1000); // 30 minutes (1800 ticks)
+
+      expect(onTick).toHaveBeenCalled();
+
+      // Check the last call's progress is approximately 0.5
+      const lastCall = onTick.mock.calls[onTick.mock.calls.length - 1][0];
+      expect(lastCall.progress).toBeCloseTo(0.5, 1);
+      expect(lastCall.remaining).toBe(30 * 60 * 1000);
+    });
+
+    it('should call onComplete when session duration is reached', async () => {
+      const onComplete = vi.fn();
+      sessionManager.on('onComplete', onComplete);
+      sessionManager.setDurationMinutes(1); // 1 minute
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(60 * 1000); // exactly 1 minute
+
+      expect(onComplete).toHaveBeenCalledTimes(1);
+      // After completion, session should be stopped
+      expect(sessionManager.isRunning).toBe(false);
     });
   });
 
   describe('Statistics', () => {
-    it('should retrieve session statistics', () => {
+    it('should return stats with all expected properties', () => {
       const stats = sessionManager.getStats();
-      
+
       expect(stats).toHaveProperty('todayTime');
       expect(stats).toHaveProperty('weekTime');
       expect(stats).toHaveProperty('totalTime');
       expect(stats).toHaveProperty('streak');
+      expect(stats).toHaveProperty('totalSessions');
+      expect(stats).toHaveProperty('todaySessions');
+      expect(stats).toHaveProperty('weekSessions');
     });
 
-    it('should format time correctly', () => {
+    it('should return zero stats when no history exists', () => {
       const stats = sessionManager.getStats();
-      
+
+      expect(stats.totalSessions).toBe(0);
+      expect(stats.totalTime).toBe(0);
+      expect(stats.todayTime).toBe(0);
+      expect(stats.weekTime).toBe(0);
+      expect(stats.streak).toBe(0);
+    });
+
+    it('should include formatted time strings', () => {
+      const stats = sessionManager.getStats();
+
       expect(stats.todayTimeFormatted).toMatch(/\d+:\d{2}/);
-      expect(stats.weekTimeFormatted).toMatch(/\d+:\d{2}:\d{2}/);
+      expect(stats.weekTimeFormatted).toMatch(/\d+:\d{2}/);
+      expect(stats.totalTimeFormatted).toMatch(/\d+:\d{2}/);
     });
 
-    it('should track daily streak', () => {
+    it('should compute stats from session history', () => {
+      // Seed history with a session from today lasting 2 minutes
+      const now = new Date();
+      sessionManager.setHistory([
+        { id: 1, date: now.toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: true },
+      ]);
+
       const stats = sessionManager.getStats();
-      expect(stats.streak).toBeGreaterThanOrEqual(0);
+      expect(stats.totalSessions).toBe(1);
+      expect(stats.totalTime).toBe(120000);
+      expect(stats.todayTime).toBe(120000);
+      expect(stats.streak).toBe(1);
+    });
+
+    it('should calculate streak across consecutive days', () => {
+      const now = new Date();
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const twoDaysAgo = new Date(now);
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+      sessionManager.setHistory([
+        { id: 1, date: twoDaysAgo.toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: true },
+        { id: 2, date: yesterday.toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: true },
+        { id: 3, date: now.toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: true },
+      ]);
+
+      const stats = sessionManager.getStats();
+      expect(stats.streak).toBe(3);
+    });
+  });
+
+  describe('History Management', () => {
+    it('should persist history to localStorage', async () => {
+      sessionManager.setDurationMinutes(60);
+      await sessionManager.start('tone', 440);
+
+      // Advance past 60 seconds (minimum for history saving)
+      vi.advanceTimersByTime(120000);
+      sessionManager.stop();
+
+      const saved = localStorage.getItem('tinnitusSessionHistory');
+      expect(saved).not.toBeNull();
+      const parsed = JSON.parse(saved);
+      expect(parsed.length).toBe(1);
+      expect(parsed[0].duration).toBe(120000);
+    });
+
+    it('should not save sessions shorter than 1 minute to history', async () => {
+      sessionManager.setDurationMinutes(60);
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(30000); // 30 seconds
+      sessionManager.stop();
+
+      expect(sessionManager.getHistory().length).toBe(0);
+    });
+
+    it('should load history from localStorage', () => {
+      const history = [
+        { id: 1, date: new Date().toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: false },
+      ];
+      localStorage.setItem('tinnitusSessionHistory', JSON.stringify(history));
+
+      const sm = new SessionManager();
+      expect(sm.getHistory().length).toBe(1);
+    });
+
+    it('should clear history', () => {
+      sessionManager.setHistory([
+        { id: 1, date: new Date().toISOString(), mode: 'tone', frequency: 440, duration: 120000, completed: true },
+      ]);
+      expect(sessionManager.getHistory().length).toBe(1);
+
+      sessionManager.clearHistory();
+      expect(sessionManager.getHistory().length).toBe(0);
     });
   });
 
   describe('Edge Cases', () => {
-    it('should handle starting an already running session', () => {
-      sessionManager.start();
+    it('should handle starting an already running session', async () => {
+      await sessionManager.start('tone', 440);
       const firstStartTime = sessionManager.startTime;
-      
-      sessionManager.start(); // Try to start again
-      
-      // Should not change start time
+
+      await sessionManager.start('tone', 440); // Try to start again
+
+      // Should not change start time (guard: if running and not paused, return)
       expect(sessionManager.startTime).toBe(firstStartTime);
     });
 
@@ -215,35 +315,51 @@ describe('SessionManager', () => {
     });
 
     it('should handle stopping when not running', () => {
-      const elapsed = sessionManager.stop();
-      expect(elapsed).toBe(0);
+      const result = sessionManager.stop();
+      // The real stop() returns undefined when not running
+      expect(result).toBeUndefined();
     });
 
-    it('should preserve elapsed time when pausing', () => {
-      sessionManager.start();
-      
+    it('should preserve elapsed time when pausing', async () => {
+      await sessionManager.start('tone', 440);
+
       // Run for 10 seconds
       vi.advanceTimersByTime(10000);
       sessionManager.pause();
-      
-      const pausedElapsed = sessionManager.elapsed;
-      
+
+      const pausedElapsed = sessionManager.pausedTime;
+
       // Wait 5 more seconds while paused
       vi.advanceTimersByTime(5000);
-      
+
       // Elapsed should not change while paused
-      expect(sessionManager.elapsed).toBe(pausedElapsed);
+      expect(sessionManager.pausedTime).toBe(pausedElapsed);
+      expect(sessionManager.getElapsed()).toBe(pausedElapsed);
+    });
+
+    it('should resume from the correct time after pause', async () => {
+      await sessionManager.start('tone', 440);
+
+      vi.advanceTimersByTime(10000); // Run 10s
+      sessionManager.pause();
+      vi.advanceTimersByTime(5000); // Pause 5s
+      await sessionManager.start('tone', 440); // Resume
+
+      vi.advanceTimersByTime(5000); // Run another 5s
+
+      // Total elapsed should be 15s (10s + 5s), not 20s
+      expect(sessionManager.getElapsed()).toBe(15000);
     });
   });
 
   describe('Performance', () => {
-    it('should handle rapid start/stop cycles', () => {
+    it('should handle rapid start/stop cycles', async () => {
       for (let i = 0; i < 100; i++) {
-        sessionManager.start();
+        await sessionManager.start('tone', 440);
         vi.advanceTimersByTime(100);
         sessionManager.stop();
       }
-      
+
       // Should not throw errors
       expect(sessionManager.isRunning).toBe(false);
     });
@@ -252,22 +368,18 @@ describe('SessionManager', () => {
 
 describe('SessionManager - Time Formatting', () => {
   it('should format seconds correctly', () => {
-    // Helper to format time (matches SessionManager.formatTime)
-    const formatTime = (ms) => {
-      const totalSeconds = Math.floor(ms / 1000);
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-      
-      if (hours > 0) {
-        return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      }
-      return `${minutes}:${String(seconds).padStart(2, '0')}`;
-    };
+    expect(SessionManager.formatTime(30000)).toBe('0:30');       // 30 seconds
+    expect(SessionManager.formatTime(90000)).toBe('1:30');       // 1 min 30 sec
+    expect(SessionManager.formatTime(3600000)).toBe('1:00:00');  // 1 hour
+    expect(SessionManager.formatTime(3661000)).toBe('1:01:01');  // 1:01:01
+  });
 
-    expect(formatTime(30000)).toBe('0:30'); // 30 seconds
-    expect(formatTime(90000)).toBe('1:30'); // 1 min 30 sec
-    expect(formatTime(3600000)).toBe('1:00:00'); // 1 hour
-    expect(formatTime(3661000)).toBe('1:01:01'); // 1:01:01
+  it('should format zero correctly', () => {
+    expect(SessionManager.formatTime(0)).toBe('0:00');
+  });
+
+  it('should format large values correctly', () => {
+    // 10 hours
+    expect(SessionManager.formatTime(36000000)).toBe('10:00:00');
   });
 });

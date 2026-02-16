@@ -1,5 +1,5 @@
 // Service Worker for Tinnitus Relief Pro PWA
-const CACHE_NAME = 'tinnitus-relief-v11';
+const CACHE_NAME = 'tinnitus-relief-v12';
 const BASE_PATH = '';
 const urlsToCache = [
   '/',
@@ -9,6 +9,9 @@ const urlsToCache = [
   '/js/audio-engine.js',
   '/js/visualizer.js',
   '/js/session-manager.js',
+  '/js/guided-matching.js',
+  '/js/notification-manager.js',
+  '/js/export-manager.js',
   '/manifest.json',
   '/icons/icon-72x72.png',
   '/icons/icon-96x96.png',
@@ -87,6 +90,22 @@ self.addEventListener('fetch', (event) => {
         // For now, just return nothing
         console.log('Fetch failed for:', event.request.url);
       })
+  );
+});
+
+// Handle notification clicks
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Focus existing window or open new one
+      for (const client of clientList) {
+        if (client.url.includes('/') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      return clients.openWindow('/');
+    })
   );
 });
 

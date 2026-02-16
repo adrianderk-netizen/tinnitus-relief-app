@@ -38,6 +38,9 @@ class ReliefJournalManager {
     }
 
     showDailyCheckIn() {
+        // Prevent duplicate modals
+        if (document.querySelector('.daily-checkin-modal')) return;
+
         const modal = document.createElement('div');
         modal.className = 'daily-checkin-modal';
         modal.innerHTML = `
@@ -126,7 +129,10 @@ class ReliefJournalManager {
         });
         
         // Close and skip buttons
-        document.getElementById('checkinClose').addEventListener('click', () => this.closeModal(modal));
+        document.getElementById('checkinClose').addEventListener('click', () => {
+            localStorage.setItem('tinnitusLastCheckIn', new Date().toDateString());
+            this.closeModal(modal);
+        });
         document.getElementById('skipCheckIn').addEventListener('click', () => {
             localStorage.setItem('tinnitusLastCheckIn', new Date().toDateString());
             this.closeModal(modal);
@@ -500,3 +506,5 @@ class ReliefJournalManager {
         });
     }
 }
+window.ReliefJournalManager = ReliefJournalManager;
+export { ReliefJournalManager };

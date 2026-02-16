@@ -10,9 +10,7 @@ struct NotchedMusicSection: View {
     @State private var showFilePicker = false
     @State private var selectedFileName: String?
     @State private var selectedFileURL: URL?
-    @State private var isPlaying = false
     @State private var currentTime: Double = 0
-    @State private var duration: Double = 180 // placeholder
     @State private var musicVolume: Double = 70
     @State private var notchEnabled = true
     @State private var musicNotchFrequencyText: String = "4000"
@@ -55,8 +53,16 @@ struct NotchedMusicSection: View {
                 switch result {
                 case .success(let urls):
                     if let url = urls.first {
-                        selectedFileURL = url
-                        selectedFileName = url.lastPathComponent
+                        guard url.startAccessingSecurityScopedResource() else { return }
+                        defer { url.stopAccessingSecurityScopedResource() }
+                        do {
+                            try audioEngine.loadAudioFile(url)
+                            selectedFileURL = url
+                            selectedFileName = url.lastPathComponent
+                        } catch {
+                            selectedFileURL = nil
+                            selectedFileName = nil
+                        }
                     }
                 case .failure:
                     break
@@ -83,30 +89,34 @@ struct NotchedMusicSection: View {
             if selectedFileURL != nil {
                 HStack(spacing: 16) {
                     Button {
-                        isPlaying.toggle()
+                        if audioEngine.isMusicPlaying {
+                            audioEngine.pauseMusic()
+                        } else {
+                            audioEngine.playMusic()
+                        }
                     } label: {
                         Label(
-                            isPlaying ? "Pause" : "Play",
-                            systemImage: isPlaying ? "pause.fill" : "play.fill"
+                            audioEngine.isMusicPlaying ? "Pause" : "Play",
+                            systemImage: audioEngine.isMusicPlaying ? "pause.fill" : "play.fill"
                         )
                         .font(.subheadline.bold())
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(isPlaying ? Color.accentAmber : Color.accentGreen)
+                    .tint(audioEngine.isMusicPlaying ? Color.accentAmber : Color.accentGreen)
                 }
 
                 // MARK: - Seek
                 VStack(spacing: 4) {
-                    Slider(value: $currentTime, in: 0...max(duration, 1))
+                    Slider(value: $currentTime, in: 0...max(audioEngine.musicDuration, 1))
                         .tint(Color.accentCyan)
                     HStack {
                         Text(timeFormatter.string(from: currentTime) ?? "0:00")
                             .font(.system(.caption2, design: .monospaced))
                             .foregroundStyle(Color.textMuted)
                         Spacer()
-                        Text(timeFormatter.string(from: duration) ?? "0:00")
+                        Text(timeFormatter.string(from: audioEngine.musicDuration) ?? "0:00")
                             .font(.system(.caption2, design: .monospaced))
                             .foregroundStyle(Color.textMuted)
                     }
@@ -175,6 +185,11 @@ struct NotchedMusicSection: View {
         }
         .padding()
         .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 16))
+        .onReceive(Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()) { _ in
+            if audioEngine.isMusicPlaying {
+                currentTime = audioEngine.musicCurrentTime
+            }
+        }
     }
 }
 

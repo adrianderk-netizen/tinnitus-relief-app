@@ -482,3 +482,5 @@ class FrequencySweepManager {
         }
     }
 }
+window.FrequencySweepManager = FrequencySweepManager;
+export { FrequencySweepManager };

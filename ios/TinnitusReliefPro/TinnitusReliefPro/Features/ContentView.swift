@@ -31,6 +31,12 @@ struct ContentView: View {
                     Label("Journal", systemImage: "book")
                 }
                 .tag(3)
+
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
+                .tag(4)
         }
         .tint(Color.accentCyan)
         .preferredColorScheme(.dark)
@@ -42,4 +48,5 @@ struct ContentView: View {
         .environment(AudioEngineManager())
         .environment(SessionManager())
         .environment(SubscriptionManager())
+        .environment(AppSettings())
 }

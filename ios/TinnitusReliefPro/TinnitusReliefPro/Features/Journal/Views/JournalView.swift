@@ -1,16 +1,28 @@
 import SwiftUI
+import SwiftData
 
 /// Journal tab for daily tinnitus severity check-ins, trend visualization,
 /// and historical entry browsing.
 struct JournalView: View {
 
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \JournalEntry.date, order: .reverse) private var journalEntries: [JournalEntry]
+
     @State private var showCheckIn = false
-    @State private var hasCheckedInToday = false
     @State private var showExportSheet = false
     @State private var exportURL: URL?
 
-    /// Sample data for layout. In production, fetched from SwiftData.
-    @State private var entries: [JournalEntrySample] = JournalEntrySample.samples
+    private var hasCheckedInToday: Bool {
+        guard let latest = journalEntries.first else { return false }
+        return Calendar.current.isDateInToday(latest.date)
+    }
+
+    /// Maps SwiftData models to display structs for chart and row subviews.
+    private var entries: [JournalEntrySample] {
+        journalEntries.map {
+            JournalEntrySample(date: $0.date, severity: $0.severity, notes: $0.notes, tags: $0.tags)
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -87,21 +99,20 @@ struct JournalView: View {
             }
             .sheet(isPresented: $showCheckIn) {
                 CheckInSheet { severity, notes, tags in
-                    let newEntry = JournalEntrySample(
+                    let entry = JournalEntry(
                         date: .now,
                         severity: severity,
                         notes: notes,
                         tags: tags
                     )
-                    entries.insert(newEntry, at: 0)
-                    hasCheckedInToday = true
+                    modelContext.insert(entry)
                 }
             }
         }
     }
 
     private func exportReport() {
-        let exportEntries = entries.map {
+        let exportEntries = journalEntries.map {
             JournalExportEntry(date: $0.date, severity: $0.severity, notes: $0.notes, tags: $0.tags)
         }
         do {
@@ -152,5 +163,6 @@ struct JournalEntrySample: Identifiable {
 
 #Preview {
     JournalView()
+        .modelContainer(for: JournalEntry.self, inMemory: true)
         .preferredColorScheme(.dark)
 }

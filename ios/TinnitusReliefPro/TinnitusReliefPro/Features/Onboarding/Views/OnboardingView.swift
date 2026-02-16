@@ -233,7 +233,12 @@ private struct TherapySlide: View {
 
 private struct PremiumSlide: View {
 
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     var onDismiss: () -> Void
+
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @State private var showError = false
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -280,26 +285,34 @@ private struct PremiumSlide: View {
 
                 // CTA
                 Button {
-                    onDismiss()
+                    Task { await handleSubscribe() }
                 } label: {
-                    Text("Start 7-Day Free Trial")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                    } else {
+                        Text("Start 7-Day Free Trial")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                    }
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color.accentCyan)
                 .padding(.horizontal, 24)
+                .disabled(isLoading)
 
                 Text("Cancel anytime. No charge during trial.")
                     .font(.caption)
                     .foregroundStyle(Color.textMuted)
 
                 Button("Restore Purchases") {
-                    onDismiss()
+                    Task { await handleRestore() }
                 }
                 .font(.caption)
                 .foregroundStyle(Color.textSecondary)
+                .disabled(isLoading)
 
                 Button("Continue without trial") {
                     onDismiss()
@@ -307,9 +320,43 @@ private struct PremiumSlide: View {
                 .font(.caption)
                 .foregroundStyle(Color.textMuted)
                 .padding(.top, 4)
+                .disabled(isLoading)
 
                 Spacer(minLength: 60)
             }
+        }
+        .alert("Purchase Error", isPresented: $showError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage ?? "Something went wrong. Please try again.")
+        }
+    }
+
+    private func handleSubscribe() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            try await subscriptionManager.subscribe(plan: .annual)
+            if subscriptionManager.isPremium {
+                onDismiss()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
+    }
+
+    private func handleRestore() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            try await subscriptionManager.restorePurchases()
+            if subscriptionManager.isPremium {
+                onDismiss()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
         }
     }
 }

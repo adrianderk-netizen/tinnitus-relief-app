@@ -434,3 +434,4 @@ class ToneMatcherUI {
 
 // Export for use in app.js
 window.ToneMatcherUI = ToneMatcherUI;
+export { ToneMatcherUI };

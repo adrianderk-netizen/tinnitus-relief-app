@@ -256,3 +256,5 @@ class WizardManager {
         return this.steps[this.currentStep];
     }
 }
+window.WizardManager = WizardManager;
+export { WizardManager };

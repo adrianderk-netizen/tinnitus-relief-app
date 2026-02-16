@@ -8,6 +8,9 @@ struct PaywallView: View {
     @Environment(SubscriptionManager.self) private var subscriptionManager
 
     @State private var selectedPlan: PlanType = .annual
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @State private var showError = false
 
     enum PlanType {
         case monthly, annual
@@ -89,24 +92,32 @@ struct PaywallView: View {
 
                     // MARK: - Subscribe Button
                     Button {
-                        // Trigger StoreKit purchase
+                        Task { await handleSubscribe() }
                     } label: {
-                        Text("Subscribe Now")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
+                        if isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                        } else {
+                            Text("Subscribe Now")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                        }
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(Color.accentCyan)
                     .padding(.horizontal, 24)
+                    .disabled(isLoading)
 
                     // MARK: - Restore
                     Button("Restore Purchases") {
-                        // Restore purchases
+                        Task { await handleRestore() }
                     }
                     .font(.subheadline)
                     .foregroundStyle(Color.textSecondary)
                     .padding(.bottom, 8)
+                    .disabled(isLoading)
 
                     // Legal
                     Text("Payment charged to your Apple ID. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.")
@@ -132,6 +143,40 @@ struct PaywallView: View {
             }
         }
         .presentationDetents([.large])
+        .alert("Purchase Error", isPresented: $showError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage ?? "Something went wrong. Please try again.")
+        }
+    }
+
+    private func handleSubscribe() async {
+        isLoading = true
+        defer { isLoading = false }
+        let plan: SubscriptionPlan = selectedPlan == .annual ? .annual : .monthly
+        do {
+            try await subscriptionManager.subscribe(plan: plan)
+            if subscriptionManager.isPremium {
+                dismiss()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
+    }
+
+    private func handleRestore() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            try await subscriptionManager.restorePurchases()
+            if subscriptionManager.isPremium {
+                dismiss()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
     }
 }
 

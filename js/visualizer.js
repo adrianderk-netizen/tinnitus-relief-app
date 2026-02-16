@@ -90,7 +90,15 @@ class SpectrumVisualizer {
             this.ctx.fillText('▶️ Start audio to see spectrum', w / 2, h / 2);
         }
     }
-    start() { if (this.animationId) return; const animate = () => { this.draw(); this.animationId = requestAnimationFrame(animate); }; animate(); }
+    reinitCanvas() {
+        if (!this.canvas) return;
+        const r = this.canvas.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+            this.canvas.width = r.width * 2;
+            this.canvas.height = r.height * 2;
+        }
+    }
+    start() { if (this.animationId) return; this.reinitCanvas(); const animate = () => { this.draw(); this.animationId = requestAnimationFrame(animate); }; animate(); }
     stop() { if (this.animationId) { cancelAnimationFrame(this.animationId); this.animationId = null; } }
 }
 class WaveformVisualizer {
@@ -143,9 +151,18 @@ class WaveformVisualizer {
         this.ctx.stroke();
         this.ctx.shadowColor = inverted ? '#ff6b6b' : '#00d9ff'; this.ctx.shadowBlur = 10; this.ctx.stroke(); this.ctx.shadowBlur = 0;
     }
+    reinitCanvas() {
+        if (!this.canvas) return;
+        const r = this.canvas.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+            this.canvas.width = r.width * 2;
+            this.canvas.height = r.height * 2;
+        }
+    }
     animate() { this.time += 0.016; this.draw(); this.animationId = requestAnimationFrame(() => this.animate()); }
-    start() { if (!this.animationId) this.animate(); }
+    start() { if (!this.animationId) { this.reinitCanvas(); this.animate(); } }
     stop() { if (this.animationId) { cancelAnimationFrame(this.animationId); this.animationId = null; } }
 }
 window.SpectrumVisualizer = SpectrumVisualizer;
 window.WaveformVisualizer = WaveformVisualizer;
+export { SpectrumVisualizer, WaveformVisualizer };

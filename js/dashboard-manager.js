@@ -123,9 +123,12 @@ class DashboardManager {
         });
 
         document.getElementById('quickFindFrequency')?.addEventListener('click', () => {
-            this.app.switchMode('tone-matcher');
-            // Scroll to tone matcher
-            document.getElementById('tone-matcher')?.scrollIntoView({ behavior: 'smooth' });
+            if (this.app.guidedMatching) {
+                this.app.guidedMatching.launch();
+            } else {
+                this.app.switchMode('tone-matcher');
+                document.getElementById('tone-matcher')?.scrollIntoView({ behavior: 'smooth' });
+            }
         });
 
         document.getElementById('quickJournal')?.addEventListener('click', () => {
@@ -249,3 +252,4 @@ class DashboardManager {
         this.updateDashboard();
     }
 }
+export { DashboardManager };

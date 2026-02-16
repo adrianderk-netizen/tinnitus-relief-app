@@ -1,312 +1,471 @@
 /**
  * Subscription Manager Tests
+ * Tests the REAL SubscriptionManager class from ../js/subscription-manager.js
  * Tests subscription state, feature gating, and trial management
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { SubscriptionManager } from '../js/subscription-manager.js';
 
-// Mock SubscriptionManager
-class MockSubscriptionManager {
-  constructor() {
-    this.mode = 'mock';
-    this.subscriptionStatus = 'free';
-    this.trialActive = false;
-    this.trialEndDate = null;
-    this.features = {
-      basic: ['toneMatching', 'basicNoise'],
-      premium: ['allNoiseTypes', 'musicNotching', 'advancedControls', 'unlimitedSessions', 'analytics']
-    };
-  }
+/**
+ * Helper: create the DOM elements that the real SubscriptionManager expects
+ * when calling updateUI(), showPaywall(), hidePaywall(), updatePremiumBadges()
+ */
+function setupDomElements() {
+  // Clean previous elements
+  document.body.innerHTML = '';
 
-  async init() {
-    // Load subscription state from localStorage
-    const saved = localStorage.getItem('subscriptionState');
-    if (saved) {
-      const state = JSON.parse(saved);
-      this.subscriptionStatus = state.status;
-      this.trialActive = state.trialActive;
-      if (state.trialEndDate) {
-        this.trialEndDate = new Date(state.trialEndDate);
-      }
-    }
-  }
+  // Paywall modal
+  const paywallModal = document.createElement('div');
+  paywallModal.id = 'paywallModal';
+  document.body.appendChild(paywallModal);
 
-  hasFeature(featureName) {
-    if (this.subscriptionStatus === 'premium' || this.trialActive) {
-      return true;
-    }
-    return this.features.basic.includes(featureName);
-  }
+  // Paywall feature name text
+  const paywallFeatureName = document.createElement('span');
+  paywallFeatureName.id = 'paywallFeatureName';
+  document.body.appendChild(paywallFeatureName);
 
-  lockFeature(featureName) {
-    if (this.hasFeature(featureName)) {
-      return true;
-    }
-    return false;
-  }
+  // Subscription status bar
+  const subscriptionStatus = document.createElement('div');
+  subscriptionStatus.id = 'subscriptionStatus';
+  document.body.appendChild(subscriptionStatus);
 
-  async subscribe(plan) {
-    if (plan === 'monthly' || plan === 'annual') {
-      this.subscriptionStatus = 'premium';
-      this.trialActive = false;
-      this.saveState();
-      return true;
-    }
-    return false;
-  }
+  // Status text
+  const statusText = document.createElement('span');
+  statusText.id = 'statusText';
+  document.body.appendChild(statusText);
 
-  async startTrial() {
-    this.trialActive = true;
-    this.trialEndDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-    this.saveState();
-    return true;
-  }
-
-  async cancelSubscription() {
-    this.subscriptionStatus = 'free';
-    this.trialActive = false;
-    this.trialEndDate = null;
-    this.saveState();
-    return true;
-  }
-
-  getTrialDaysRemaining() {
-    if (!this.trialActive || !this.trialEndDate) return 0;
-    const now = new Date();
-    const diff = this.trialEndDate - now;
-    return Math.max(0, Math.ceil(diff / (24 * 60 * 60 * 1000)));
-  }
-
-  saveState() {
-    localStorage.setItem('subscriptionState', JSON.stringify({
-      status: this.subscriptionStatus,
-      trialActive: this.trialActive,
-      trialEndDate: this.trialEndDate ? this.trialEndDate.toISOString() : null
-    }));
-  }
+  // Status days
+  const statusDays = document.createElement('span');
+  statusDays.id = 'statusDays';
+  document.body.appendChild(statusDays);
 }
 
 describe('SubscriptionManager', () => {
-  let subscriptionManager;
+  let manager;
 
   beforeEach(() => {
     localStorage.clear();
-    subscriptionManager = new MockSubscriptionManager();
+    setupDomElements();
+
+    // Mock window.alert and window.confirm used by the real class
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+
+    manager = new SubscriptionManager();
+    // The constructor calls detectMode(). Since Capacitor is not defined, mode === 'mock'.
   });
 
   describe('Initialization', () => {
     it('should initialize with free status', () => {
-      expect(subscriptionManager.subscriptionStatus).toBe('free');
-      expect(subscriptionManager.trialActive).toBe(false);
+      expect(manager.isPremium).toBe(false);
+      expect(manager.isTrialActive).toBe(false);
+      expect(manager.mode).toBe('mock');
     });
 
-    it('should restore state from localStorage', async () => {
-      // Set up saved state
-      localStorage.setItem('subscriptionState', JSON.stringify({
-        status: 'premium',
-        trialActive: false,
+    it('should restore state from localStorage via init()', async () => {
+      // Set up saved mock state
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: false,
+        subscriptionType: 'monthly',
         trialEndDate: null
       }));
 
-      const manager = new MockSubscriptionManager();
-      await manager.init();
+      const mgr = new SubscriptionManager();
+      await mgr.init();
 
-      expect(manager.subscriptionStatus).toBe('premium');
+      expect(mgr.isPremium).toBe(true);
+      expect(mgr.subscriptionType).toBe('monthly');
     });
   });
 
   describe('Feature Access', () => {
     it('should allow basic features for free users', () => {
-      expect(subscriptionManager.hasFeature('toneMatching')).toBe(true);
-      expect(subscriptionManager.hasFeature('basicNoise')).toBe(true);
+      // basicToneMatching and pinkNoise are always true
+      expect(manager.hasFeature('basicToneMatching')).toBe(true);
+      expect(manager.hasFeature('pinkNoise')).toBe(true);
     });
 
     it('should block premium features for free users', () => {
-      expect(subscriptionManager.hasFeature('allNoiseTypes')).toBe(false);
-      expect(subscriptionManager.hasFeature('musicNotching')).toBe(false);
-      expect(subscriptionManager.hasFeature('advancedControls')).toBe(false);
+      expect(manager.hasFeature('whiteNoise')).toBe(false);
+      expect(manager.hasFeature('musicNotching')).toBe(false);
+      expect(manager.hasFeature('advancedControls')).toBe(false);
     });
 
     it('should allow all features for premium users', () => {
-      subscriptionManager.subscriptionStatus = 'premium';
+      manager.isPremium = true;
+      manager.updateFeatureAccess();
 
-      expect(subscriptionManager.hasFeature('toneMatching')).toBe(true);
-      expect(subscriptionManager.hasFeature('allNoiseTypes')).toBe(true);
-      expect(subscriptionManager.hasFeature('musicNotching')).toBe(true);
-      expect(subscriptionManager.hasFeature('advancedControls')).toBe(true);
+      expect(manager.hasFeature('basicToneMatching')).toBe(true);
+      expect(manager.hasFeature('whiteNoise')).toBe(true);
+      expect(manager.hasFeature('musicNotching')).toBe(true);
+      expect(manager.hasFeature('advancedControls')).toBe(true);
+      expect(manager.hasFeature('unlimitedSessions')).toBe(true);
     });
 
     it('should allow all features during trial', () => {
-      subscriptionManager.trialActive = true;
+      manager.isTrialActive = true;
+      manager.updateFeatureAccess();
 
-      expect(subscriptionManager.hasFeature('allNoiseTypes')).toBe(true);
-      expect(subscriptionManager.hasFeature('musicNotching')).toBe(true);
+      expect(manager.hasFeature('whiteNoise')).toBe(true);
+      expect(manager.hasFeature('musicNotching')).toBe(true);
+      expect(manager.hasFeature('advancedControls')).toBe(true);
     });
   });
 
   describe('Trial Management', () => {
-    it('should start a 7-day trial', async () => {
-      await subscriptionManager.startTrial();
+    it('should start a 7-day trial via subscribe()', async () => {
+      await manager.subscribe('monthly');
 
-      expect(subscriptionManager.trialActive).toBe(true);
-      expect(subscriptionManager.trialEndDate).toBeInstanceOf(Date);
-      expect(subscriptionManager.getTrialDaysRemaining()).toBe(7);
+      expect(manager.isTrialActive).toBe(true);
+      expect(manager.isPremium).toBe(true);
+      expect(manager.trialEndDate).toBeInstanceOf(Date);
+      expect(manager.trialDaysRemaining).toBe(7);
     });
 
-    it('should calculate remaining trial days correctly', async () => {
-      await subscriptionManager.startTrial();
-      
-      // Mock 3 days passed
-      const threeDaysAgo = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000);
-      subscriptionManager.trialEndDate = threeDaysAgo;
+    it('should calculate remaining trial days on init', async () => {
+      // Save state with a trial ending 4 days from now
+      const fourDaysFromNow = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000);
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: true,
+        subscriptionType: 'monthly',
+        trialEndDate: fourDaysFromNow.toISOString()
+      }));
 
-      expect(subscriptionManager.getTrialDaysRemaining()).toBe(4);
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.trialDaysRemaining).toBe(4);
     });
 
-    it('should return 0 days when trial expired', async () => {
-      subscriptionManager.trialActive = true;
-      subscriptionManager.trialEndDate = new Date(Date.now() - 24 * 60 * 60 * 1000); // Yesterday
+    it('should detect expired trial on init', async () => {
+      // Save state with a trial that ended yesterday
+      const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: true,
+        subscriptionType: 'monthly',
+        trialEndDate: yesterday.toISOString()
+      }));
 
-      expect(subscriptionManager.getTrialDaysRemaining()).toBe(0);
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isTrialActive).toBe(false);
+      expect(mgr.isPremium).toBe(false);
     });
 
-    it('should not have trial days when no trial active', () => {
-      expect(subscriptionManager.getTrialDaysRemaining()).toBe(0);
+    it('should return 0 trial days when no trial active', () => {
+      expect(manager.trialDaysRemaining).toBe(0);
     });
   });
 
   describe('Subscription Management', () => {
     it('should subscribe to monthly plan', async () => {
-      const result = await subscriptionManager.subscribe('monthly');
+      const result = await manager.subscribe('monthly');
 
       expect(result).toBe(true);
-      expect(subscriptionManager.subscriptionStatus).toBe('premium');
+      expect(manager.isPremium).toBe(true);
+      expect(manager.subscriptionType).toBe('monthly');
     });
 
     it('should subscribe to annual plan', async () => {
-      const result = await subscriptionManager.subscribe('annual');
+      const result = await manager.subscribe('annual');
 
       expect(result).toBe(true);
-      expect(subscriptionManager.subscriptionStatus).toBe('premium');
+      expect(manager.isPremium).toBe(true);
+      expect(manager.subscriptionType).toBe('annual');
     });
 
-    it('should end trial when subscribing', async () => {
-      await subscriptionManager.startTrial();
-      await subscriptionManager.subscribe('monthly');
+    it('should activate trial when subscribing', async () => {
+      await manager.subscribe('monthly');
 
-      expect(subscriptionManager.trialActive).toBe(false);
-      expect(subscriptionManager.subscriptionStatus).toBe('premium');
+      expect(manager.isTrialActive).toBe(true);
+      expect(manager.isPremium).toBe(true);
     });
 
-    it('should cancel subscription', async () => {
-      await subscriptionManager.subscribe('monthly');
-      await subscriptionManager.cancelSubscription();
+    it('should cancel subscription when confirm returns true', () => {
+      // First subscribe
+      manager.isPremium = true;
+      manager.isTrialActive = true;
+      manager.subscriptionType = 'monthly';
+      manager.updateFeatureAccess();
 
-      expect(subscriptionManager.subscriptionStatus).toBe('free');
+      global.confirm = vi.fn(() => true);
+
+      manager.cancelSubscription();
+
+      expect(manager.isPremium).toBe(false);
+      expect(manager.isTrialActive).toBe(false);
+      expect(manager.subscriptionType).toBe(null);
     });
 
-    it('should reject invalid plans', async () => {
-      const result = await subscriptionManager.subscribe('invalid');
-      expect(result).toBe(false);
+    it('should not cancel subscription when confirm returns false', () => {
+      manager.isPremium = true;
+      manager.isTrialActive = true;
+      manager.subscriptionType = 'monthly';
+      manager.updateFeatureAccess();
+
+      global.confirm = vi.fn(() => false);
+
+      manager.cancelSubscription();
+
+      // State should be unchanged
+      expect(manager.isPremium).toBe(true);
+      expect(manager.isTrialActive).toBe(true);
     });
   });
 
   describe('Feature Gating', () => {
-    it('should lock premium features for free users', () => {
-      const allowed = subscriptionManager.lockFeature('musicNotching');
+    it('should lock premium features for free users and show paywall', () => {
+      const allowed = manager.lockFeature('musicNotching');
       expect(allowed).toBe(false);
+
+      // Paywall should be shown (active class added)
+      const paywallModal = document.getElementById('paywallModal');
+      expect(paywallModal.classList.contains('active')).toBe(true);
     });
 
-    it('should allow premium features for premium users', () => {
-      subscriptionManager.subscriptionStatus = 'premium';
-      const allowed = subscriptionManager.lockFeature('musicNotching');
+    it('should allow premium features for premium users without showing paywall', () => {
+      manager.isPremium = true;
+
+      const allowed = manager.lockFeature('musicNotching');
       expect(allowed).toBe(true);
+
+      // Paywall should NOT be shown
+      const paywallModal = document.getElementById('paywallModal');
+      expect(paywallModal.classList.contains('active')).toBe(false);
     });
 
-    it('should allow all features during trial', () => {
-      subscriptionManager.trialActive = true;
-      const allowed = subscriptionManager.lockFeature('advancedControls');
+    it('should allow all features during trial without showing paywall', () => {
+      manager.isTrialActive = true;
+
+      const allowed = manager.lockFeature('advancedControls');
       expect(allowed).toBe(true);
+
+      const paywallModal = document.getElementById('paywallModal');
+      expect(paywallModal.classList.contains('active')).toBe(false);
     });
   });
 
   describe('State Persistence', () => {
-    it('should save subscription state to localStorage', () => {
-      subscriptionManager.subscriptionStatus = 'premium';
-      subscriptionManager.saveState();
+    it('should save subscription state to localStorage when subscribing', async () => {
+      await manager.subscribe('monthly');
 
-      const saved = localStorage.getItem('subscriptionState');
+      const saved = localStorage.getItem('mockSubscriptionState');
       expect(saved).toBeTruthy();
-      
+
       const state = JSON.parse(saved);
-      expect(state.status).toBe('premium');
+      expect(state.isPremium).toBe(true);
+      expect(state.subscriptionType).toBe('monthly');
     });
 
     it('should save trial state to localStorage', async () => {
-      await subscriptionManager.startTrial();
+      await manager.subscribe('annual');
 
-      const saved = localStorage.getItem('subscriptionState');
+      const saved = localStorage.getItem('mockSubscriptionState');
       const state = JSON.parse(saved);
 
-      expect(state.trialActive).toBe(true);
+      expect(state.isTrialActive).toBe(true);
       expect(state.trialEndDate).toBeTruthy();
     });
 
-    it('should restore trial end date correctly', async () => {
+    it('should restore trial end date correctly from localStorage', async () => {
       const endDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
-      localStorage.setItem('subscriptionState', JSON.stringify({
-        status: 'free',
-        trialActive: true,
+      localStorage.setItem('mockSubscriptionState', JSON.stringify({
+        isPremium: true,
+        isTrialActive: true,
+        subscriptionType: 'monthly',
         trialEndDate: endDate.toISOString()
       }));
 
-      const manager = new MockSubscriptionManager();
-      await manager.init();
+      const mgr = new SubscriptionManager();
+      await mgr.init();
 
-      expect(manager.trialActive).toBe(true);
-      expect(manager.trialEndDate).toBeInstanceOf(Date);
+      expect(mgr.isTrialActive).toBe(true);
+      expect(mgr.trialEndDate).toBeInstanceOf(Date);
     });
   });
 
   describe('Edge Cases', () => {
     it('should handle missing localStorage gracefully', async () => {
-      const manager = new MockSubscriptionManager();
-      await manager.init();
+      const mgr = new SubscriptionManager();
+      await mgr.init();
 
-      expect(manager.subscriptionStatus).toBe('free');
+      expect(mgr.isPremium).toBe(false);
+      expect(mgr.isTrialActive).toBe(false);
     });
 
     it('should handle corrupted localStorage data', async () => {
-      localStorage.setItem('subscriptionState', 'invalid json{');
+      localStorage.setItem('mockSubscriptionState', 'invalid json{');
 
-      const manager = new MockSubscriptionManager();
-      
+      const mgr = new SubscriptionManager();
+
       // Should not throw
-      await expect(manager.init()).resolves.not.toThrow();
+      await expect(mgr.init()).resolves.not.toThrow();
+      // Should fall back to default state
+      expect(mgr.isPremium).toBe(false);
     });
 
     it('should handle rapid subscription changes', async () => {
       for (let i = 0; i < 10; i++) {
-        await subscriptionManager.subscribe('monthly');
-        await subscriptionManager.cancelSubscription();
+        await manager.subscribe('monthly');
+        global.confirm = vi.fn(() => true);
+        manager.cancelSubscription();
       }
 
-      expect(subscriptionManager.subscriptionStatus).toBe('free');
+      expect(manager.isPremium).toBe(false);
+      expect(manager.isTrialActive).toBe(false);
     });
   });
 });
 
-describe('SubscriptionManager - Feature Lists', () => {
-  it('should have correct basic features', () => {
-    const manager = new MockSubscriptionManager();
-    expect(manager.features.basic).toContain('toneMatching');
-    expect(manager.features.basic).toContain('basicNoise');
+describe('SubscriptionManager - Feature Flags', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
   });
 
-  it('should have correct premium features', () => {
-    const manager = new MockSubscriptionManager();
-    expect(manager.features.premium).toContain('allNoiseTypes');
-    expect(manager.features.premium).toContain('musicNotching');
-    expect(manager.features.premium).toContain('advancedControls');
+  it('should have correct free features by default', () => {
+    const mgr = new SubscriptionManager();
+    expect(mgr.hasFeature('basicToneMatching')).toBe(true);
+    expect(mgr.hasFeature('pinkNoise')).toBe(true);
+  });
+
+  it('should have correct premium features locked by default', () => {
+    const mgr = new SubscriptionManager();
+    expect(mgr.hasFeature('whiteNoise')).toBe(false);
+    expect(mgr.hasFeature('brownNoise')).toBe(false);
+    expect(mgr.hasFeature('musicNotching')).toBe(false);
+    expect(mgr.hasFeature('advancedControls')).toBe(false);
+    expect(mgr.hasFeature('unlimitedSessions')).toBe(false);
+    expect(mgr.hasFeature('fullHistory')).toBe(false);
+    expect(mgr.hasFeature('multipleProfiles')).toBe(false);
+    expect(mgr.hasFeature('exportReports')).toBe(false);
+  });
+});
+
+describe('SubscriptionManager - UI Updates', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+    manager = new SubscriptionManager();
+  });
+
+  it('should hide status bar for free users', () => {
+    manager.updateUI();
+    const statusBar = document.getElementById('subscriptionStatus');
+    expect(statusBar.style.display).toBe('none');
+  });
+
+  it('should show trial info when trial is active', () => {
+    manager.isTrialActive = true;
+    manager.isPremium = true;
+    manager.trialDaysRemaining = 5;
+    manager.updateUI();
+
+    const statusBar = document.getElementById('subscriptionStatus');
+    const statusDays = document.getElementById('statusDays');
+    expect(statusBar.style.display).toBe('block');
+    expect(statusDays.textContent).toContain('5');
+  });
+
+  it('should show premium info for premium members without trial', () => {
+    manager.isPremium = true;
+    manager.isTrialActive = false;
+    manager.subscriptionType = 'annual';
+    manager.updateUI();
+
+    const statusBar = document.getElementById('subscriptionStatus');
+    const statusDays = document.getElementById('statusDays');
+    expect(statusBar.style.display).toBe('block');
+    expect(statusDays.textContent).toContain('Annual Plan');
+  });
+});
+
+describe('SubscriptionManager - Paywall', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+    manager = new SubscriptionManager();
+  });
+
+  it('should show paywall modal', () => {
+    manager.showPaywall('Test feature message');
+
+    const paywallModal = document.getElementById('paywallModal');
+    const featureNameEl = document.getElementById('paywallFeatureName');
+
+    expect(paywallModal.classList.contains('active')).toBe(true);
+    expect(featureNameEl.textContent).toBe('Test feature message');
+  });
+
+  it('should hide paywall modal', () => {
+    // First show it
+    manager.showPaywall('Test');
+    // Then hide it
+    manager.hidePaywall();
+
+    const paywallModal = document.getElementById('paywallModal');
+    expect(paywallModal.classList.contains('active')).toBe(false);
+  });
+
+  it('should hide paywall after subscribing', async () => {
+    // Show paywall first
+    manager.showPaywall('Test');
+    const paywallModal = document.getElementById('paywallModal');
+    expect(paywallModal.classList.contains('active')).toBe(true);
+
+    // Subscribe (which calls hidePaywall internally)
+    await manager.subscribe('monthly');
+
+    expect(paywallModal.classList.contains('active')).toBe(false);
+  });
+});
+
+describe('SubscriptionManager - getSubscriptionInfo', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+  });
+
+  it('should return correct info object', () => {
+    const mgr = new SubscriptionManager();
+    const info = mgr.getSubscriptionInfo();
+
+    expect(info).toEqual({
+      isPremium: false,
+      isTrialActive: false,
+      subscriptionType: null,
+      trialDaysRemaining: 0,
+      trialEndDate: null,
+      mode: 'mock'
+    });
+  });
+
+  it('should reflect subscription state in info', async () => {
+    const mgr = new SubscriptionManager();
+    await mgr.subscribe('annual');
+
+    const info = mgr.getSubscriptionInfo();
+    expect(info.isPremium).toBe(true);
+    expect(info.isTrialActive).toBe(true);
+    expect(info.subscriptionType).toBe('annual');
+    expect(info.trialDaysRemaining).toBe(7);
+    expect(info.trialEndDate).toBeInstanceOf(Date);
   });
 });
