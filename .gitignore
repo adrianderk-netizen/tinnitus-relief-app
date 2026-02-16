@@ -13,6 +13,9 @@ Thumbs.db
 # Node modules (if added later)
 node_modules/
 
+# Test coverage
+coverage/
+
 # Xcode
 *.xcodeproj/project.xcworkspace/
 *.xcodeproj/xcuserdata/
