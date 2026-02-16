@@ -469,3 +469,552 @@ describe('SubscriptionManager - getSubscriptionInfo', () => {
     expect(info.trialEndDate).toBeInstanceOf(Date);
   });
 });
+
+// ============================================================
+// Production Mode Tests (RevenueCat code paths)
+// ============================================================
+
+/**
+ * Helper: create a mock Purchases global that simulates RevenueCat API
+ */
+function createMockPurchases(overrides = {}) {
+  return {
+    configure: vi.fn().mockResolvedValue(undefined),
+    getCustomerInfo: vi.fn().mockResolvedValue({
+      entitlements: { active: {} }
+    }),
+    getOfferings: vi.fn().mockResolvedValue({
+      current: {
+        monthly: { identifier: 'monthly_pkg' },
+        annual: { identifier: 'annual_pkg' }
+      }
+    }),
+    purchasePackage: vi.fn().mockResolvedValue({
+      customerInfo: { entitlements: { active: { premium: {} } } },
+      productIdentifier: 'com.test.premium'
+    }),
+    restorePurchases: vi.fn().mockResolvedValue({
+      entitlements: { active: {} }
+    }),
+    ...overrides
+  };
+}
+
+describe('SubscriptionManager - Production Mode (RevenueCat)', () => {
+  let manager;
+  let mockPurchases;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+
+    // Set up Capacitor mock to trigger production mode
+    global.Capacitor = { getPlatform: () => 'ios' };
+    mockPurchases = createMockPurchases();
+    global.Purchases = mockPurchases;
+  });
+
+  afterEach(() => {
+    delete global.Capacitor;
+    delete global.Purchases;
+  });
+
+  describe('detectMode', () => {
+    it('should detect production mode when Capacitor is available on non-web platform', () => {
+      const mgr = new SubscriptionManager();
+      expect(mgr.mode).toBe('production');
+    });
+
+    it('should detect mock mode when Capacitor platform is web', () => {
+      global.Capacitor = { getPlatform: () => 'web' };
+      const mgr = new SubscriptionManager();
+      expect(mgr.mode).toBe('mock');
+    });
+  });
+
+  describe('initRevenueCat', () => {
+    it('should configure RevenueCat with API key', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mockPurchases.configure).toHaveBeenCalledWith({
+        apiKey: mgr.revenueCatApiKey,
+        appUserID: null
+      });
+    });
+
+    it('should check subscription status after configuring', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mockPurchases.getCustomerInfo).toHaveBeenCalled();
+    });
+
+    it('should fall back to mock mode when Purchases is undefined', async () => {
+      delete global.Purchases;
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.mode).toBe('mock');
+    });
+
+    it('should fall back to mock mode on RevenueCat error', async () => {
+      global.Purchases = {
+        configure: vi.fn().mockRejectedValue(new Error('Network error'))
+      };
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.mode).toBe('mock');
+    });
+  });
+
+  describe('checkSubscriptionStatus - production', () => {
+    it('should set isPremium when entitlement is active', async () => {
+      mockPurchases.getCustomerInfo.mockResolvedValue({
+        entitlements: {
+          active: {
+            premium: {
+              periodType: 'NORMAL',
+              expirationDate: null
+            }
+          }
+        }
+      });
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isPremium).toBe(true);
+      expect(mgr.isTrialActive).toBe(false);
+    });
+
+    it('should detect trial period from entitlement', async () => {
+      const futureDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString();
+      mockPurchases.getCustomerInfo.mockResolvedValue({
+        entitlements: {
+          active: {
+            premium: {
+              periodType: 'TRIAL',
+              expirationDate: futureDate
+            }
+          }
+        }
+      });
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isPremium).toBe(true);
+      expect(mgr.isTrialActive).toBe(true);
+      expect(mgr.trialDaysRemaining).toBe(5);
+      expect(mgr.trialEndDate).toBeInstanceOf(Date);
+    });
+
+    it('should set isPremium to false when no active entitlements', async () => {
+      mockPurchases.getCustomerInfo.mockResolvedValue({
+        entitlements: { active: {} }
+      });
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      expect(mgr.isPremium).toBe(false);
+    });
+
+    it('should handle getCustomerInfo error gracefully', async () => {
+      mockPurchases.getCustomerInfo.mockRejectedValue(new Error('API error'));
+
+      const mgr = new SubscriptionManager();
+      await expect(mgr.init()).resolves.not.toThrow();
+    });
+
+    it('should skip production check when in mock mode', async () => {
+      const mgr = new SubscriptionManager();
+      mgr.mode = 'mock';
+      await mgr.checkSubscriptionStatus();
+
+      // Should not call getCustomerInfo since mode is mock
+      expect(mockPurchases.getCustomerInfo).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('subscribe - production', () => {
+    it('should purchase monthly package via RevenueCat', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      mockPurchases.getCustomerInfo.mockClear();
+
+      const result = await mgr.subscribe('monthly');
+
+      expect(mockPurchases.getOfferings).toHaveBeenCalled();
+      expect(mockPurchases.purchasePackage).toHaveBeenCalledWith({
+        aPackage: { identifier: 'monthly_pkg' }
+      });
+      expect(result).toBe(true);
+    });
+
+    it('should purchase annual package via RevenueCat', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      await mgr.subscribe('annual');
+
+      expect(mockPurchases.purchasePackage).toHaveBeenCalledWith({
+        aPackage: { identifier: 'annual_pkg' }
+      });
+    });
+
+    it('should fire onSubscriptionChange callback after purchase', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      const callback = vi.fn();
+      mgr.onSubscriptionChange = callback;
+
+      await mgr.subscribe('monthly');
+
+      expect(callback).toHaveBeenCalled();
+    });
+
+    it('should show success alert after purchase', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      await mgr.subscribe('monthly');
+
+      expect(global.alert).toHaveBeenCalledWith(
+        expect.stringContaining('Welcome to Premium')
+      );
+    });
+
+    it('should hide paywall after successful purchase', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      mgr.showPaywall('test');
+
+      await mgr.subscribe('monthly');
+
+      const paywallModal = document.getElementById('paywallModal');
+      expect(paywallModal.classList.contains('active')).toBe(false);
+    });
+
+    it('should handle user cancellation gracefully', async () => {
+      mockPurchases.purchasePackage.mockRejectedValue({ userCancelled: true });
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      const result = await mgr.subscribe('monthly');
+
+      expect(result).toBe(false);
+    });
+
+    it('should handle purchase error and show alert', async () => {
+      mockPurchases.purchasePackage.mockRejectedValue(new Error('Payment failed'));
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      const result = await mgr.subscribe('monthly');
+
+      expect(result).toBe(false);
+      expect(global.alert).toHaveBeenCalledWith('Purchase failed. Please try again.');
+    });
+
+    it('should handle null offerings', async () => {
+      mockPurchases.getOfferings.mockResolvedValue({ current: null });
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      const result = await mgr.subscribe('monthly');
+
+      expect(result).toBe(false);
+    });
+
+    it('should handle missing package for plan', async () => {
+      mockPurchases.getOfferings.mockResolvedValue({
+        current: { monthly: null, annual: null }
+      });
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      const result = await mgr.subscribe('monthly');
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('restorePurchases - production', () => {
+    it('should call Purchases.restorePurchases', async () => {
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+
+      await mgr.restorePurchases();
+
+      expect(mockPurchases.restorePurchases).toHaveBeenCalled();
+    });
+
+    it('should show success alert when purchases restored and premium', async () => {
+      mockPurchases.restorePurchases.mockResolvedValue({});
+      // After restore, checkSubscriptionStatus will be called
+      mockPurchases.getCustomerInfo.mockResolvedValue({
+        entitlements: {
+          active: {
+            premium: { periodType: 'NORMAL', expirationDate: null }
+          }
+        }
+      });
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      await mgr.restorePurchases();
+
+      expect(global.alert).toHaveBeenCalledWith(
+        expect.stringContaining('restored successfully')
+      );
+    });
+
+    it('should show no subscriptions alert when nothing to restore', async () => {
+      mockPurchases.restorePurchases.mockResolvedValue({});
+      mockPurchases.getCustomerInfo.mockResolvedValue({
+        entitlements: { active: {} }
+      });
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      await mgr.restorePurchases();
+
+      expect(global.alert).toHaveBeenCalledWith('No active subscriptions found.');
+    });
+
+    it('should handle restore error gracefully', async () => {
+      mockPurchases.restorePurchases.mockRejectedValue(new Error('Network error'));
+
+      const mgr = new SubscriptionManager();
+      await mgr.init();
+      await mgr.restorePurchases();
+
+      expect(global.alert).toHaveBeenCalledWith(
+        'Failed to restore purchases. Please try again.'
+      );
+    });
+  });
+
+  describe('cancelSubscription - production', () => {
+    it('should show App Store instructions in production mode', () => {
+      const mgr = new SubscriptionManager();
+      mgr.cancelSubscription();
+
+      expect(global.alert).toHaveBeenCalledWith(
+        expect.stringContaining('iOS Settings')
+      );
+    });
+  });
+});
+
+describe('SubscriptionManager - Premium Badges', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+
+    // Add premium badge elements
+    const badge1 = document.createElement('span');
+    badge1.className = 'premium-badge-tab';
+    document.body.appendChild(badge1);
+    const badge2 = document.createElement('span');
+    badge2.className = 'premium-badge-tab';
+    document.body.appendChild(badge2);
+
+    manager = new SubscriptionManager();
+  });
+
+  it('should show premium badges for free users', () => {
+    manager.updatePremiumBadges();
+    const badges = document.querySelectorAll('.premium-badge-tab');
+    badges.forEach(badge => {
+      expect(badge.style.display).toBe('inline-block');
+    });
+  });
+
+  it('should hide premium badges for premium users', () => {
+    manager.isPremium = true;
+    manager.updatePremiumBadges();
+    const badges = document.querySelectorAll('.premium-badge-tab');
+    badges.forEach(badge => {
+      expect(badge.style.display).toBe('none');
+    });
+  });
+
+  it('should hide premium badges during trial', () => {
+    manager.isTrialActive = true;
+    manager.updatePremiumBadges();
+    const badges = document.querySelectorAll('.premium-badge-tab');
+    badges.forEach(badge => {
+      expect(badge.style.display).toBe('none');
+    });
+  });
+});
+
+describe('SubscriptionManager - Feature Messages', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    manager = new SubscriptionManager();
+  });
+
+  it('should return correct message for All Noise Types', () => {
+    expect(manager.getFeatureMessage('All Noise Types')).toContain('noise');
+  });
+
+  it('should return correct message for Music Notching', () => {
+    expect(manager.getFeatureMessage('Music Notching')).toContain('music');
+  });
+
+  it('should return correct message for Advanced Controls', () => {
+    expect(manager.getFeatureMessage('Advanced Controls')).toContain('frequency');
+  });
+
+  it('should return correct message for Unlimited Sessions', () => {
+    expect(manager.getFeatureMessage('Unlimited Sessions')).toContain('session');
+  });
+
+  it('should return correct message for Full History', () => {
+    expect(manager.getFeatureMessage('Full History')).toContain('history');
+  });
+
+  it('should return correct message for Multiple Profiles', () => {
+    expect(manager.getFeatureMessage('Multiple Profiles')).toContain('profile');
+  });
+
+  it('should return correct message for Export Reports', () => {
+    expect(manager.getFeatureMessage('Export Reports')).toContain('report');
+  });
+
+  it('should return default message for unknown features', () => {
+    expect(manager.getFeatureMessage('Unknown Feature')).toContain('premium');
+  });
+
+  it('should use custom message when provided to lockFeature', () => {
+    manager.lockFeature('anything', 'Custom lock message');
+    const featureNameEl = document.getElementById('paywallFeatureName');
+    expect(featureNameEl.textContent).toBe('Custom lock message');
+  });
+
+  it('should use getFeatureMessage when no custom message', () => {
+    manager.lockFeature('All Noise Types');
+    const featureNameEl = document.getElementById('paywallFeatureName');
+    expect(featureNameEl.textContent).toContain('noise');
+  });
+});
+
+describe('SubscriptionManager - showPaywall edge cases', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    manager = new SubscriptionManager();
+  });
+
+  it('should show paywall without changing feature name when message is null', () => {
+    const featureNameEl = document.getElementById('paywallFeatureName');
+    featureNameEl.textContent = 'original text';
+    manager.showPaywall(null);
+
+    const paywallModal = document.getElementById('paywallModal');
+    expect(paywallModal.classList.contains('active')).toBe(true);
+    expect(featureNameEl.textContent).toBe('original text');
+  });
+
+  it('should show paywall without changing feature name when no argument', () => {
+    const featureNameEl = document.getElementById('paywallFeatureName');
+    featureNameEl.textContent = 'original';
+    manager.showPaywall();
+
+    const paywallModal = document.getElementById('paywallModal');
+    expect(paywallModal.classList.contains('active')).toBe(true);
+    expect(featureNameEl.textContent).toBe('original');
+  });
+});
+
+describe('SubscriptionManager - UI: monthly plan text', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    manager = new SubscriptionManager();
+  });
+
+  it('should show Monthly Plan text for monthly subscription', () => {
+    manager.isPremium = true;
+    manager.isTrialActive = false;
+    manager.subscriptionType = 'monthly';
+    manager.updateUI();
+
+    const statusDays = document.getElementById('statusDays');
+    expect(statusDays.textContent).toContain('Monthly Plan');
+  });
+
+  it('should show singular day when 1 trial day remaining', () => {
+    manager.isTrialActive = true;
+    manager.isPremium = true;
+    manager.trialDaysRemaining = 1;
+    manager.updateUI();
+
+    const statusDays = document.getElementById('statusDays');
+    expect(statusDays.textContent).toBe('1 day remaining');
+  });
+
+  it('should show plural days when multiple trial days remaining', () => {
+    manager.isTrialActive = true;
+    manager.isPremium = true;
+    manager.trialDaysRemaining = 3;
+    manager.updateUI();
+
+    const statusDays = document.getElementById('statusDays');
+    expect(statusDays.textContent).toBe('3 days remaining');
+  });
+});
+
+describe('SubscriptionManager - onSubscriptionChange callback', () => {
+  let manager;
+
+  beforeEach(() => {
+    localStorage.clear();
+    setupDomElements();
+    global.alert = vi.fn();
+    global.confirm = vi.fn(() => true);
+    manager = new SubscriptionManager();
+  });
+
+  it('should fire onSubscriptionChange after mock subscribe', async () => {
+    const callback = vi.fn();
+    manager.onSubscriptionChange = callback;
+
+    await manager.subscribe('monthly');
+
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not throw when onSubscriptionChange is null', async () => {
+    manager.onSubscriptionChange = null;
+    await expect(manager.subscribe('monthly')).resolves.toBe(true);
+  });
+
+  it('should show mock restore message in mock mode', async () => {
+    await manager.restorePurchases();
+    expect(global.alert).toHaveBeenCalledWith(
+      expect.stringContaining('MOCK mode')
+    );
+  });
+});

@@ -693,4 +693,167 @@ describe('ToneMatcherUI', () => {
       expect(mockApp.autoSaveState).toHaveBeenCalled();
     });
   });
+
+  // ── moveFrequencySweep ─────────────────────────────────
+
+  describe('moveFrequencySweep', () => {
+    it('should move sweep panel to auto-tuning container when both exist', () => {
+      // Create sweep panel and container
+      const sweepPanel = document.createElement('div');
+      sweepPanel.className = 'sweep-panel';
+      sweepPanel.textContent = 'Sweep Controls';
+      document.body.appendChild(sweepPanel);
+
+      const autoContainer = document.createElement('div');
+      autoContainer.id = 'frequencySweepContainer';
+      document.body.appendChild(autoContainer);
+
+      ui.moveFrequencySweep();
+
+      expect(autoContainer.contains(sweepPanel)).toBe(true);
+    });
+
+    it('should not throw when sweep panel is missing', () => {
+      // No sweep panel or container in DOM (already absent from createDOM)
+      expect(() => ui.moveFrequencySweep()).not.toThrow();
+    });
+
+    it('should not throw when container is missing', () => {
+      const sweepPanel = document.createElement('div');
+      sweepPanel.className = 'sweep-panel';
+      document.body.appendChild(sweepPanel);
+
+      expect(() => ui.moveFrequencySweep()).not.toThrow();
+    });
+  });
+
+  // ── createUnifiedVisualizer ────────────────────────────
+
+  describe('createUnifiedVisualizer', () => {
+    it('should create a WaveformVisualizer when window.WaveformVisualizer is available', () => {
+      // Mock WaveformVisualizer
+      const mockViz = {
+        setParams: vi.fn(),
+        start: vi.fn()
+      };
+      window.WaveformVisualizer = vi.fn(() => mockViz);
+
+      ui.createUnifiedVisualizer();
+
+      expect(window.WaveformVisualizer).toHaveBeenCalledWith('unifiedToneWave');
+      expect(mockViz.setParams).toHaveBeenCalledWith(4000, 'sine', 1, false);
+      expect(mockViz.start).toHaveBeenCalled();
+      expect(mockApp.visualizers.unified).toBe(mockViz);
+
+      delete window.WaveformVisualizer;
+    });
+
+    it('should not create visualizer when WaveformVisualizer is not available', () => {
+      delete window.WaveformVisualizer;
+      expect(() => ui.createUnifiedVisualizer()).not.toThrow();
+      expect(mockApp.visualizers.unified).toBeUndefined();
+    });
+  });
+
+  // ── applyAudioSettings ─────────────────────────────────
+
+  describe('applyAudioSettings', () => {
+    it('should stop and restart tone when playing', () => {
+      vi.useFakeTimers();
+      ui.startTone();
+      mockApp.startTone.mockClear();
+      mockApp.stopTone.mockClear();
+
+      ui.applyAudioSettings();
+
+      // Should stop immediately
+      expect(mockApp.stopTone).toHaveBeenCalled();
+
+      // Should restart after 50ms
+      vi.advanceTimersByTime(50);
+      expect(mockApp.startTone).toHaveBeenCalled();
+
+      vi.useRealTimers();
+    });
+
+    it('should do nothing when not playing', () => {
+      ui.applyAudioSettings();
+      expect(mockApp.stopTone).not.toHaveBeenCalled();
+      expect(mockApp.startTone).not.toHaveBeenCalled();
+    });
+  });
+
+  // ── Visualizer updates via updateSetting ──────────────
+
+  describe('Visualizer updates', () => {
+    it('should update unified visualizer on frequency change', () => {
+      const mockViz = { setParams: vi.fn(), start: vi.fn() };
+      mockApp.visualizers.unified = mockViz;
+
+      ui.updateSetting('frequency', 6000);
+
+      expect(mockViz.setParams).toHaveBeenCalledWith(6000, 'sine', 1, false);
+    });
+
+    it('should update unified visualizer on waveform change', () => {
+      const mockViz = { setParams: vi.fn(), start: vi.fn() };
+      mockApp.visualizers.unified = mockViz;
+
+      ui.updateSetting('waveform', 'square');
+
+      expect(mockViz.setParams).toHaveBeenCalledWith(4000, 'square', 1, false);
+    });
+
+    it('should not update visualizer on volume change', () => {
+      const mockViz = { setParams: vi.fn(), start: vi.fn() };
+      mockApp.visualizers.unified = mockViz;
+
+      ui.updateSetting('volume', 0.8);
+
+      expect(mockViz.setParams).not.toHaveBeenCalled();
+    });
+
+    it('should update visualizer in loadSettingsToUI', () => {
+      const mockViz = { setParams: vi.fn(), start: vi.fn() };
+      mockApp.visualizers.unified = mockViz;
+
+      ui.rightSettings.frequency = 8000;
+      ui.rightSettings.waveform = 'triangle';
+      ui.rightSettings.phaseInverted = true;
+      ui.selectEar('right');
+
+      expect(mockViz.setParams).toHaveBeenCalledWith(8000, 'triangle', 1, true);
+    });
+  });
+
+  // ── Per-ear enable with audio playing ──────────────────
+
+  describe('Per-Ear Enable while playing', () => {
+    it('should call applyAudioSettings when left ear toggled while playing', () => {
+      vi.useFakeTimers();
+      ui.startTone();
+      mockApp.stopTone.mockClear();
+
+      const cb = document.getElementById('leftToneEnabled');
+      cb.checked = false;
+      cb.dispatchEvent(new Event('change'));
+
+      // applyAudioSettings calls stopTone
+      expect(mockApp.stopTone).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
+    it('should call applyAudioSettings when right ear toggled while playing', () => {
+      vi.useFakeTimers();
+      ui.startTone();
+      mockApp.stopTone.mockClear();
+
+      const cb = document.getElementById('rightToneEnabled');
+      cb.checked = false;
+      cb.dispatchEvent(new Event('change'));
+
+      expect(mockApp.stopTone).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+  });
 });
