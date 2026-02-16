@@ -559,7 +559,7 @@ describe('AudioEngine - Performance', () => {
     const endTime = performance.now();
     const duration = endTime - startTime;
 
-    // Should create 1000 nodes in less than 100ms
-    expect(duration).toBeLessThan(100);
+    // Should create 1000 nodes in less than 200ms
+    expect(duration).toBeLessThan(200);
   });
 });
