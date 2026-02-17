@@ -8,6 +8,25 @@ struct FrequencyHeroView: View {
     @Environment(AudioEngineManager.self) private var audioEngine
     @State private var glowIntensity: CGFloat = 0.3
 
+    @ViewBuilder
+    private var earFrequencyLabels: some View {
+        let freq = "\(Int(audioEngine.frequency)) Hz"
+        switch audioEngine.earSelection {
+        case .both:
+            Text("L: \(freq)  |  R: \(freq)")
+                .font(.system(.caption, design: .monospaced))
+                .foregroundStyle(Color.textSecondary)
+        case .left:
+            Text("Left: \(freq)")
+                .font(.system(.caption, design: .monospaced))
+                .foregroundStyle(Color.textSecondary)
+        case .right:
+            Text("Right: \(freq)")
+                .font(.system(.caption, design: .monospaced))
+                .foregroundStyle(Color.textSecondary)
+        }
+    }
+
     private var formattedFrequency: String {
         let freq = Int(audioEngine.frequency)
         let formatter = NumberFormatter()
@@ -28,15 +47,21 @@ struct FrequencyHeroView: View {
                         : .clear,
                     radius: 20
                 )
-                .animation(
-                    audioEngine.isTonePlaying
-                        ? .easeInOut(duration: 1.5).repeatForever(autoreverses: true)
-                        : .default,
-                    value: audioEngine.isTonePlaying
-                )
+                .animation(nil, value: audioEngine.frequency)
                 .onChange(of: audioEngine.isTonePlaying) { _, playing in
-                    glowIntensity = playing ? 0.8 : 0.3
+                    if playing {
+                        withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                            glowIntensity = 0.8
+                        }
+                    } else {
+                        withAnimation(.default) {
+                            glowIntensity = 0.3
+                        }
+                    }
                 }
+
+            // MARK: - Ear Frequency Labels
+            earFrequencyLabels
 
             // MARK: - Status Badge
             HStack(spacing: 6) {

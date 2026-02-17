@@ -30,6 +30,11 @@ struct ManualTuningSection: View {
                     Text("Right").tag(EarSelection.right)
                 }
                 .pickerStyle(.segmented)
+
+                Text("\(Int(audioEngine.frequency)) Hz")
+                    .font(.system(.title3, design: .monospaced))
+                    .foregroundStyle(Color.accentCyan)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
 
             // MARK: - Frequency Slider
