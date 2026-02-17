@@ -1,14 +1,16 @@
 import SwiftUI
+import SwiftData
 
 /// 2x2 grid of session statistics showing today, this week, streak, and all-time totals.
 struct SessionStatsGrid: View {
 
-    // In production these would come from SessionRepository.
-    // Placeholder values shown for layout purposes.
-    @State private var todayMinutes: Int = 30
-    @State private var weekMinutes: Int = 145
-    @State private var streakDays: Int = 7
-    @State private var allTimeHours: Int = 42
+    let repository: SessionRepository
+    var refreshTrigger: Int = 0
+
+    @State private var todayMinutes: Int = 0
+    @State private var weekMinutes: Int = 0
+    @State private var streakDays: Int = 0
+    @State private var allTimeHours: Int = 0
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -21,6 +23,20 @@ struct SessionStatsGrid: View {
             StatCard(value: "\(weekMinutes)m", label: "This Week")
             StatCard(value: "\(streakDays)", label: "Day Streak")
             StatCard(value: "\(allTimeHours)h", label: "All Time")
+        }
+        .onAppear { loadStats() }
+        .onChange(of: refreshTrigger) { _, _ in loadStats() }
+    }
+
+    private func loadStats() {
+        do {
+            todayMinutes = try repository.getTotalTimeToday() / 60
+            weekMinutes = try repository.getTotalTimeThisWeek() / 60
+            streakDays = try repository.getStreak()
+            let totalSeconds = try repository.getTotalTimeAllTime()
+            allTimeHours = totalSeconds / 3600
+        } catch {
+            // Keep current values on error — non-critical UI
         }
     }
 }
@@ -50,8 +66,14 @@ private struct StatCard: View {
 }
 
 #Preview {
-    SessionStatsGrid()
-        .padding()
-        .background(Color.bgPrimary)
-        .preferredColorScheme(.dark)
+    SessionStatsGrid(
+        repository: SessionRepository(
+            modelContext: try! ModelContainer(
+                for: TinnitusSession.self
+            ).mainContext
+        )
+    )
+    .padding()
+    .background(Color.bgPrimary)
+    .preferredColorScheme(.dark)
 }
