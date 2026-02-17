@@ -39,7 +39,7 @@ final class SubscriptionManager {
     // MARK: - Observable State
 
     #if DEBUG
-    var isPremium: Bool = false
+    var isPremium: Bool = true
     #else
     private(set) var isPremium: Bool = false
     #endif

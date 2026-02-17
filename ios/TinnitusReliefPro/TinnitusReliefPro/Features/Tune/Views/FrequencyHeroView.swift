@@ -17,10 +17,10 @@ struct FrequencyHeroView: View {
     }
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 8) {
             // MARK: - Frequency Number
             Text("\(formattedFrequency) Hz")
-                .font(.system(size: 48, weight: .bold, design: .monospaced))
+                .font(.system(size: 36, weight: .bold, design: .monospaced))
                 .foregroundStyle(Color.accentCyan)
                 .shadow(
                     color: audioEngine.isTonePlaying
@@ -37,17 +37,6 @@ struct FrequencyHeroView: View {
                 .onChange(of: audioEngine.isTonePlaying) { _, playing in
                     glowIntensity = playing ? 0.8 : 0.3
                 }
-
-            // MARK: - Matched Frequencies
-            HStack(spacing: 4) {
-                Text("Left: \(Int(audioEngine.frequency)) Hz")
-                    .foregroundStyle(Color.textSecondary)
-                Text("|")
-                    .foregroundStyle(Color.textMuted)
-                Text("Right: \(Int(audioEngine.frequency)) Hz")
-                    .foregroundStyle(Color.textSecondary)
-            }
-            .font(.system(.caption, design: .monospaced))
 
             // MARK: - Status Badge
             HStack(spacing: 6) {
@@ -67,7 +56,7 @@ struct FrequencyHeroView: View {
                     .fill(Color.bgCard)
             )
         }
-        .padding(.vertical, 24)
+        .padding(.vertical, 14)
         .frame(maxWidth: .infinity)
         .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal)

@@ -46,7 +46,17 @@ final class AudioEngineManager {
     private(set) var isTonePlaying: Bool = false
 
     // Noise
-    var noiseType: NoiseType = .white
+    var noiseType: NoiseType = .white {
+        didSet {
+            guard isNoisePlaying else { return }
+            let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
+            let buffer = NoiseGenerator.generateBuffer(type: noiseType, duration: 2.0, sampleRate: sampleRate)
+            noiseBuffer = buffer
+            noisePlayer.stop()
+            noisePlayer.scheduleBuffer(buffer, at: nil, options: .loops)
+            noisePlayer.play()
+        }
+    }
     var noiseVolume: Float = 0.5 { didSet { noiseGain.outputVolume = noiseVolume } }
     var notchFrequency: Float = 1000     { didSet { applyNotchParameters() } }
     var notchWidth: NotchWidth = .octave(1.0) { didSet { applyNotchParameters() } }

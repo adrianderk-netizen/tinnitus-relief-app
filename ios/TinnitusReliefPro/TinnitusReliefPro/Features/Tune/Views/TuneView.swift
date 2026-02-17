@@ -30,7 +30,11 @@ struct TuneView: View {
                         .disabled(audioEngine.isTonePlaying)
 
                         Button {
-                            audioEngine.stopTone()
+                            if audioEngine.isSweeping {
+                                audioEngine.stopSweep()
+                            } else {
+                                audioEngine.stopTone()
+                            }
                         } label: {
                             Label("Stop", systemImage: "stop.fill")
                                 .font(.headline)
