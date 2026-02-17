@@ -10,6 +10,7 @@ struct AutoTuningSection: View {
     @State private var rangeStart: Double = 2000
     @State private var rangeEnd: Double = 12000
     @State private var earSelection: EarSelection = .both
+    @State private var volumePercent: Double = 50
     private var isSweeping: Bool { audioEngine.isSweeping }
     private var sweepProgress: Double { audioEngine.sweepProgress }
     @State private var matchedFrequencies: [MatchedFrequency] = []
@@ -90,6 +91,34 @@ struct AutoTuningSection: View {
                     Text("Right").tag(EarSelection.right)
                 }
                 .pickerStyle(.segmented)
+            }
+
+            // MARK: - Volume Slider
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text("Volume")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.textSecondary)
+                    Spacer()
+                    Text("\(Int(volumePercent))%")
+                        .font(.system(.body, design: .monospaced))
+                        .foregroundStyle(Color.accentCyan)
+                }
+                Slider(value: $volumePercent, in: 0...100, step: 1) {
+                    Text("Volume")
+                } minimumValueLabel: {
+                    Image(systemName: "speaker")
+                        .font(.caption2)
+                        .foregroundStyle(Color.textMuted)
+                } maximumValueLabel: {
+                    Image(systemName: "speaker.wave.3")
+                        .font(.caption2)
+                        .foregroundStyle(Color.textMuted)
+                }
+                .tint(Color.accentCyan)
+                .onChange(of: volumePercent) { _, newVal in
+                    audioEngine.volume = Float(newVal / 100.0)
+                }
             }
 
             // MARK: - Sweep Controls
@@ -174,6 +203,9 @@ struct AutoTuningSection: View {
                 .padding()
                 .background(Color.bgPrimary, in: RoundedRectangle(cornerRadius: 12))
             }
+        }
+        .onChange(of: earSelection) { _, newVal in
+            audioEngine.earSelection = newVal
         }
     }
 }

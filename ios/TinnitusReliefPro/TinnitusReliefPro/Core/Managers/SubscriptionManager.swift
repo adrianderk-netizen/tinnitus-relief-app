@@ -93,7 +93,15 @@ final class SubscriptionManager {
         guard let current = offerings.current,
               let package = current.availablePackages.first(where: { $0.storeProduct.productIdentifier.contains(plan.rawValue) }) else {
             logger.warning("No package found for plan: \(plan.rawValue)")
+            #if DEBUG
+            logger.info("DEBUG: Simulating successful trial activation for plan: \(plan.rawValue)")
+            isPremium = true
+            isTrialActive = true
+            trialDaysRemaining = 7
+            return
+            #else
             throw SubscriptionError.noOfferingsAvailable
+            #endif
         }
 
         let result = try await Purchases.shared.purchase(package: package)
