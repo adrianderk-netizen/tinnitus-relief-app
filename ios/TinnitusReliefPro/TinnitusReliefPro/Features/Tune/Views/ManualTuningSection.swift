@@ -65,13 +65,20 @@ struct ManualTuningSection: View {
                 )
                 .tint(Color.accentCyan)
                 .onChange(of: sliderFrequency) { _, newVal in
+                    guard !audioEngine.isSweeping else { return }
                     audioEngine.frequency = Float(newVal)
                     frequencyText = "\(Int(newVal))"
                 }
                 .onChange(of: audioEngine.frequency) { _, newVal in
                     frequencyText = "\(Int(newVal))"
-                    if !isEditingFrequency {
+                    if !isEditingFrequency && !audioEngine.isSweeping {
                         sliderFrequency = Double(newVal)
+                    }
+                }
+                .onChange(of: audioEngine.isSweeping) { _, sweeping in
+                    if !sweeping {
+                        sliderFrequency = Double(audioEngine.frequency)
+                        frequencyText = "\(Int(audioEngine.frequency))"
                     }
                 }
                 .onAppear {
