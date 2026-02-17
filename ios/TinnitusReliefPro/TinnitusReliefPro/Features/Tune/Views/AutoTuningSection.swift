@@ -10,8 +10,8 @@ struct AutoTuningSection: View {
     @State private var rangeStart: Double = 2000
     @State private var rangeEnd: Double = 12000
     @State private var earSelection: EarSelection = .both
-    @State private var isSweeping = false
-    @State private var sweepProgress: Double = 0.0
+    private var isSweeping: Bool { audioEngine.isSweeping }
+    private var sweepProgress: Double { audioEngine.sweepProgress }
     @State private var matchedFrequencies: [MatchedFrequency] = []
 
     struct MatchedFrequency: Identifiable {
@@ -94,11 +94,15 @@ struct AutoTuningSection: View {
 
             // MARK: - Sweep Controls
             Button {
-                isSweeping.toggle()
                 if isSweeping {
-                    audioEngine.startTone()
+                    audioEngine.stopSweep()
                 } else {
-                    audioEngine.stopTone()
+                    audioEngine.earSelection = earSelection
+                    audioEngine.startSweep(
+                        startFreq: Float(rangeStart),
+                        endFreq: Float(rangeEnd),
+                        speedHzPerSec: Float(sweepSpeed)
+                    )
                 }
             } label: {
                 Label(

@@ -91,6 +91,17 @@ struct SettingsView: View {
                     }
                 }
 
+                #if DEBUG
+                // MARK: - Debug
+                Section("Debug") {
+                    Toggle("Premium Override", isOn: Binding(
+                        get: { subscriptionManager.isPremium },
+                        set: { _ in subscriptionManager.debugTogglePremium() }
+                    ))
+                    .tint(Color.accentAmber)
+                }
+                #endif
+
                 // MARK: - About
                 Section("About") {
                     HStack {

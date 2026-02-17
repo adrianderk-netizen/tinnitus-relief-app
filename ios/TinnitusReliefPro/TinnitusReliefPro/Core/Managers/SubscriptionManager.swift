@@ -11,6 +11,17 @@ enum SubscriptionPlan: String, CaseIterable {
 }
 
 /// Features gated behind the premium subscription.
+enum SubscriptionError: LocalizedError {
+    case noOfferingsAvailable
+
+    var errorDescription: String? {
+        switch self {
+        case .noOfferingsAvailable:
+            return "No subscription offerings are currently available. Please try again later."
+        }
+    }
+}
+
 enum PremiumFeature: String, CaseIterable {
     case notchedNoise
     case notchedMusic
@@ -27,7 +38,11 @@ final class SubscriptionManager {
 
     // MARK: - Observable State
 
+    #if DEBUG
+    var isPremium: Bool = false
+    #else
     private(set) var isPremium: Bool = false
+    #endif
     private(set) var isTrialActive: Bool = false
     private(set) var trialDaysRemaining: Int = 0
 
@@ -44,6 +59,14 @@ final class SubscriptionManager {
         Purchases.configure(withAPIKey: Self.apiKey)
         Purchases.shared.delegate = RevenueCatDelegate.shared
         logger.info("RevenueCat configured")
+
+        NotificationCenter.default.addObserver(forName: .subscriptionStatusDidChange,
+                                               object: nil, queue: .main) { [weak self] notification in
+            guard let self, let customerInfo = notification.object as? CustomerInfo else { return }
+            Task { @MainActor in
+                self.updateState(from: customerInfo)
+            }
+        }
 
         Task {
             await checkSubscriptionStatus()
@@ -70,7 +93,7 @@ final class SubscriptionManager {
         guard let current = offerings.current,
               let package = current.availablePackages.first(where: { $0.storeProduct.productIdentifier.contains(plan.rawValue) }) else {
             logger.warning("No package found for plan: \(plan.rawValue)")
-            return
+            throw SubscriptionError.noOfferingsAvailable
         }
 
         let result = try await Purchases.shared.purchase(package: package)
@@ -92,6 +115,14 @@ final class SubscriptionManager {
     func canAccess(feature: PremiumFeature) -> Bool {
         return isPremium
     }
+
+    #if DEBUG
+    /// Toggles premium status for development testing.
+    func debugTogglePremium() {
+        isPremium.toggle()
+        logger.info("Debug premium toggled: \(self.isPremium)")
+    }
+    #endif
 
     // MARK: - Private Helpers
 

@@ -14,6 +14,7 @@ struct TinnitusReliefProApp: App {
     @State private var sessionManager = SessionManager()
     @State private var subscriptionManager = SubscriptionManager()
     @State private var appSettings = AppSettings()
+    @State private var showOnboarding = false
 
     // MARK: - Init
 
@@ -39,11 +40,11 @@ struct TinnitusReliefProApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .fullScreenCover(isPresented: Binding(
-                    get: { !appSettings.hasCompletedOnboarding },
-                    set: { if !$0 { appSettings.hasCompletedOnboarding = true } }
-                )) {
-                    OnboardingView()
+                .fullScreenCover(isPresented: $showOnboarding) {
+                    OnboardingView(onComplete: {
+                        appSettings.hasCompletedOnboarding = true
+                        showOnboarding = false
+                    })
                 }
             .environment(audioEngine)
             .environment(sessionManager)
@@ -52,6 +53,7 @@ struct TinnitusReliefProApp: App {
             .modelContainer(modelContainer)
             .onAppear {
                 subscriptionManager.configure()
+                showOnboarding = !appSettings.hasCompletedOnboarding
             }
         }
     }

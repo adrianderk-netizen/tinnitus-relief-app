@@ -62,6 +62,11 @@ final class AudioEngineManager {
         didSet { engine.mainMixerNode.outputVolume = masterVolume }
     }
 
+    // Sweep
+    private(set) var isSweeping: Bool = false
+    private(set) var sweepProgress: Double = 0.0
+    nonisolated(unsafe) private var sweepTimer: Timer?
+
     // Analysis
     var frequencyData: [Float] = []
 
@@ -135,6 +140,7 @@ final class AudioEngineManager {
     }
 
     deinit {
+        sweepTimer?.invalidate()
         analysisTimer?.invalidate()
     }
 
@@ -224,6 +230,46 @@ final class AudioEngineManager {
         isTonePlaying = false
         stopAnalysisIfIdle()
         Self.logger.info("Tone stopped")
+    }
+
+    // MARK: - Sweep control
+
+    /// Starts a frequency sweep from `startFreq` to `endFreq` at `speedHzPerSec`.
+    func startSweep(startFreq: Float, endFreq: Float, speedHzPerSec: Float) {
+        frequency = startFreq
+        sweepProgress = 0.0
+        startTone()
+
+        let tickInterval: TimeInterval = 1.0 / 30.0
+        let totalRange = endFreq - startFreq
+        isSweeping = true
+
+        sweepTimer = Timer.scheduledTimer(withTimeInterval: tickInterval, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                guard let self, self.isSweeping else {
+                    self?.sweepTimer?.invalidate()
+                    self?.sweepTimer = nil
+                    return
+                }
+                let increment = speedHzPerSec * Float(tickInterval)
+                self.frequency += increment
+                self.sweepProgress = Double((self.frequency - startFreq) / totalRange)
+
+                if self.frequency >= endFreq {
+                    self.frequency = endFreq
+                    self.sweepProgress = 1.0
+                    self.stopSweep()
+                }
+            }
+        }
+    }
+
+    /// Stops the current frequency sweep and tone playback.
+    func stopSweep() {
+        sweepTimer?.invalidate()
+        sweepTimer = nil
+        isSweeping = false
+        stopTone()
     }
 
     private func applyToneParameters() {

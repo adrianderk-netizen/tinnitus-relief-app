@@ -17,6 +17,7 @@
 		2E62F88D2D85016A6FC65F4A /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = E37ACB95E3AA58A2A9B03647 /* RevenueCat */; };
 		3364B8D5C6986E4DBF9A442B /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339CD0360797DAE4F8B48BFF /* JournalRepository.swift */; };
 		3701E049579877B96C480638 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */; };
+		39E49143113AFDAA5846FA96 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647190E3A7548BE15C53F8 /* SettingsView.swift */; };
 		3B33F3F5F82B4BA246E0028F /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201F9354399A9AD22E691C21 /* JournalEntry.swift */; };
 		3B8417142D65966F5E70200B /* CheckInSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B6A213B983042B05B7A72F /* CheckInSheet.swift */; };
 		3E5610361AD6B715F6639803 /* NotchedMusicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C26D50BAA00BF019D49F3D8 /* NotchedMusicSection.swift */; };
@@ -115,6 +116,7 @@
 		DC084E1E20F656E25C9A56DF /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		DEFF239E886EF3A0B272BCC6 /* TuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
 		E35FC545B7F8212EB1D2D63A /* WaveformCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformCanvas.swift; sourceTree = "<group>"; };
+		EC647190E3A7548BE15C53F8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		FC96F0F9361D0F9757E9FC89 /* FrequencyPresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyPresetsView.swift; sourceTree = "<group>"; };
 		FE51C6B7329EC2C9D460605D /* NotchedNoiseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedNoiseSection.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				62A8BBB0F64B1D2637B40D70 /* Onboarding */,
 				65B73BADB05FA307D1B2CCE9 /* Paywall */,
 				2D378A798CD4D55FCC3218B5 /* Session */,
+				29EA60E9580D65D00AE3E92E /* Settings */,
 				3376A58D0F141C4DDC9DD878 /* Therapy */,
 				01FCB04405F6B670681221FF /* Tune */,
 			);
@@ -175,6 +178,14 @@
 				DD26AFB23DFF0E40547DCE79 /* Repositories */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		29EA60E9580D65D00AE3E92E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				EC647190E3A7548BE15C53F8 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		2D378A798CD4D55FCC3218B5 /* Session */ = {
@@ -592,6 +603,7 @@
 				8B38EBF4B20E28E1AABBFC44 /* SessionRepository.swift in Sources */,
 				9754A80CA6589314FCFB81D5 /* SessionStatsGrid.swift in Sources */,
 				5DF6E3F2924E79E8B5945844 /* SessionView.swift in Sources */,
+				39E49143113AFDAA5846FA96 /* SettingsView.swift in Sources */,
 				B35CFE30081D507C697FF425 /* SeverityChartView.swift in Sources */,
 				74F1D856D3F50E792A6B5455 /* SpectrumCanvas.swift in Sources */,
 				5CCA868A167CDB3831A56320 /* SubscriptionManager.swift in Sources */,

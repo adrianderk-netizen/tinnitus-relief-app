@@ -5,7 +5,8 @@ import SwiftUI
 /// at any time or navigate through slides with Back/Next buttons.
 struct OnboardingView: View {
 
-    @Environment(\.dismiss) private var dismiss
+    var onComplete: () -> Void
+
     @State private var currentPage = 0
 
     private let totalPages = 4
@@ -20,7 +21,7 @@ struct OnboardingView: View {
                     Spacer()
                     if currentPage < totalPages - 1 {
                         Button("Skip") {
-                            dismiss()
+                            onComplete()
                         }
                         .font(.subheadline)
                         .foregroundStyle(Color.textMuted)
@@ -37,7 +38,7 @@ struct OnboardingView: View {
                         .tag(1)
                     TherapySlide()
                         .tag(2)
-                    PremiumSlide(onDismiss: { dismiss() })
+                    PremiumSlide(onDismiss: { onComplete() })
                         .tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .always))
@@ -80,7 +81,7 @@ struct OnboardingView: View {
                         }
                     } else {
                         Button {
-                            dismiss()
+                            onComplete()
                         } label: {
                             Text("Get Started!")
                                 .font(.headline)
@@ -454,6 +455,6 @@ private struct PricingCard: View {
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(onComplete: {})
         .preferredColorScheme(.dark)
 }
