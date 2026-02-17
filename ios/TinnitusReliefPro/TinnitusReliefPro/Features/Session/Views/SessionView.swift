@@ -1,12 +1,17 @@
 import SwiftUI
+import SwiftData
 
 /// Session tab displaying a circular timer, duration picker, and session statistics.
 /// Users start, pause, and stop therapy sessions from here.
 struct SessionView: View {
 
     @Environment(SessionManager.self) private var sessionManager
+    @Environment(AudioEngineManager.self) private var audioEngine
+    @Environment(\.modelContext) private var modelContext
 
     @State private var selectedDuration: Int = 30 // minutes
+    @State private var statsRefreshTrigger: Int = 0
+    @State private var startFrequency: Float?
 
     private let durations = [15, 30, 60, 120]
 
@@ -15,6 +20,23 @@ struct SessionView: View {
         case 60: return "1h"
         case 120: return "2h"
         default: return "\(minutes)m"
+        }
+    }
+
+    private func saveSession(elapsedSeconds: Int, completed: Bool) {
+        guard elapsedSeconds > 0 else { return }
+        let session = TinnitusSession(
+            mode: "tone-matcher",
+            frequency: startFrequency,
+            durationSeconds: elapsedSeconds,
+            completed: completed
+        )
+        let repository = SessionRepository(modelContext: modelContext)
+        do {
+            try repository.addSession(session)
+            statsRefreshTrigger += 1
+        } catch {
+            // Session save failed — non-critical, stats will catch up next load
         }
     }
 
@@ -49,6 +71,8 @@ struct SessionView: View {
                     HStack(spacing: 16) {
                         if !sessionManager.isRunning {
                             Button {
+                                sessionManager.durationSeconds = selectedDuration * 60
+                                startFrequency = audioEngine.frequency
                                 sessionManager.start()
                             } label: {
                                 Label("Start", systemImage: "play.fill")
@@ -78,7 +102,8 @@ struct SessionView: View {
                             .tint(Color.accentAmber)
 
                             Button {
-                                sessionManager.stop()
+                                let elapsed = sessionManager.stop()
+                                saveSession(elapsedSeconds: elapsed, completed: false)
                             } label: {
                                 Label("Stop", systemImage: "stop.fill")
                                     .font(.headline)
@@ -92,8 +117,11 @@ struct SessionView: View {
                     .padding(.horizontal)
 
                     // MARK: - Stats
-                    SessionStatsGrid()
-                        .padding(.horizontal)
+                    SessionStatsGrid(
+                        repository: SessionRepository(modelContext: modelContext),
+                        refreshTrigger: statsRefreshTrigger
+                    )
+                    .padding(.horizontal)
 
                     Spacer(minLength: 40)
                 }
@@ -101,6 +129,12 @@ struct SessionView: View {
             .background(Color.bgPrimary)
             .navigationTitle("Session Timer")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                sessionManager.onComplete = {
+                    let elapsed = sessionManager.elapsedSeconds
+                    saveSession(elapsedSeconds: elapsed, completed: true)
+                }
+            }
         }
     }
 }
@@ -108,5 +142,7 @@ struct SessionView: View {
 #Preview {
     SessionView()
         .environment(SessionManager())
+        .environment(AudioEngineManager())
+        .modelContainer(try! ModelContainer(for: TinnitusSession.self))
         .preferredColorScheme(.dark)
 }
