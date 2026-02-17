@@ -107,7 +107,7 @@ private struct WelcomeSlide: View {
             VStack(spacing: 24) {
                 Spacer(minLength: 20)
 
-                Image(systemName: "headphones")
+                Image(systemName: "ear.and.waveform")
                     .font(.system(size: 64))
                     .foregroundStyle(Color.accentCyan)
                     .padding(.bottom, 8)
@@ -117,23 +117,36 @@ private struct WelcomeSlide: View {
                     .foregroundStyle(Color.textPrimary)
                     .multilineTextAlignment(.center)
 
-                Text("Sound Therapy for Tinnitus Management")
+                Text("Science-Based Sound Therapy")
                     .font(.subheadline)
                     .foregroundStyle(Color.textSecondary)
 
                 VStack(alignment: .leading, spacing: 16) {
-                    BenefitRow(icon: "waveform.path.ecg", text: "Personalized frequency matching")
-                    BenefitRow(icon: "clock.arrow.circlepath", text: "Guided daily therapy sessions")
-                    BenefitRow(icon: "chart.line.uptrend.xyaxis", text: "Track your progress over time")
+                    BenefitRow(icon: "waveform.path.ecg", text: "Match your tinnitus frequency in each ear independently")
+                    BenefitRow(icon: "waveform.badge.minus", text: "Notched sound therapy trains your brain to turn down tinnitus")
+                    BenefitRow(icon: "calendar.badge.clock", text: "Daily sessions build lasting relief through neuroplasticity")
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 8)
+
+                // What to expect
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "lightbulb.fill")
+                        .foregroundStyle(Color.accentAmber)
+                        .font(.title3)
+                    Text("Sound therapy doesn\u{2019}t silence tinnitus overnight \u{2014} it gradually reduces how loud and bothersome it feels. Most users notice improvement within 4\u{2013}8 weeks of consistent daily use.")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.textSecondary)
+                }
+                .padding()
+                .background(Color.accentAmber.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 24)
 
                 // Medical Disclaimer
                 VStack(spacing: 8) {
                     Image(systemName: "exclamationmark.triangle")
                         .foregroundStyle(Color.accentAmber)
-                    Text("This app is not a medical device and does not diagnose or treat tinnitus. Consult a healthcare professional for medical advice.")
+                    Text("This app is not a medical device. See a doctor if your tinnitus is sudden, one-sided only, pulsing with your heartbeat, or accompanied by hearing loss, dizziness, or pain.")
                         .font(.caption)
                         .foregroundStyle(Color.textMuted)
                         .multilineTextAlignment(.center)
@@ -166,21 +179,34 @@ private struct FrequencySlide: View {
                     .foregroundStyle(Color.textPrimary)
 
                 VStack(alignment: .leading, spacing: 20) {
-                    StepRow(number: 1, text: "Put on headphones for accurate calibration")
-                    StepRow(number: 2, text: "Use auto-sweep or manual slider to match your tinnitus pitch")
-                    StepRow(number: 3, text: "Tap \"That's My Tinnitus!\" when you find it")
+                    StepRow(number: 1, text: "Put on headphones in a quiet room \u{2014} accuracy depends on it")
+                    StepRow(number: 2, text: "Use auto-sweep or the manual slider to search for your tinnitus pitch")
+                    StepRow(number: 3, text: "Listen for the tone to merge with your tinnitus \u{2014} they should blend into one sound")
+                    StepRow(number: 4, text: "Tune each ear separately if your tinnitus sounds different on each side")
                 }
                 .padding(.horizontal, 24)
 
-                HStack(spacing: 8) {
-                    Image(systemName: "lightbulb.fill")
-                        .foregroundStyle(Color.accentAmber)
-                    Text("Tip: Most tinnitus frequencies fall between 4,000 - 8,000 Hz")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.textSecondary)
+                VStack(spacing: 12) {
+                    HStack(alignment: .top, spacing: 8) {
+                        Image(systemName: "lightbulb.fill")
+                            .foregroundStyle(Color.accentAmber)
+                        Text("Most tinnitus falls between 4,000\u{2013}8,000 Hz. An approximate match works well \u{2014} you don\u{2019}t need to be exact.")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.textSecondary)
+                    }
+                    .padding()
+                    .background(Color.accentAmber.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
+
+                    HStack(alignment: .top, spacing: 8) {
+                        Image(systemName: "ear")
+                            .foregroundStyle(Color.accentCyan)
+                        Text("Tinnitus often differs between ears. Use the Left/Right ear selector to match each ear independently.")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.textSecondary)
+                    }
+                    .padding()
+                    .background(Color.accentCyan.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
                 }
-                .padding()
-                .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 24)
 
                 Spacer(minLength: 60)
@@ -197,31 +223,43 @@ private struct TherapySlide: View {
             VStack(spacing: 24) {
                 Spacer(minLength: 20)
 
-                Image(systemName: "speaker.wave.3")
+                Image(systemName: "brain.head.profile")
                     .font(.system(size: 64))
                     .foregroundStyle(Color.accentCyan)
                     .padding(.bottom, 8)
 
-                Text("Daily Therapy")
+                Text("How Therapy Works")
                     .font(.title.bold())
                     .foregroundStyle(Color.textPrimary)
 
-                VStack(alignment: .leading, spacing: 20) {
-                    StepRow(number: 1, text: "Switch to the Therapy tab")
-                    StepRow(number: 2, text: "Your matched frequency is automatically applied as a notch filter")
-                    StepRow(number: 3, text: "Start a timed session with calming background noise")
+                VStack(spacing: 16) {
+                    InfoCard(
+                        icon: "waveform.badge.minus",
+                        title: "The Science",
+                        description: "Notched therapy removes your tinnitus frequency from background sound. This activates surrounding neurons that gradually quiet the overactive ones causing your tinnitus \u{2014} a process called lateral inhibition."
+                    )
+                    InfoCard(
+                        icon: "clock.arrow.circlepath",
+                        title: "Your Daily Practice",
+                        description: "Listen for 1\u{2013}2 hours daily with headphones. Sessions can be split up \u{2014} during work, commute, or relaxation. Consistency matters more than duration."
+                    )
+                    InfoCard(
+                        icon: "speaker.wave.2",
+                        title: "Volume Safety",
+                        description: "Keep volume just below your tinnitus level \u{2014} you should still faintly hear your tinnitus over the therapy sound. Never try to drown it out, as this can make it worse."
+                    )
                 }
                 .padding(.horizontal, 24)
 
-                HStack(spacing: 8) {
-                    Image(systemName: "calendar.badge.clock")
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
                         .foregroundStyle(Color.accentCyan)
-                    Text("Most users see improvement in 4-8 weeks of consistent daily use")
+                    Text("Track your progress in the Journal tab. Brief moments of quiet after sessions (residual inhibition) are a great sign the therapy is working.")
                         .font(.subheadline)
                         .foregroundStyle(Color.textSecondary)
                 }
                 .padding()
-                .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 12))
+                .background(Color.accentCyan.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 24)
 
                 Spacer(minLength: 60)
@@ -393,6 +431,31 @@ private struct StepRow: View {
                 .font(.subheadline)
                 .foregroundStyle(Color.textSecondary)
         }
+    }
+}
+
+private struct InfoCard: View {
+    let icon: String
+    let title: String
+    let description: String
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: icon)
+                .foregroundStyle(Color.accentCyan)
+                .font(.title3)
+                .frame(width: 28)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.subheadline.bold())
+                    .foregroundStyle(Color.textPrimary)
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(Color.textSecondary)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 12))
     }
 }
 
