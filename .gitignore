@@ -17,8 +17,8 @@ node_modules/
 coverage/
 
 # Xcode
-*.xcodeproj/project.xcworkspace/
-*.xcodeproj/xcuserdata/
+**/*.xcodeproj/project.xcworkspace/
+**/*.xcodeproj/xcuserdata/
 DerivedData/
 build/
 *.ipa
