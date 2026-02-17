@@ -7,7 +7,7 @@ struct ManualTuningSection: View {
     @Environment(AudioEngineManager.self) private var audioEngine
 
     @State private var earSelection: EarSelection = .both
-    @State private var frequencyText: String = "4000"
+    @State private var frequencyText: String = "440"
     @State private var sliderFrequency: Double = 440
     @State private var isEditingFrequency = false
     @State private var volumePercent: Double = 50
@@ -31,10 +31,16 @@ struct ManualTuningSection: View {
                 }
                 .pickerStyle(.segmented)
 
-                Text("\(Int(audioEngine.frequency)) Hz")
-                    .font(.system(.title3, design: .monospaced))
-                    .foregroundStyle(Color.accentCyan)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                HStack(spacing: 4) {
+                    Text("L: \(Int(audioEngine.leftFrequency)) Hz")
+                        .foregroundStyle(earSelection == .right ? Color.textMuted : Color.accentCyan)
+                    Text("|")
+                        .foregroundStyle(Color.textMuted)
+                    Text("R: \(Int(audioEngine.rightFrequency)) Hz")
+                        .foregroundStyle(earSelection == .left ? Color.textMuted : Color.accentCyan)
+                }
+                .font(.system(.title3, design: .monospaced))
+                .frame(maxWidth: .infinity, alignment: .center)
             }
 
             // MARK: - Frequency Slider
@@ -233,6 +239,9 @@ struct ManualTuningSection: View {
         }
         .onChange(of: earSelection) { _, newVal in
             audioEngine.earSelection = newVal
+            let activeFreq = Double(audioEngine.frequency)
+            sliderFrequency = activeFreq
+            frequencyText = "\(Int(activeFreq))"
         }
     }
 }
