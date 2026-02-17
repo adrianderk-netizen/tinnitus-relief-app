@@ -103,8 +103,8 @@ struct TuneView: View {
                     FrequencyPresetsView()
                         .padding(.horizontal)
 
-                    Spacer(minLength: 120)
                 }
+                .padding(.bottom, 80)
             }
             .background(Color.bgPrimary)
             .navigationTitle("Frequency Tuner")
