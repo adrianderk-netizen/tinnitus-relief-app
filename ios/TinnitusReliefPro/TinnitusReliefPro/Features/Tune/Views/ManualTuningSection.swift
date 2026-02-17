@@ -209,6 +209,9 @@ struct ManualTuningSection: View {
                 }
             }
         }
+        .onChange(of: earSelection) { _, newVal in
+            audioEngine.earSelection = newVal
+        }
     }
 }
 

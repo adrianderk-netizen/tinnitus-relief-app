@@ -89,24 +89,34 @@ final class SubscriptionManager {
 
     /// Initiates a purchase flow for the given plan.
     func subscribe(plan: SubscriptionPlan) async throws {
-        let offerings = try await Purchases.shared.offerings()
-        guard let current = offerings.current,
-              let package = current.availablePackages.first(where: { $0.storeProduct.productIdentifier.contains(plan.rawValue) }) else {
-            logger.warning("No package found for plan: \(plan.rawValue)")
-            #if DEBUG
+        #if DEBUG
+        do {
+            let offerings = try await Purchases.shared.offerings()
+            guard let current = offerings.current,
+                  let package = current.availablePackages.first(where: { $0.storeProduct.productIdentifier.contains(plan.rawValue) }) else {
+                throw SubscriptionError.noOfferingsAvailable
+            }
+            let result = try await Purchases.shared.purchase(package: package)
+            updateState(from: result.customerInfo)
+            logger.info("Purchase completed for plan: \(plan.rawValue)")
+        } catch {
             logger.info("DEBUG: Simulating successful trial activation for plan: \(plan.rawValue)")
             isPremium = true
             isTrialActive = true
             trialDaysRemaining = 7
-            return
-            #else
+        }
+        #else
+        let offerings = try await Purchases.shared.offerings()
+        guard let current = offerings.current,
+              let package = current.availablePackages.first(where: { $0.storeProduct.productIdentifier.contains(plan.rawValue) }) else {
+            logger.warning("No package found for plan: \(plan.rawValue)")
             throw SubscriptionError.noOfferingsAvailable
-            #endif
         }
 
         let result = try await Purchases.shared.purchase(package: package)
         updateState(from: result.customerInfo)
         logger.info("Purchase completed for plan: \(plan.rawValue)")
+        #endif
     }
 
     /// Restores previously purchased subscriptions (e.g., after reinstalling the app).

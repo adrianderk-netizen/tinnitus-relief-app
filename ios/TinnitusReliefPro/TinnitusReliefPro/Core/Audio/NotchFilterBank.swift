@@ -98,7 +98,7 @@ struct BiquadFilterState {
 ///
 /// Parameter updates are lock-free: the main thread writes new parameters into an atomic staging
 /// area and the audio thread picks them up on the next render cycle.
-final class NotchFilterBank {
+final class NotchFilterBank: @unchecked Sendable {
 
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
                                        category: "NotchFilterBank")

@@ -333,7 +333,7 @@ final class AudioEngineManager {
         removeNotchTap()
         let filterBank = notchFilterBank
         let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
-        noiseGain.installTap(onBus: 0, bufferSize: 512, format: format) { buffer, _ in
+        noiseGain.installTap(onBus: 0, bufferSize: 512, format: format) { @Sendable buffer, _ in
             guard let channelData = buffer.floatChannelData else { return }
             let frameCount = Int(buffer.frameLength)
             let channelCount = Int(buffer.format.channelCount)

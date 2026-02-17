@@ -93,32 +93,23 @@ struct AutoTuningSection: View {
                 .pickerStyle(.segmented)
             }
 
-            // MARK: - Volume Slider
-            VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    Text("Volume")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.textSecondary)
-                    Spacer()
-                    Text("\(Int(volumePercent))%")
-                        .font(.system(.body, design: .monospaced))
-                        .foregroundStyle(Color.accentCyan)
-                }
-                Slider(value: $volumePercent, in: 0...100, step: 1) {
-                    Text("Volume")
-                } minimumValueLabel: {
-                    Image(systemName: "speaker")
-                        .font(.caption2)
-                        .foregroundStyle(Color.textMuted)
-                } maximumValueLabel: {
-                    Image(systemName: "speaker.wave.3")
-                        .font(.caption2)
-                        .foregroundStyle(Color.textMuted)
-                }
-                .tint(Color.accentCyan)
-                .onChange(of: volumePercent) { _, newVal in
-                    audioEngine.volume = Float(newVal / 100.0)
-                }
+            // MARK: - Volume
+            HStack(spacing: 8) {
+                Image(systemName: "speaker")
+                    .font(.caption2)
+                    .foregroundStyle(Color.textMuted)
+                Slider(value: $volumePercent, in: 0...100, step: 1)
+                    .tint(Color.accentCyan)
+                    .onChange(of: volumePercent) { _, newVal in
+                        audioEngine.volume = Float(newVal / 100.0)
+                    }
+                Image(systemName: "speaker.wave.3")
+                    .font(.caption2)
+                    .foregroundStyle(Color.textMuted)
+                Text("\(Int(volumePercent))%")
+                    .font(.system(.caption, design: .monospaced))
+                    .foregroundStyle(Color.accentCyan)
+                    .frame(width: 36, alignment: .trailing)
             }
 
             // MARK: - Sweep Controls
