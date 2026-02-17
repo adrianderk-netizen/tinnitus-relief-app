@@ -8,6 +8,8 @@ struct ManualTuningSection: View {
 
     @State private var earSelection: EarSelection = .both
     @State private var frequencyText: String = "4000"
+    @State private var sliderFrequency: Double = 440
+    @State private var isEditingFrequency = false
     @State private var volumePercent: Double = 50
     @State private var advancedExpanded = false
     @State private var leftEarEnabled = true
@@ -54,19 +56,27 @@ struct ManualTuningSection: View {
                 }
 
                 Slider(
-                    value: Binding(
-                        get: { Double(audioEngine.frequency) },
-                        set: { newVal in
-                            audioEngine.frequency = Float(newVal)
-                            frequencyText = "\(Int(newVal))"
-                        }
-                    ),
+                    value: $sliderFrequency,
                     in: 100...15000,
-                    step: 1
+                    step: 1,
+                    onEditingChanged: { editing in
+                        isEditingFrequency = editing
+                    }
                 )
                 .tint(Color.accentCyan)
+                .onChange(of: sliderFrequency) { _, newVal in
+                    audioEngine.frequency = Float(newVal)
+                    frequencyText = "\(Int(newVal))"
+                }
                 .onChange(of: audioEngine.frequency) { _, newVal in
                     frequencyText = "\(Int(newVal))"
+                    if !isEditingFrequency {
+                        sliderFrequency = Double(newVal)
+                    }
+                }
+                .onAppear {
+                    sliderFrequency = Double(audioEngine.frequency)
+                    frequencyText = "\(Int(audioEngine.frequency))"
                 }
 
                 HStack {
