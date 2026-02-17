@@ -7,6 +7,7 @@ struct SettingsView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(SubscriptionManager.self) private var subscriptionManager
     @Environment(AudioEngineManager.self) private var audioEngine
+    @Environment(NotificationManager.self) private var notificationManager
 
     @State private var showPaywall = false
 
@@ -127,6 +128,37 @@ struct SettingsView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
+            .onChange(of: settings.reminderEnabled) { _, enabled in
+                if enabled {
+                    Task {
+                        let granted = await notificationManager.requestPermission()
+                        if granted {
+                            notificationManager.scheduleDailyReminder(
+                                hour: settings.reminderHour,
+                                minute: settings.reminderMinute
+                            )
+                        } else {
+                            settings.reminderEnabled = false
+                        }
+                    }
+                } else {
+                    notificationManager.cancelReminders()
+                }
+            }
+            .onChange(of: settings.reminderHour) { _, _ in
+                guard settings.reminderEnabled else { return }
+                notificationManager.scheduleDailyReminder(
+                    hour: settings.reminderHour,
+                    minute: settings.reminderMinute
+                )
+            }
+            .onChange(of: settings.reminderMinute) { _, _ in
+                guard settings.reminderEnabled else { return }
+                notificationManager.scheduleDailyReminder(
+                    hour: settings.reminderHour,
+                    minute: settings.reminderMinute
+                )
+            }
         }
     }
 
@@ -152,5 +184,6 @@ struct SettingsView: View {
         .environment(AppSettings())
         .environment(SubscriptionManager())
         .environment(AudioEngineManager())
+        .environment(NotificationManager())
         .preferredColorScheme(.dark)
 }
