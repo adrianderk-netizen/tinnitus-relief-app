@@ -103,7 +103,7 @@ struct TuneView: View {
                     FrequencyPresetsView()
                         .padding(.horizontal)
 
-                    Spacer(minLength: 40)
+                    Spacer(minLength: 120)
                 }
             }
             .background(Color.bgPrimary)

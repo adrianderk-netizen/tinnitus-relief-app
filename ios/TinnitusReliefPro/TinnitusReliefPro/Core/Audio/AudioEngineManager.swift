@@ -115,8 +115,9 @@ final class AudioEngineManager {
     private let toneGain = AVAudioMixerNode()
     private let tonePan = AVAudioMixerNode()
 
-    // Noise chain: noisePlayer -> notchProcessor -> noiseGain -> noisePan -> mainMixer
+    // Noise chain: noisePlayer -> notchEQ -> noiseGain -> noisePan -> mainMixer
     private let noisePlayer = AVAudioPlayerNode()
+    private let notchEQ = AVAudioUnitEQ(numberOfBands: 10)
     private let noiseGain = AVAudioMixerNode()
     private let noisePan = AVAudioMixerNode()
     private var noiseBuffer: AVAudioPCMBuffer?
@@ -163,6 +164,7 @@ final class AudioEngineManager {
         engine.attach(toneGain)
         engine.attach(tonePan)
         engine.attach(noisePlayer)
+        engine.attach(notchEQ)
         engine.attach(noiseGain)
         engine.attach(noisePan)
         engine.attach(musicPlayer)
@@ -177,7 +179,8 @@ final class AudioEngineManager {
         engine.connect(tonePan, to: engine.mainMixerNode, format: stereoFormat)
 
         // Noise chain
-        engine.connect(noisePlayer, to: noiseGain, format: stereoFormat)
+        engine.connect(noisePlayer, to: notchEQ, format: stereoFormat)
+        engine.connect(notchEQ, to: noiseGain, format: stereoFormat)
         engine.connect(noiseGain, to: noisePan, format: stereoFormat)
         engine.connect(noisePan, to: engine.mainMixerNode, format: stereoFormat)
 
@@ -306,7 +309,6 @@ final class AudioEngineManager {
         let type = noiseType
         let buffer = NoiseGenerator.generateBuffer(type: type, duration: 2.0, sampleRate: sampleRate)
 
-        // Install a tap on the noise player output to apply notch filtering in real-time
         noiseBuffer = buffer
         applyNotchParameters()
         applyPanning()
@@ -316,9 +318,6 @@ final class AudioEngineManager {
         noisePlayer.scheduleBuffer(buffer, at: nil, options: .loops)
         noisePlayer.play()
 
-        // Install notch filter via a processing tap
-        installNotchTap(sampleRate: sampleRate)
-
         isNoisePlaying = true
         startAnalysis()
         Self.logger.info("Noise started: type=\(type.rawValue)")
@@ -327,34 +326,48 @@ final class AudioEngineManager {
     func stopNoise() {
         guard isNoisePlaying else { return }
         noisePlayer.stop()
-        removeNotchTap()
-        notchFilterBank.reset()
         isNoisePlaying = false
         stopAnalysisIfIdle()
         Self.logger.info("Noise stopped")
     }
 
     private func applyNotchParameters() {
-        notchFilterBank.update(centerFreq: notchFrequency, width: notchWidth, depth: notchDepth)
-    }
+        let center = notchFrequency
+        let depth = notchDepth
+        let sr = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let nyquist = sr / 2.0
 
-    /// Install a tap on the noise gain node to apply the notch filter bank in real-time.
-    private func installNotchTap(sampleRate: Double) {
-        removeNotchTap()
-        let filterBank = notchFilterBank
-        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
-        noiseGain.installTap(onBus: 0, bufferSize: 512, format: format) { @Sendable buffer, _ in
-            guard let channelData = buffer.floatChannelData else { return }
-            let frameCount = Int(buffer.frameLength)
-            let channelCount = Int(buffer.format.channelCount)
-            for ch in 0..<channelCount {
-                filterBank.process(channelData[ch], frameCount: frameCount)
+        let lowerFreq: Float
+        let upperFreq: Float
+        let bandCount: Int
+
+        switch notchWidth {
+        case .hz(let hw):
+            lowerFreq = max(20, center - Float(hw))
+            upperFreq = min(center + Float(hw), nyquist - 100)
+            bandCount = min(10, max(2, hw / 25))
+        case .octave(let oct):
+            let halfOct = oct / 2.0
+            lowerFreq = max(20, center / powf(2.0, halfOct))
+            upperFreq = min(center * powf(2.0, halfOct), nyquist - 100)
+            bandCount = min(10, max(2, Int(ceil(oct * 4))))
+        }
+
+        let gainDB: Float = -96.0 * depth
+
+        for i in 0..<notchEQ.bands.count {
+            let band = notchEQ.bands[i]
+            if i < bandCount {
+                let t = bandCount > 1 ? Float(i) / Float(bandCount - 1) : 0.5
+                band.filterType = .parametric
+                band.frequency = lowerFreq + (upperFreq - lowerFreq) * t
+                band.bandwidth = max(0.05, (upperFreq - lowerFreq) / (Float(bandCount) * band.frequency) * 1.5)
+                band.gain = gainDB
+                band.bypass = false
+            } else {
+                band.bypass = true
             }
         }
-    }
-
-    private func removeNotchTap() {
-        noiseGain.removeTap(onBus: 0)
     }
 
     // MARK: - Music control
