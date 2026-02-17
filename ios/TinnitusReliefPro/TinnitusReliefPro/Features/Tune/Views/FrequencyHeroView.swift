@@ -10,21 +10,19 @@ struct FrequencyHeroView: View {
 
     @ViewBuilder
     private var earFrequencyLabels: some View {
-        let freq = "\(Int(audioEngine.frequency)) Hz"
-        switch audioEngine.earSelection {
-        case .both:
-            Text("L: \(freq)  |  R: \(freq)")
-                .font(.system(.caption, design: .monospaced))
-                .foregroundStyle(Color.textSecondary)
-        case .left:
-            Text("Left: \(freq)")
-                .font(.system(.caption, design: .monospaced))
-                .foregroundStyle(Color.textSecondary)
-        case .right:
-            Text("Right: \(freq)")
-                .font(.system(.caption, design: .monospaced))
-                .foregroundStyle(Color.textSecondary)
+        HStack(spacing: 4) {
+            Text("L: \(Int(audioEngine.leftFrequency)) Hz")
+                .foregroundStyle(
+                    audioEngine.earSelection == .right ? Color.textMuted : Color.textSecondary
+                )
+            Text("|")
+                .foregroundStyle(Color.textMuted)
+            Text("R: \(Int(audioEngine.rightFrequency)) Hz")
+                .foregroundStyle(
+                    audioEngine.earSelection == .left ? Color.textMuted : Color.textSecondary
+                )
         }
+        .font(.system(.caption, design: .monospaced))
     }
 
     private var formattedFrequency: String {

@@ -37,8 +37,31 @@ final class AudioEngineManager {
 
     // MARK: - Published state
 
-    // Tone
-    var frequency: Float = 440     { didSet { applyToneParameters() } }
+    // Tone (per-ear frequencies are the source of truth)
+    private var _suppressApply = false
+    var leftFrequency: Float = 440  { didSet { if !_suppressApply { applyToneParameters() } } }
+    var rightFrequency: Float = 440 { didSet { if !_suppressApply { applyToneParameters() } } }
+
+    // Computed facade — routes to active ear(s) based on earSelection
+    var frequency: Float {
+        get {
+            switch earSelection {
+            case .both, .left: return leftFrequency
+            case .right: return rightFrequency
+            }
+        }
+        set {
+            switch earSelection {
+            case .both:
+                _suppressApply = true
+                leftFrequency = newValue
+                _suppressApply = false
+                rightFrequency = newValue
+            case .left:  leftFrequency = newValue
+            case .right: rightFrequency = newValue
+            }
+        }
+    }
     var volume: Float = 0.5        { didSet { applyToneParameters() } }
     var waveform: Waveform = .sine { didSet { applyToneParameters() } }
     var fineTune: Float = 0        { didSet { applyToneParameters() } }
@@ -85,8 +108,9 @@ final class AudioEngineManager {
         didSet { applyPanning() }
     }
 
-    // Matched frequency storage
-    var matchedFrequency: Float?
+    // Matched frequency storage (per-ear)
+    var leftMatchedFrequency: Float?
+    var rightMatchedFrequency: Float?
 
     /// Current playback position in seconds for the loaded music file.
     var musicCurrentTime: Double {
@@ -110,10 +134,11 @@ final class AudioEngineManager {
 
     private let engine = AVAudioEngine()
 
-    // Tone chain: oscillator -> toneGain -> tonePan -> mainMixer
-    private var oscillator: OscillatorNode?
-    private let toneGain = AVAudioMixerNode()
-    private let tonePan = AVAudioMixerNode()
+    // Tone chain: per-ear oscillators -> per-ear mixers -> mainMixer
+    private var leftOscillator: OscillatorNode?
+    private var rightOscillator: OscillatorNode?
+    private let leftToneMixer = AVAudioMixerNode()
+    private let rightToneMixer = AVAudioMixerNode()
 
     // Noise chain: noisePlayer -> notchEQ -> noiseGain -> noisePan -> mainMixer
     private let noisePlayer = AVAudioPlayerNode()
@@ -161,8 +186,8 @@ final class AudioEngineManager {
         let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
 
         // Attach nodes
-        engine.attach(toneGain)
-        engine.attach(tonePan)
+        engine.attach(leftToneMixer)
+        engine.attach(rightToneMixer)
         engine.attach(noisePlayer)
         engine.attach(notchEQ)
         engine.attach(noiseGain)
@@ -174,9 +199,11 @@ final class AudioEngineManager {
         let monoFormat = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
         let stereoFormat = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
 
-        // Tone chain
-        engine.connect(toneGain, to: tonePan, format: monoFormat)
-        engine.connect(tonePan, to: engine.mainMixerNode, format: stereoFormat)
+        // Tone chain (per-ear, hard-panned)
+        engine.connect(leftToneMixer, to: engine.mainMixerNode, format: stereoFormat)
+        engine.connect(rightToneMixer, to: engine.mainMixerNode, format: stereoFormat)
+        leftToneMixer.pan = -1.0
+        rightToneMixer.pan = 1.0
 
         // Noise chain
         engine.connect(noisePlayer, to: notchEQ, format: stereoFormat)
@@ -214,30 +241,41 @@ final class AudioEngineManager {
         }
 
         let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
+        let monoFormat = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
 
-        // Create oscillator if needed (or recreate if sample rate changed)
-        if oscillator == nil {
+        // Create left oscillator if needed
+        if leftOscillator == nil {
             let osc = OscillatorNode(sampleRate: sampleRate)
-            oscillator = osc
+            leftOscillator = osc
             engine.attach(osc.sourceNode)
-            let monoFormat = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
-            engine.connect(osc.sourceNode, to: toneGain, format: monoFormat)
+            engine.connect(osc.sourceNode, to: leftToneMixer, format: monoFormat)
+        }
+        // Create right oscillator if needed
+        if rightOscillator == nil {
+            let osc = OscillatorNode(sampleRate: sampleRate)
+            rightOscillator = osc
+            engine.attach(osc.sourceNode)
+            engine.connect(osc.sourceNode, to: rightToneMixer, format: monoFormat)
         }
 
         applyToneParameters()
         applyPanning()
         isTonePlaying = true
         startAnalysis()
-        Self.logger.info("Tone started: \(self.frequency + self.fineTune) Hz, waveform=\(self.waveform.rawValue)")
+        Self.logger.info("Tone started: L=\(self.leftFrequency + self.fineTune) Hz, R=\(self.rightFrequency + self.fineTune) Hz, waveform=\(self.waveform.rawValue)")
     }
 
     func stopTone() {
         guard isTonePlaying else { return }
 
-        // Ramp gain to zero, then disconnect
-        if let osc = oscillator {
+        // Detach both oscillators
+        if let osc = leftOscillator {
             engine.detach(osc.sourceNode)
-            oscillator = nil
+            leftOscillator = nil
+        }
+        if let osc = rightOscillator {
+            engine.detach(osc.sourceNode)
+            rightOscillator = nil
         }
 
         isTonePlaying = false
@@ -286,11 +324,18 @@ final class AudioEngineManager {
     }
 
     private func applyToneParameters() {
-        guard let osc = oscillator else { return }
-        osc.frequency = frequency + fineTune
-        osc.amplitude = volume
-        osc.waveform = waveform
-        osc.phaseInverted = phaseInverted
+        if let osc = leftOscillator {
+            osc.frequency = leftFrequency + fineTune
+            osc.amplitude = volume
+            osc.waveform = waveform
+            osc.phaseInverted = phaseInverted
+        }
+        if let osc = rightOscillator {
+            osc.frequency = rightFrequency + fineTune
+            osc.amplitude = volume
+            osc.waveform = waveform
+            osc.phaseInverted = phaseInverted
+        }
     }
 
     // MARK: - Noise control
@@ -413,10 +458,19 @@ final class AudioEngineManager {
     // MARK: - Panning (ear selection)
 
     private func applyPanning() {
-        let pan = earSelection.panValue
-        tonePan.pan = pan
-        noisePan.pan = pan
-        musicPan.pan = pan
+        switch earSelection {
+        case .both:
+            leftToneMixer.outputVolume = 1.0
+            rightToneMixer.outputVolume = 1.0
+        case .left:
+            leftToneMixer.outputVolume = 1.0
+            rightToneMixer.outputVolume = 0.0
+        case .right:
+            leftToneMixer.outputVolume = 0.0
+            rightToneMixer.outputVolume = 1.0
+        }
+        noisePan.pan = earSelection.panValue
+        musicPan.pan = earSelection.panValue
     }
 
     // MARK: - Analysis
@@ -477,8 +531,16 @@ final class AudioEngineManager {
 
     /// Stores the user's identified tinnitus frequency.
     func setMatchedFrequency(_ freq: Float) {
-        matchedFrequency = freq
+        switch earSelection {
+        case .both:
+            leftMatchedFrequency = freq
+            rightMatchedFrequency = freq
+        case .left:
+            leftMatchedFrequency = freq
+        case .right:
+            rightMatchedFrequency = freq
+        }
         frequency = freq
-        Self.logger.info("Matched frequency set: \(freq) Hz")
+        Self.logger.info("Matched frequency set: \(freq) Hz for \(self.earSelection.rawValue)")
     }
 }
