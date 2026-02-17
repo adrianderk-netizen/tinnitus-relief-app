@@ -1,7 +1,9 @@
 import UserNotifications
+import Observation
 import os.log
 
 /// Handles local notification permissions and scheduling for daily therapy reminders.
+@Observable
 @MainActor
 final class NotificationManager {
 

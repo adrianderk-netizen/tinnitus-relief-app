@@ -14,6 +14,7 @@ struct TinnitusReliefProApp: App {
     @State private var sessionManager = SessionManager()
     @State private var subscriptionManager = SubscriptionManager()
     @State private var appSettings = AppSettings()
+    @State private var notificationManager = NotificationManager()
     @State private var showOnboarding = false
 
     // MARK: - Init
@@ -50,10 +51,17 @@ struct TinnitusReliefProApp: App {
             .environment(sessionManager)
             .environment(subscriptionManager)
             .environment(appSettings)
+            .environment(notificationManager)
             .modelContainer(modelContainer)
             .onAppear {
                 subscriptionManager.configure()
                 showOnboarding = !appSettings.hasCompletedOnboarding
+                if appSettings.reminderEnabled {
+                    notificationManager.scheduleDailyReminder(
+                        hour: appSettings.reminderHour,
+                        minute: appSettings.reminderMinute
+                    )
+                }
             }
         }
     }
