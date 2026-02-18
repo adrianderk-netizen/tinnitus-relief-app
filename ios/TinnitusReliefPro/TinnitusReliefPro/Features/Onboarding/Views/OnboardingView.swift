@@ -27,6 +27,7 @@ struct OnboardingView: View {
                         .foregroundStyle(Color.textMuted)
                         .padding(.trailing, 20)
                         .padding(.top, 12)
+                        .accessibilityLabel("Skip onboarding")
                     }
                 }
 
@@ -59,6 +60,7 @@ struct OnboardingView: View {
                             .padding(.vertical, 12)
                             .padding(.horizontal, 20)
                         }
+                        .accessibilityLabel("Go to previous page")
                     } else {
                         Spacer()
                     }
@@ -79,6 +81,7 @@ struct OnboardingView: View {
                             .padding(.horizontal, 24)
                             .background(Color.accentCyan, in: Capsule())
                         }
+                        .accessibilityLabel("Go to next page")
                     } else {
                         Button {
                             onComplete()
@@ -90,6 +93,7 @@ struct OnboardingView: View {
                                 .padding(.horizontal, 24)
                                 .background(Color.accentCyan, in: Capsule())
                         }
+                        .accessibilityLabel("Finish onboarding and get started")
                     }
                 }
                 .padding(.horizontal, 20)
@@ -123,8 +127,8 @@ private struct WelcomeSlide: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     BenefitRow(icon: "waveform.path.ecg", text: "Match your tinnitus frequency in each ear independently")
-                    BenefitRow(icon: "waveform.badge.minus", text: "Notched sound therapy trains your brain to turn down tinnitus")
-                    BenefitRow(icon: "calendar.badge.clock", text: "Daily sessions build lasting relief through neuroplasticity")
+                    BenefitRow(icon: "waveform.badge.minus", text: "Notched sound therapy may help your brain gradually reduce tinnitus perception")
+                    BenefitRow(icon: "calendar.badge.clock", text: "Regular daily sessions support long-term benefits")
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 8)
@@ -134,7 +138,7 @@ private struct WelcomeSlide: View {
                     Image(systemName: "lightbulb.fill")
                         .foregroundStyle(Color.accentAmber)
                         .font(.title3)
-                    Text("Sound therapy doesn\u{2019}t silence tinnitus overnight \u{2014} it gradually reduces how loud and bothersome it feels. Most users notice improvement within 4\u{2013}8 weeks of consistent daily use.")
+                    Text("Sound therapy doesn\u{2019}t silence tinnitus overnight \u{2014} it may gradually reduce how loud and bothersome it feels. Many users report improvement within several weeks of consistent daily use. Individual results may vary.")
                         .font(.subheadline)
                         .foregroundStyle(Color.textSecondary)
                 }

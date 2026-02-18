@@ -36,6 +36,8 @@ struct SettingsView: View {
                             step: 0.01
                         )
                         .tint(Color.accentCyan)
+                        .accessibilityLabel("Master Volume")
+                        .accessibilityValue("\(Int(settings.masterVolume * 100)) percent")
                     }
                 }
 
@@ -46,6 +48,7 @@ struct SettingsView: View {
                         set: { settings.reminderEnabled = $0 }
                     ))
                     .tint(Color.accentCyan)
+                    .accessibilityLabel("Enable daily therapy reminder")
 
                     if settings.reminderEnabled {
                         DatePicker(
@@ -64,6 +67,7 @@ struct SettingsView: View {
                         set: { settings.moodLightEnabled = $0 }
                     ))
                     .tint(Color.accentCyan)
+                    .accessibilityLabel("Enable mood lighting during therapy")
 
                     Text("Animated glow around the screen during therapy sessions")
                         .font(.caption)
@@ -94,7 +98,11 @@ struct SettingsView: View {
                         }
                     }
 
-                    if !subscriptionManager.isPremium {
+                    if subscriptionManager.isPremium {
+                        Link(destination: URL(string: "https://apps.apple.com/account/subscriptions")!) {
+                            Label("Manage Subscription", systemImage: "arrow.up.right.square")
+                        }
+                    } else {
                         Button {
                             showPaywall = true
                         } label: {

@@ -58,6 +58,9 @@ struct PaywallView: View {
                             isSelected: selectedPlan == .monthly
                         )
                         .onTapGesture { selectedPlan = .monthly }
+                        .accessibilityLabel("Monthly plan, $7.99 per month")
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityAddTraits(selectedPlan == .monthly ? .isSelected : [])
 
                         // Annual
                         PaywallPricingCard(
@@ -68,6 +71,9 @@ struct PaywallView: View {
                             isSelected: selectedPlan == .annual
                         )
                         .onTapGesture { selectedPlan = .annual }
+                        .accessibilityLabel("Annual plan, $59.99 per year, best value")
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityAddTraits(selectedPlan == .annual ? .isSelected : [])
                     }
                     .padding(.horizontal, 24)
 
@@ -110,17 +116,23 @@ struct PaywallView: View {
                     .padding(.horizontal, 24)
                     .disabled(isLoading)
 
-                    // MARK: - Restore
-                    Button("Restore Purchases") {
-                        Task { await handleRestore() }
+                    // MARK: - Restore & Manage
+                    HStack(spacing: 16) {
+                        Button("Restore Purchases") {
+                            Task { await handleRestore() }
+                        }
+                        .font(.subheadline)
+                        .foregroundStyle(Color.textSecondary)
+                        .disabled(isLoading)
+
+                        Link("Manage Subscription", destination: URL(string: "https://apps.apple.com/account/subscriptions")!)
+                            .font(.subheadline)
+                            .foregroundStyle(Color.textSecondary)
                     }
-                    .font(.subheadline)
-                    .foregroundStyle(Color.textSecondary)
                     .padding(.bottom, 8)
-                    .disabled(isLoading)
 
                     // Legal
-                    Text("Payment charged to your Apple ID. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.")
+                    Text("Payment charged to your Apple ID. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period. You can manage or cancel your subscription anytime in Settings > Apple ID > Subscriptions.")
                         .font(.caption2)
                         .foregroundStyle(Color.textMuted)
                         .multilineTextAlignment(.center)

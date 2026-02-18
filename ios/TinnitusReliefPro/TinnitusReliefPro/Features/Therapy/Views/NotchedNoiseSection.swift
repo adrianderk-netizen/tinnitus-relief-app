@@ -73,6 +73,7 @@ struct NotchedNoiseSection: View {
                     Text("Brown").tag(NoiseType.brown)
                 }
                 .pickerStyle(.segmented)
+                .accessibilityLabel("Noise type selector")
             }
 
             // MARK: - Volume
@@ -88,6 +89,8 @@ struct NotchedNoiseSection: View {
                 }
                 Slider(value: $noiseVolume, in: 0...100, step: 1)
                     .tint(Color.accentCyan)
+                    .accessibilityLabel("Noise volume")
+                    .accessibilityValue("\(Int(noiseVolume)) percent")
                     .onChange(of: noiseVolume) { _, newVal in
                         audioEngine.noiseVolume = Float(newVal / 100.0)
                     }
@@ -132,6 +135,8 @@ struct NotchedNoiseSection: View {
                     step: 10
                 )
                 .tint(Color.accentCyan)
+                .accessibilityLabel("Notch frequency")
+                .accessibilityValue("\(Int(audioEngine.notchFrequency)) hertz")
 
                 Button {
                     let hasLeft = audioEngine.leftMatchedFrequency != nil
@@ -150,6 +155,7 @@ struct NotchedNoiseSection: View {
                         .font(.subheadline)
                 }
                 .tint(Color.accentCyan)
+                .accessibilityLabel("Use matched tinnitus frequency as notch center")
                 .disabled(audioEngine.leftMatchedFrequency == nil && audioEngine.rightMatchedFrequency == nil)
                 .confirmationDialog("Which ear's matched frequency?", isPresented: $showEarPicker, titleVisibility: .visible) {
                     if let leftFreq = audioEngine.leftMatchedFrequency {

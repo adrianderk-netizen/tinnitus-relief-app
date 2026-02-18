@@ -16,6 +16,7 @@ struct TinnitusReliefProApp: App {
     @State private var appSettings = AppSettings()
     @State private var notificationManager = NotificationManager()
     @State private var showOnboarding = false
+    @State private var showStorageError = false
 
     // MARK: - Init
 
@@ -29,7 +30,16 @@ struct TinnitusReliefProApp: App {
         do {
             modelContainer = try ModelContainer(for: schema, configurations: [config])
         } catch {
-            fatalError("Failed to create ModelContainer: \(error.localizedDescription)")
+            // Fall back to in-memory storage so the app still launches
+            let fallbackConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            do {
+                modelContainer = try ModelContainer(for: schema, configurations: [fallbackConfig])
+            } catch {
+                // Last resort: minimal container
+                modelContainer = try! ModelContainer(for: schema)
+            }
+            // Defer the alert flag — will be set in onAppear
+            _showStorageError = State(initialValue: true)
         }
 
         // Configure audio session once at launch.
@@ -74,6 +84,11 @@ struct TinnitusReliefProApp: App {
                         minute: appSettings.reminderMinute
                     )
                 }
+            }
+            .alert("Storage Issue", isPresented: $showStorageError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Unable to access persistent storage. Your data will not be saved between sessions. Please restart the app or check your device storage.")
             }
         }
     }
