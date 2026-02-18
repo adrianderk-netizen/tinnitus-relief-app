@@ -12,6 +12,7 @@
 		18D444FA6D526EACDEE126C2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC084E1E20F656E25C9A56DF /* Theme.swift */; };
 		1BFD7DFCAAD59B1608B55949 /* AudioSessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8945E351D8FE93F15CAA57F6 /* AudioSessionConfig.swift */; };
 		1DBFAD72E113D2DE549294E1 /* ManualTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */; };
+		A1B2C3D4E5F60718293A4B5C /* MoodLightOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3A4B5C60718293A4B5D /* MoodLightOverlay.swift */; };
 		208E66FD847817B347717D1A /* JournalEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B80C2B09AFA7FEA719A30D /* JournalEntryRow.swift */; };
 		2932CA4C171029F8740AF064 /* FrequencyAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EC21C5509699880E7028EB /* FrequencyAnalyzer.swift */; };
 		2E62F88D2D85016A6FC65F4A /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = E37ACB95E3AA58A2A9B03647 /* RevenueCat */; };
@@ -102,6 +103,7 @@
 		8BC2CF9CF0AD3DE749AAC473 /* TherapyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyView.swift; sourceTree = "<group>"; };
 		8C5D3EBC67C11A6BFD33053C /* TinnitusReliefProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProApp.swift; sourceTree = "<group>"; };
 		8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTuningSection.swift; sourceTree = "<group>"; };
+		D1E2F3A4B5C60718293A4B5D /* MoodLightOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodLightOverlay.swift; sourceTree = "<group>"; };
 		956EC27821790BA06F15470A /* OscillatorNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatorNode.swift; sourceTree = "<group>"; };
 		9C26D50BAA00BF019D49F3D8 /* NotchedMusicSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedMusicSection.swift; sourceTree = "<group>"; };
 		9C5C942834CC4EC7EFA55732 /* TinnitusSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusSession.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 		8EEA1108B53EF250E088E8F7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D1E2F3A4B5C60718293A4B5D /* MoodLightOverlay.swift */,
 				B62D523BEC750E31D10571AF /* SpectrumCanvas.swift */,
 				E35FC545B7F8212EB1D2D63A /* WaveformCanvas.swift */,
 			);
@@ -590,6 +593,7 @@
 				3364B8D5C6986E4DBF9A442B /* JournalRepository.swift in Sources */,
 				A3E40006DCDE2EE0B069915E /* JournalView.swift in Sources */,
 				1DBFAD72E113D2DE549294E1 /* ManualTuningSection.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5C /* MoodLightOverlay.swift in Sources */,
 				4EDE5FAF5CF611F6B5756167 /* NoiseGenerator.swift in Sources */,
 				7C058D0633D3A85082CD9A16 /* NotchFilterBank.swift in Sources */,
 				3E5610361AD6B715F6639803 /* NotchedMusicSection.swift in Sources */,
