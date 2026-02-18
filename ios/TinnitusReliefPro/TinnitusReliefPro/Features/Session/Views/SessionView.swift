@@ -13,6 +13,8 @@ struct SessionView: View {
     @State private var statsRefreshTrigger: Int = 0
     @State private var startFrequency: Float?
     @State private var showCompletionBanner = false
+    @State private var showInterruptionBanner = false
+    @State private var pausedByInterruption = false
 
     private let durations = [15, 30, 60, 120]
 
@@ -145,6 +147,41 @@ struct SessionView: View {
                     .shadow(color: Color.accentGreen.opacity(0.4), radius: 12)
                     .padding(.top, 8)
                     .transition(.move(edge: .top).combined(with: .opacity))
+                } else if showInterruptionBanner {
+                    HStack(spacing: 10) {
+                        Image(systemName: "phone.fill")
+                            .font(.title2)
+                        Text("Audio interrupted — session paused")
+                            .font(.subheadline.bold())
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 14)
+                    .background(Color.accentAmber.gradient, in: Capsule())
+                    .shadow(color: Color.accentAmber.opacity(0.4), radius: 12)
+                    .padding(.top, 8)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+            .onChange(of: audioEngine.isInterrupted) { _, interrupted in
+                guard sessionManager.isRunning else { return }
+                if interrupted {
+                    if !sessionManager.isPaused {
+                        sessionManager.pause()
+                        pausedByInterruption = true
+                    }
+                    HapticManager.warning()
+                    withAnimation(.spring(duration: 0.5)) {
+                        showInterruptionBanner = true
+                    }
+                } else {
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        showInterruptionBanner = false
+                    }
+                    if pausedByInterruption {
+                        sessionManager.resume()
+                        pausedByInterruption = false
+                    }
                 }
             }
             .onAppear {
