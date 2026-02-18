@@ -19,6 +19,7 @@ final class AppSettings {
         static let reminderEnabled       = "reminderEnabled"
         static let reminderHour          = "reminderHour"
         static let reminderMinute        = "reminderMinute"
+        static let moodLightColor    = "moodLightColor"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -61,6 +62,10 @@ final class AppSettings {
         didSet { defaults.set(reminderMinute, forKey: Keys.reminderMinute) }
     }
 
+    var moodLightColor: String {
+        didSet { defaults.set(moodLightColor, forKey: Keys.moodLightColor) }
+    }
+
     // MARK: - Init
 
     init(defaults: UserDefaults = .standard) {
@@ -75,7 +80,8 @@ final class AppSettings {
             Keys.lastRightFrequency: Float(4000),
             Keys.reminderEnabled: false,
             Keys.reminderHour: 20,
-            Keys.reminderMinute: 0
+            Keys.reminderMinute: 0,
+            Keys.moodLightColor: "cyan"
         ])
 
         // Load from UserDefaults into stored properties
@@ -88,5 +94,6 @@ final class AppSettings {
         self.reminderEnabled = defaults.bool(forKey: Keys.reminderEnabled)
         self.reminderHour = defaults.integer(forKey: Keys.reminderHour)
         self.reminderMinute = defaults.integer(forKey: Keys.reminderMinute)
+        self.moodLightColor = defaults.string(forKey: Keys.moodLightColor) ?? "cyan"
     }
 }
