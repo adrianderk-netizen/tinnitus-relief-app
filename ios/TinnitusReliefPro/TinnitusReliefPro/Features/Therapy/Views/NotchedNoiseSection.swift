@@ -8,6 +8,7 @@ struct NotchedNoiseSection: View {
 
     @State private var noiseVolume: Double = 50
     @State private var notchFrequencyText: String = "4000"
+    @State private var showEarPicker = false
 
     var body: some View {
         @Bindable var engine = audioEngine
@@ -133,15 +134,36 @@ struct NotchedNoiseSection: View {
                 .tint(Color.accentCyan)
 
                 Button {
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                    impact.impactOccurred()
-                    notchFrequencyText = "\(Int(audioEngine.frequency))"
-                    audioEngine.notchFrequency = audioEngine.frequency
+                    let hasLeft = audioEngine.leftMatchedFrequency != nil
+                    let hasRight = audioEngine.rightMatchedFrequency != nil
+                    if hasLeft && hasRight {
+                        if audioEngine.leftMatchedFrequency == audioEngine.rightMatchedFrequency {
+                            applyMatchedFrequency(audioEngine.leftMatchedFrequency!)
+                        } else {
+                            showEarPicker = true
+                        }
+                    } else if let freq = audioEngine.leftMatchedFrequency ?? audioEngine.rightMatchedFrequency {
+                        applyMatchedFrequency(freq)
+                    }
                 } label: {
                     Label("Use Matched Frequency", systemImage: "arrow.uturn.left")
                         .font(.subheadline)
                 }
                 .tint(Color.accentCyan)
+                .disabled(audioEngine.leftMatchedFrequency == nil && audioEngine.rightMatchedFrequency == nil)
+                .confirmationDialog("Which ear's matched frequency?", isPresented: $showEarPicker, titleVisibility: .visible) {
+                    if let leftFreq = audioEngine.leftMatchedFrequency {
+                        Button("Left Ear — \(Int(leftFreq)) Hz") {
+                            applyMatchedFrequency(leftFreq)
+                        }
+                    }
+                    if let rightFreq = audioEngine.rightMatchedFrequency {
+                        Button("Right Ear — \(Int(rightFreq)) Hz") {
+                            applyMatchedFrequency(rightFreq)
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {}
+                }
             }
 
             // MARK: - Notch Width
@@ -187,6 +209,13 @@ struct NotchedNoiseSection: View {
         }
         .padding()
         .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func applyMatchedFrequency(_ freq: Float) {
+        let impact = UIImpactFeedbackGenerator(style: .medium)
+        impact.impactOccurred()
+        notchFrequencyText = "\(Int(freq))"
+        audioEngine.notchFrequency = freq
     }
 }
 
