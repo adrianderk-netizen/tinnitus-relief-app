@@ -15,6 +15,8 @@ struct NotchedMusicSection: View {
     @State private var musicVolume: Double = 70
     @State private var notchEnabled = true
     @State private var musicNotchFrequencyText: String = "4000"
+    @State private var showImportError = false
+    @State private var importErrorMessage = ""
 
     private var timeFormatter: DateComponentsFormatter {
         let f = DateComponentsFormatter()
@@ -54,7 +56,11 @@ struct NotchedMusicSection: View {
                 switch result {
                 case .success(let urls):
                     if let url = urls.first {
-                        guard url.startAccessingSecurityScopedResource() else { return }
+                        guard url.startAccessingSecurityScopedResource() else {
+                            importErrorMessage = "Unable to access this file. Please try a different file."
+                            showImportError = true
+                            return
+                        }
                         defer { url.stopAccessingSecurityScopedResource() }
                         do {
                             try audioEngine.loadAudioFile(url)
@@ -63,10 +69,13 @@ struct NotchedMusicSection: View {
                         } catch {
                             selectedFileURL = nil
                             selectedFileName = nil
+                            importErrorMessage = "This audio file couldn't be loaded. It may be in an unsupported format."
+                            showImportError = true
                         }
                     }
-                case .failure:
-                    break
+                case .failure(let error):
+                    importErrorMessage = "File selection failed: \(error.localizedDescription)"
+                    showImportError = true
                 }
             }
 
@@ -199,6 +208,11 @@ struct NotchedMusicSection: View {
             if audioEngine.isMusicPlaying && !isSeeking {
                 currentTime = audioEngine.musicCurrentTime
             }
+        }
+        .alert("Import Failed", isPresented: $showImportError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(importErrorMessage)
         }
     }
 }
