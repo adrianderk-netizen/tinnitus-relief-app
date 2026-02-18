@@ -8,6 +8,8 @@ struct CircularTimerView: View {
     var progress: Double
     /// Pre-formatted time remaining string, e.g. "14:32".
     var timeRemaining: String
+    /// Whether the session is currently paused.
+    var isPaused: Bool = false
 
     @State private var animatedProgress: Double = 0
 
@@ -46,9 +48,10 @@ struct CircularTimerView: View {
                 )
                 .rotationEffect(.degrees(-90))
                 .shadow(color: Color.accentCyan.opacity(0.5), radius: 8, x: 0, y: 0)
+                .opacity(isPaused ? 0.4 : 1.0)
 
             // MARK: - Glow Endpoint
-            if animatedProgress > 0.01 {
+            if animatedProgress > 0.01 && !isPaused {
                 Circle()
                     .fill(Color.accentCyan)
                     .frame(width: lineWidth, height: lineWidth)
@@ -61,13 +64,21 @@ struct CircularTimerView: View {
             VStack(spacing: 4) {
                 Text(timeRemaining)
                     .font(.system(size: 40, weight: .bold, design: .monospaced))
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(isPaused ? Color.textMuted : Color.textPrimary)
 
-                Text("remaining")
-                    .font(.caption)
-                    .foregroundStyle(Color.textMuted)
-                    .textCase(.uppercase)
-                    .tracking(1.5)
+                if isPaused {
+                    Text("paused")
+                        .font(.caption.bold())
+                        .foregroundStyle(Color.accentAmber)
+                        .textCase(.uppercase)
+                        .tracking(1.5)
+                } else {
+                    Text("remaining")
+                        .font(.caption)
+                        .foregroundStyle(Color.textMuted)
+                        .textCase(.uppercase)
+                        .tracking(1.5)
+                }
             }
         }
         .padding(lineWidth / 2)

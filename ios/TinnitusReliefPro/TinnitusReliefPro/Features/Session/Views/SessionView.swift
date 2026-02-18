@@ -50,7 +50,8 @@ struct SessionView: View {
                     // MARK: - Timer Ring
                     CircularTimerView(
                         progress: sessionManager.progress,
-                        timeRemaining: sessionManager.timeRemainingFormatted
+                        timeRemaining: sessionManager.timeRemainingFormatted,
+                        isPaused: sessionManager.isPaused
                     )
                     .frame(width: 260, height: 260)
                     .padding(.top, 16)
