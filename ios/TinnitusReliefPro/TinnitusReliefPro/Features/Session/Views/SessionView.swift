@@ -12,6 +12,7 @@ struct SessionView: View {
     @State private var selectedDuration: Int = 30 // minutes
     @State private var statsRefreshTrigger: Int = 0
     @State private var startFrequency: Float?
+    @State private var showCompletionBanner = false
 
     private let durations = [15, 30, 60, 120]
 
@@ -129,10 +130,36 @@ struct SessionView: View {
             .background(Color.bgPrimary)
             .navigationTitle("Session Timer")
             .navigationBarTitleDisplayMode(.inline)
+            .overlay(alignment: .top) {
+                if showCompletionBanner {
+                    HStack(spacing: 10) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.title2)
+                        Text("Session Complete!")
+                            .font(.headline)
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 14)
+                    .background(Color.accentGreen.gradient, in: Capsule())
+                    .shadow(color: Color.accentGreen.opacity(0.4), radius: 12)
+                    .padding(.top, 8)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
             .onAppear {
                 sessionManager.onComplete = {
                     let elapsed = sessionManager.elapsedSeconds
                     saveSession(elapsedSeconds: elapsed, completed: true)
+                    HapticManager.success()
+                    withAnimation(.spring(duration: 0.5)) {
+                        showCompletionBanner = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        withAnimation(.easeOut(duration: 0.4)) {
+                            showCompletionBanner = false
+                        }
+                    }
                 }
             }
         }
