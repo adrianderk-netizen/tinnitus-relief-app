@@ -57,6 +57,28 @@ struct SettingsView: View {
                     }
                 }
 
+                // MARK: - Mood Light
+                Section("Mood Light") {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Session Glow Color")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.textSecondary)
+
+                        HStack(spacing: 12) {
+                            MoodLightColorButton(color: .purple, label: "purple", selection: moodLightBinding)
+                            MoodLightColorButton(color: Color.accentCyan, label: "cyan", selection: moodLightBinding)
+                            MoodLightColorButton(color: .pink, label: "pink", selection: moodLightBinding)
+                            MoodLightColorButton(color: Color.accentGreen, label: "green", selection: moodLightBinding)
+                            MoodLightColorButton(color: Color.accentAmber, label: "amber", selection: moodLightBinding)
+                            RainbowButton(selection: moodLightBinding)
+                        }
+                    }
+
+                    Text("Glow activates during therapy sessions")
+                        .font(.caption)
+                        .foregroundStyle(Color.textMuted)
+                }
+
                 // MARK: - Subscription
                 Section("Subscription") {
                     HStack {
@@ -176,6 +198,62 @@ struct SettingsView: View {
                 settings.reminderMinute = components.minute ?? 0
             }
         )
+    }
+
+    private var moodLightBinding: Binding<String> {
+        Binding(
+            get: { settings.moodLightColor },
+            set: { settings.moodLightColor = $0 }
+        )
+    }
+}
+
+// MARK: - Mood Light Color Buttons
+
+private struct MoodLightColorButton: View {
+    let color: Color
+    let label: String
+    @Binding var selection: String
+
+    var body: some View {
+        Button {
+            selection = label
+        } label: {
+            Circle()
+                .fill(color)
+                .frame(width: 32, height: 32)
+                .overlay {
+                    if selection == label {
+                        Circle()
+                            .stroke(.white, lineWidth: 2)
+                    }
+                }
+        }
+    }
+}
+
+private struct RainbowButton: View {
+    @Binding var selection: String
+
+    var body: some View {
+        Button {
+            selection = "rainbow"
+        } label: {
+            Circle()
+                .fill(
+                    AngularGradient(
+                        colors: [.purple, .blue, .cyan, .green, .yellow, .orange, .pink, .purple],
+                        center: .center
+                    )
+                )
+                .frame(width: 32, height: 32)
+                .overlay {
+                    if selection == "rainbow" {
+                        Circle()
+                            .stroke(.white, lineWidth: 2)
+                    }
+                }
+        }
     }
 }
 

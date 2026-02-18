@@ -41,6 +41,13 @@ struct TinnitusReliefProApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .overlay {
+                    MoodLightOverlay(
+                        colorPreset: appSettings.moodLightColor,
+                        isActive: sessionManager.isRunning
+                    )
+                }
+                .animation(.easeInOut(duration: 0.8), value: sessionManager.isRunning)
                 .fullScreenCover(isPresented: $showOnboarding) {
                     OnboardingView(onComplete: {
                         appSettings.hasCompletedOnboarding = true
