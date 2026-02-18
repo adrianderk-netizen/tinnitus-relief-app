@@ -107,6 +107,8 @@ final class AudioEngineManager {
     var earSelection: EarSelection = .both {
         didSet { applyPanning() }
     }
+    var leftEarEnabled: Bool = true  { didSet { applyPanning() } }
+    var rightEarEnabled: Bool = true { didSet { applyPanning() } }
 
     // Matched frequency storage (per-ear)
     var leftMatchedFrequency: Float?
@@ -460,14 +462,14 @@ final class AudioEngineManager {
     private func applyPanning() {
         switch earSelection {
         case .both:
-            leftToneMixer.outputVolume = 1.0
-            rightToneMixer.outputVolume = 1.0
+            leftToneMixer.outputVolume = leftEarEnabled ? 1.0 : 0.0
+            rightToneMixer.outputVolume = rightEarEnabled ? 1.0 : 0.0
         case .left:
-            leftToneMixer.outputVolume = 1.0
+            leftToneMixer.outputVolume = leftEarEnabled ? 1.0 : 0.0
             rightToneMixer.outputVolume = 0.0
         case .right:
             leftToneMixer.outputVolume = 0.0
-            rightToneMixer.outputVolume = 1.0
+            rightToneMixer.outputVolume = rightEarEnabled ? 1.0 : 0.0
         }
         noisePan.pan = earSelection.panValue
         musicPan.pan = earSelection.panValue

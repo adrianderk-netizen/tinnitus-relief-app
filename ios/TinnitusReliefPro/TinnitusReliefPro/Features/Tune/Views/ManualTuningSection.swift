@@ -12,8 +12,6 @@ struct ManualTuningSection: View {
     @State private var isEditingFrequency = false
     @State private var volumePercent: Double = 50
     @State private var advancedExpanded = false
-    @State private var leftEarEnabled = true
-    @State private var rightEarEnabled = true
 
     var body: some View {
         @Bindable var engine = audioEngine
@@ -216,11 +214,11 @@ struct ManualTuningSection: View {
                         Text("Enabled Ears")
                             .font(.subheadline)
                             .foregroundStyle(Color.textSecondary)
-                        Toggle(isOn: $leftEarEnabled) {
+                        Toggle(isOn: $engine.leftEarEnabled) {
                             Label("Left Ear", systemImage: "ear")
                         }
                         .tint(Color.accentCyan)
-                        Toggle(isOn: $rightEarEnabled) {
+                        Toggle(isOn: $engine.rightEarEnabled) {
                             Label("Right Ear", systemImage: "ear")
                         }
                         .tint(Color.accentCyan)
