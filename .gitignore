@@ -25,6 +25,9 @@ build/
 *.dSYM.zip
 *.dSYM
 
+# Build configuration with secrets
+ios/TinnitusReliefPro/Debug.xcconfig
+
 # Swift Package Manager
 .build/
 .swiftpm/
