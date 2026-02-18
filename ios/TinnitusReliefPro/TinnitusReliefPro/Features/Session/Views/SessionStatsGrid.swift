@@ -17,12 +17,33 @@ struct SessionStatsGrid: View {
         GridItem(.flexible(), spacing: 12)
     ]
 
+    private var hasNoSessions: Bool {
+        todayMinutes == 0 && weekMinutes == 0 && streakDays == 0 && allTimeHours == 0
+    }
+
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
-            StatCard(value: "\(todayMinutes)m", label: "Today")
-            StatCard(value: "\(weekMinutes)m", label: "This Week")
-            StatCard(value: "\(streakDays)", label: "Day Streak")
-            StatCard(value: "\(allTimeHours)h", label: "All Time")
+        Group {
+            if hasNoSessions {
+                VStack(spacing: 10) {
+                    Image(systemName: "waveform.path.ecg")
+                        .font(.largeTitle)
+                        .foregroundStyle(Color.accentCyan.opacity(0.5))
+                    Text("Start your first session to see stats")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.textMuted)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 32)
+                .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 14))
+            } else {
+                LazyVGrid(columns: columns, spacing: 12) {
+                    StatCard(value: "\(todayMinutes)m", label: "Today")
+                    StatCard(value: "\(weekMinutes)m", label: "This Week")
+                    StatCard(value: "\(streakDays)", label: "Day Streak")
+                    StatCard(value: "\(allTimeHours)h", label: "All Time")
+                }
+            }
         }
         .onAppear { loadStats() }
         .onChange(of: refreshTrigger) { _, _ in loadStats() }
