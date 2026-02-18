@@ -48,7 +48,18 @@ final class SubscriptionManager {
 
     // MARK: - Private
 
-    private static let apiKey = "test_XoSzeDdocAQjUQNXJvJxhmEmDdq"
+    private static let apiKey: String = {
+        guard let key = Bundle.main.infoDictionary?["RevenueCatAPIKey"] as? String,
+              !key.isEmpty,
+              !key.starts(with: "YOUR_") else {
+            #if DEBUG
+            return ""
+            #else
+            return ""
+            #endif
+        }
+        return key
+    }()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
                                 category: "SubscriptionManager")
 
@@ -56,6 +67,10 @@ final class SubscriptionManager {
 
     /// Configures RevenueCat and performs an initial entitlement check.
     func configure() {
+        guard !Self.apiKey.isEmpty else {
+            logger.warning("RevenueCat API key not configured — subscription features disabled")
+            return
+        }
         Purchases.configure(withAPIKey: Self.apiKey)
         Purchases.shared.delegate = RevenueCatDelegate.shared
         logger.info("RevenueCat configured")

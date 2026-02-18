@@ -22,8 +22,8 @@ final class FrequencyAnalyzer {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
                                        category: "FrequencyAnalyzer")
 
-    /// vDSP FFT setup object.
-    private let fftSetup: vDSP.FFT<DSPSplitComplex>
+    /// vDSP FFT setup object (nil if creation failed — analysis becomes a no-op).
+    private let fftSetup: vDSP.FFT<DSPSplitComplex>?
 
     /// Hanning window, precomputed once.
     private let window: [Float]
@@ -49,10 +49,11 @@ final class FrequencyAnalyzer {
 
     init() {
         let log2n = vDSP_Length(log2(Double(Self.fftLength)))
-        guard let setup = vDSP.FFT(log2n: log2n,
-                                   radix: .radix2,
-                                   ofType: DSPSplitComplex.self) else {
-            fatalError("Failed to create FFT setup for length \(Self.fftLength)")
+        let setup = vDSP.FFT(log2n: log2n,
+                              radix: .radix2,
+                              ofType: DSPSplitComplex.self)
+        if setup == nil {
+            Self.logger.error("Failed to create FFT setup for length \(Self.fftLength) — frequency analysis disabled")
         }
         self.fftSetup = setup
         self.window = vDSP.window(ofType: Float.self, usingSequence: .hanningNormalized,
@@ -89,6 +90,7 @@ final class FrequencyAnalyzer {
     // MARK: - FFT analysis
 
     private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
+        guard let fftSetup else { return }
         guard let channelData = buffer.floatChannelData?[0] else { return }
         let frameCount = Int(buffer.frameLength)
         let n = Self.fftLength

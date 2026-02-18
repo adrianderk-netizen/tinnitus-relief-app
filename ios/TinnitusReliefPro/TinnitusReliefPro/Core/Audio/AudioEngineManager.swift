@@ -72,8 +72,12 @@ final class AudioEngineManager {
     var noiseType: NoiseType = .white {
         didSet {
             guard isNoisePlaying else { return }
+            let type = self.noiseType
             let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
-            let buffer = NoiseGenerator.generateBuffer(type: noiseType, duration: 2.0, sampleRate: sampleRate)
+            guard let buffer = NoiseGenerator.generateBuffer(type: type, duration: 2.0, sampleRate: sampleRate) else {
+                Self.logger.warning("Failed to generate \(type.rawValue) noise buffer")
+                return
+            }
             noiseBuffer = buffer
             noisePlayer.stop()
             noisePlayer.scheduleBuffer(buffer, at: nil, options: .loops)
@@ -353,9 +357,11 @@ final class AudioEngineManager {
 
         let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
 
-        // Generate buffer on a background queue to avoid blocking the main thread
         let type = noiseType
-        let buffer = NoiseGenerator.generateBuffer(type: type, duration: 2.0, sampleRate: sampleRate)
+        guard let buffer = NoiseGenerator.generateBuffer(type: type, duration: 2.0, sampleRate: sampleRate) else {
+            Self.logger.warning("Failed to generate \(type.rawValue) noise buffer — skipping playback")
+            return
+        }
 
         noiseBuffer = buffer
         applyNotchParameters()

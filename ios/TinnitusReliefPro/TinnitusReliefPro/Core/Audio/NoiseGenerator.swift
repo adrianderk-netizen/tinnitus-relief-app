@@ -26,17 +26,22 @@ enum NoiseGenerator {
     /// - Returns: A stereo `AVAudioPCMBuffer` ready for `scheduleBuffer(_:at:options:.loops)`.
     static func generateBuffer(type: NoiseType,
                                 duration: TimeInterval = 2.0,
-                                sampleRate: Double = 44_100) -> AVAudioPCMBuffer {
+                                sampleRate: Double = 44_100) -> AVAudioPCMBuffer? {
         let frameCount = AVAudioFrameCount(sampleRate * duration)
-        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
+        guard let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2) else {
+            logger.error("Failed to create audio format for noise buffer")
+            return nil
+        }
         guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount) else {
-            fatalError("Failed to allocate PCM buffer")
+            logger.error("Failed to allocate PCM buffer")
+            return nil
         }
         buffer.frameLength = frameCount
 
         guard let leftChannel = buffer.floatChannelData?[0],
               let rightChannel = buffer.floatChannelData?[1] else {
-            fatalError("Buffer has no float channel data")
+            logger.error("Buffer has no float channel data")
+            return nil
         }
 
         switch type {
