@@ -161,6 +161,7 @@ final class AudioEngineManager {
     nonisolated(unsafe) private var analysisTimer: Timer?
 
     // Interruption handling
+    private(set) var isInterrupted = false
     private var wasPlayingBeforeInterruption = false
 
     // MARK: - Init
@@ -524,6 +525,7 @@ final class AudioEngineManager {
             guard let self else { return }
             Task { @MainActor in
                 self.wasPlayingBeforeInterruption = self.isTonePlaying || self.isNoisePlaying || self.isMusicPlaying
+                self.isInterrupted = true
                 if self.isTonePlaying { self.stopTone() }
                 if self.isNoisePlaying { self.stopNoise() }
                 if self.isMusicPlaying { self.pauseMusic() }
@@ -536,6 +538,7 @@ final class AudioEngineManager {
             guard let self else { return }
             let shouldResume = (notification.userInfo?["shouldResume"] as? Bool) ?? false
             Task { @MainActor in
+                self.isInterrupted = false
                 if shouldResume && self.wasPlayingBeforeInterruption {
                     do {
                         try self.ensureEngineRunning()
