@@ -105,10 +105,15 @@ struct NotchedNoiseSection: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .frame(width: 80)
+                        .onChange(of: notchFrequencyText) { _, newVal in
+                            let filtered = newVal.filter(\.isNumber)
+                            if filtered != newVal { notchFrequencyText = filtered }
+                        }
                         .onSubmit {
-                            if let val = Float(notchFrequencyText) {
+                            if let val = Float(notchFrequencyText), (100...15000).contains(val) {
                                 audioEngine.notchFrequency = val
                             }
+                            notchFrequencyText = "\(Int(audioEngine.notchFrequency))"
                         }
                     Text("Hz")
                         .font(.caption)

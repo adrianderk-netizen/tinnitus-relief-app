@@ -54,11 +54,11 @@ struct ManualTuningSection: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .frame(width: 80)
-                        .onSubmit {
-                            if let val = Double(frequencyText) {
-                                audioEngine.frequency = Float(val.clamped(to: 100...15000))
-                            }
+                        .onChange(of: frequencyText) { _, newVal in
+                            let filtered = newVal.filter(\.isNumber)
+                            if filtered != newVal { frequencyText = filtered }
                         }
+                        .onSubmit { applyFrequencyText() }
                     Text("Hz")
                         .font(.caption)
                         .foregroundStyle(Color.textMuted)
@@ -242,13 +242,12 @@ struct ManualTuningSection: View {
             frequencyText = "\(Int(activeFreq))"
         }
     }
-}
 
-// MARK: - Clamping Helper
-
-private extension Double {
-    func clamped(to range: ClosedRange<Double>) -> Double {
-        min(max(self, range.lowerBound), range.upperBound)
+    private func applyFrequencyText() {
+        if let val = Double(frequencyText), (100...15000).contains(val) {
+            audioEngine.frequency = Float(val)
+        }
+        frequencyText = "\(Int(audioEngine.frequency))"
     }
 }
 

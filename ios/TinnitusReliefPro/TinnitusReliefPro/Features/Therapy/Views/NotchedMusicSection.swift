@@ -181,6 +181,16 @@ struct NotchedMusicSection: View {
                                 .textFieldStyle(.roundedBorder)
                                 .keyboardType(.numberPad)
                                 .frame(width: 80)
+                                .onChange(of: musicNotchFrequencyText) { _, newVal in
+                                    let filtered = newVal.filter(\.isNumber)
+                                    if filtered != newVal { musicNotchFrequencyText = filtered }
+                                }
+                                .onSubmit {
+                                    if let val = Float(musicNotchFrequencyText), (100...15000).contains(val) {
+                                        audioEngine.notchFrequency = val
+                                    }
+                                    musicNotchFrequencyText = "\(Int(audioEngine.notchFrequency))"
+                                }
                             Text("Hz")
                                 .font(.caption)
                                 .foregroundStyle(Color.textMuted)
