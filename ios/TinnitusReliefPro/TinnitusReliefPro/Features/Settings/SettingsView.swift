@@ -72,6 +72,10 @@ struct SettingsView: View {
                             MoodLightColorButton(color: Color.accentAmber, label: "amber", selection: moodLightBinding)
                             RainbowButton(selection: moodLightBinding)
                         }
+
+                        Text(settings.moodLightColor.capitalized)
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundStyle(Color.accentCyan)
                     }
 
                     Text("Glow activates during therapy sessions")
