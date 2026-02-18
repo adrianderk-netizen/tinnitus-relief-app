@@ -134,11 +134,11 @@ struct SettingsView: View {
                             .foregroundStyle(Color.textSecondary)
                     }
 
-                    Link(destination: URL(string: "https://example.com/privacy")!) {
+                    Link(destination: URL(string: "https://github.com/adrianderk-netizen/tinnitus-relief-app/blob/main/docs/legal/privacy-policy.md")!) {
                         Label("Privacy Policy", systemImage: "hand.raised")
                     }
 
-                    Link(destination: URL(string: "https://example.com/terms")!) {
+                    Link(destination: URL(string: "https://github.com/adrianderk-netizen/tinnitus-relief-app/blob/main/docs/legal/terms-of-service.md")!) {
                         Label("Terms of Service", systemImage: "doc.text")
                     }
                 }
