@@ -457,6 +457,25 @@ final class AudioEngineManager {
         Self.logger.info("Music paused")
     }
 
+    /// Seeks music playback to the given time in seconds.
+    func seekMusic(to time: Double) {
+        guard let file = musicFile else { return }
+        let sampleRate = file.processingFormat.sampleRate
+        let targetFrame = AVAudioFramePosition(time * sampleRate)
+        let totalFrames = AVAudioFrameCount(file.length - targetFrame)
+        guard targetFrame >= 0, targetFrame < file.length else { return }
+
+        musicPlayer.stop()
+        file.framePosition = targetFrame
+        musicPlayer.scheduleSegment(file, startingFrame: targetFrame, frameCount: totalFrames, at: nil) { [weak self] in
+            Task { @MainActor in
+                self?.isMusicPlaying = false
+            }
+        }
+        musicPlayer.play()
+        Self.logger.info("Music seeked to \(time)s")
+    }
+
     // MARK: - Panning (ear selection)
 
     private func applyPanning() {

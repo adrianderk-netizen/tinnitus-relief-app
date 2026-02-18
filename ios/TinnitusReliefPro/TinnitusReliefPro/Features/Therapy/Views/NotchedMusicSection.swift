@@ -11,6 +11,7 @@ struct NotchedMusicSection: View {
     @State private var selectedFileName: String?
     @State private var selectedFileURL: URL?
     @State private var currentTime: Double = 0
+    @State private var isSeeking = false
     @State private var musicVolume: Double = 70
     @State private var notchEnabled = true
     @State private var musicNotchFrequencyText: String = "4000"
@@ -109,7 +110,16 @@ struct NotchedMusicSection: View {
 
                 // MARK: - Seek
                 VStack(spacing: 4) {
-                    Slider(value: $currentTime, in: 0...max(audioEngine.musicDuration, 1))
+                    Slider(
+                        value: $currentTime,
+                        in: 0...max(audioEngine.musicDuration, 1),
+                        onEditingChanged: { editing in
+                            isSeeking = editing
+                            if !editing && audioEngine.isMusicPlaying {
+                                audioEngine.seekMusic(to: currentTime)
+                            }
+                        }
+                    )
                         .tint(Color.accentCyan)
                     HStack {
                         Text(timeFormatter.string(from: currentTime) ?? "0:00")
@@ -186,7 +196,7 @@ struct NotchedMusicSection: View {
         .padding()
         .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 16))
         .onReceive(Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()) { _ in
-            if audioEngine.isMusicPlaying {
+            if audioEngine.isMusicPlaying && !isSeeking {
                 currentTime = audioEngine.musicCurrentTime
             }
         }
