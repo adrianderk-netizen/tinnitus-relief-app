@@ -5,6 +5,7 @@ import SwiftUI
 struct AutoTuningSection: View {
 
     @Environment(AudioEngineManager.self) private var audioEngine
+    @Environment(AppSettings.self) private var appSettings
 
     @State private var sweepSpeed: Double = 100       // Hz per second
     @State private var rangeStart: Double = 2000
@@ -147,6 +148,8 @@ struct AutoTuningSection: View {
                 matchedFrequencies.append(matched)
                 audioEngine.earSelection = earSelection
                 audioEngine.setMatchedFrequency(audioEngine.frequency)
+                appSettings.lastLeftFrequency = audioEngine.leftMatchedFrequency ?? audioEngine.leftFrequency
+                appSettings.lastRightFrequency = audioEngine.rightMatchedFrequency ?? audioEngine.rightFrequency
             } label: {
                 Label("That's My Tinnitus!", systemImage: "pin.fill")
                     .font(.headline)
@@ -206,5 +209,6 @@ struct AutoTuningSection: View {
         .padding()
         .background(Color.bgCard)
         .environment(AudioEngineManager())
+        .environment(AppSettings())
         .preferredColorScheme(.dark)
 }

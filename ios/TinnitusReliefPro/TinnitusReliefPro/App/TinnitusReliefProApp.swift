@@ -63,6 +63,11 @@ struct TinnitusReliefProApp: App {
             .onAppear {
                 subscriptionManager.configure()
                 showOnboarding = !appSettings.hasCompletedOnboarding
+                // Restore matched frequencies from previous session
+                audioEngine.leftFrequency = appSettings.lastLeftFrequency
+                audioEngine.rightFrequency = appSettings.lastRightFrequency
+                audioEngine.leftMatchedFrequency = appSettings.lastLeftFrequency
+                audioEngine.rightMatchedFrequency = appSettings.lastRightFrequency
                 if appSettings.reminderEnabled {
                     notificationManager.scheduleDailyReminder(
                         hour: appSettings.reminderHour,
