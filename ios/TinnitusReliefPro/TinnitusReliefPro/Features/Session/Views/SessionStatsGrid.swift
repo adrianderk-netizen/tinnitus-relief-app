@@ -11,6 +11,8 @@ struct SessionStatsGrid: View {
     @State private var weekMinutes: Int = 0
     @State private var streakDays: Int = 0
     @State private var allTimeHours: Int = 0
+    @State private var weekCompleted: Int = 0
+    @State private var weekTotal: Int = 0
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -18,7 +20,7 @@ struct SessionStatsGrid: View {
     ]
 
     private var hasNoSessions: Bool {
-        todayMinutes == 0 && weekMinutes == 0 && streakDays == 0 && allTimeHours == 0
+        todayMinutes == 0 && weekMinutes == 0 && streakDays == 0 && allTimeHours == 0 && weekTotal == 0
     }
 
     var body: some View {
@@ -42,6 +44,20 @@ struct SessionStatsGrid: View {
                     StatCard(value: "\(weekMinutes)m", label: "This Week")
                     StatCard(value: "\(streakDays)", label: "Day Streak")
                     StatCard(value: "\(allTimeHours)h", label: "All Time")
+                    StatCard(
+                        value: "\(weekCompleted)/\(weekTotal)",
+                        label: "Completed",
+                        accentColor: weekTotal > 0 && weekCompleted == weekTotal
+                            ? Color.accentGreen : Color.accentCyan
+                    )
+                    StatCard(
+                        value: weekTotal > 0
+                            ? "\(Int(Double(weekCompleted) / Double(weekTotal) * 100))%"
+                            : "—",
+                        label: "Rate",
+                        accentColor: weekTotal > 0 && weekCompleted == weekTotal
+                            ? Color.accentGreen : Color.accentCyan
+                    )
                 }
             }
         }
@@ -56,6 +72,9 @@ struct SessionStatsGrid: View {
             streakDays = try repository.getStreak()
             let totalSeconds = try repository.getTotalTimeAllTime()
             allTimeHours = totalSeconds / 3600
+            let counts = try repository.getWeeklyCompletionCounts()
+            weekCompleted = counts.completed
+            weekTotal = counts.total
         } catch {
             // Keep current values on error — non-critical UI
         }
@@ -67,12 +86,13 @@ struct SessionStatsGrid: View {
 private struct StatCard: View {
     let value: String
     let label: String
+    var accentColor: Color = Color.accentCyan
 
     var body: some View {
         VStack(spacing: 8) {
             Text(value)
                 .font(.system(size: 28, weight: .bold, design: .monospaced))
-                .foregroundStyle(Color.accentCyan)
+                .foregroundStyle(accentColor)
 
             Text(label)
                 .font(.caption)

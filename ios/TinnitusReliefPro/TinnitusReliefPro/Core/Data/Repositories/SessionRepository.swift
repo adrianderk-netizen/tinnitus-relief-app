@@ -114,6 +114,21 @@ final class SessionRepository {
         return streak
     }
 
+    /// Returns (completed, total) session counts for the current calendar week.
+    func getWeeklyCompletionCounts() throws -> (completed: Int, total: Int) {
+        guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: .now) else { return (0, 0) }
+        let start = weekInterval.start
+        let end = weekInterval.end
+
+        let predicate = #Predicate<TinnitusSession> { session in
+            session.date >= start && session.date < end
+        }
+        let descriptor = FetchDescriptor<TinnitusSession>(predicate: predicate)
+        let sessions = try modelContext.fetch(descriptor)
+        let completed = sessions.filter(\.completed).count
+        return (completed, sessions.count)
+    }
+
     /// Permanently removes a session from the store.
     func deleteSession(_ session: TinnitusSession) throws {
         modelContext.delete(session)
