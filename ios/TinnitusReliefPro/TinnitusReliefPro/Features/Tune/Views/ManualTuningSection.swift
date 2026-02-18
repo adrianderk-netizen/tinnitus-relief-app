@@ -5,6 +5,7 @@ import SwiftUI
 struct ManualTuningSection: View {
 
     @Environment(AudioEngineManager.self) private var audioEngine
+    @Environment(AppSettings.self) private var appSettings
 
     @State private var earSelection: EarSelection = .both
     @State private var frequencyText: String = "440"
@@ -154,6 +155,8 @@ struct ManualTuningSection: View {
                 impact.impactOccurred()
                 audioEngine.earSelection = earSelection
                 audioEngine.setMatchedFrequency(audioEngine.frequency)
+                appSettings.lastLeftFrequency = audioEngine.leftMatchedFrequency ?? audioEngine.leftFrequency
+                appSettings.lastRightFrequency = audioEngine.rightMatchedFrequency ?? audioEngine.rightFrequency
             } label: {
                 Label("Mark as Tinnitus Frequency", systemImage: "pin.fill")
                     .font(.headline)
@@ -258,5 +261,6 @@ struct ManualTuningSection: View {
     }
     .background(Color.bgCard)
     .environment(AudioEngineManager())
+    .environment(AppSettings())
     .preferredColorScheme(.dark)
 }
