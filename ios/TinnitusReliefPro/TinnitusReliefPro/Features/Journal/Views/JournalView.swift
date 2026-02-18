@@ -51,25 +51,45 @@ struct JournalView: View {
                         .padding(.horizontal)
                     }
 
-                    // MARK: - Severity Chart
-                    SeverityChartView(entries: entries)
-                        .frame(height: 200)
+                    if entries.isEmpty {
+                        // MARK: - Empty State
+                        VStack(spacing: 14) {
+                            Image(systemName: "book.closed")
+                                .font(.system(size: 40))
+                                .foregroundStyle(Color.accentCyan.opacity(0.5))
+                            Text("No entries yet")
+                                .font(.headline)
+                                .foregroundStyle(Color.textPrimary)
+                            Text("Daily check-ins help you track how your tinnitus changes over time and see the impact of therapy sessions.")
+                                .font(.subheadline)
+                                .foregroundStyle(Color.textMuted)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(24)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 14))
                         .padding(.horizontal)
-
-                    // MARK: - Recent Entries
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Recent Entries")
-                            .font(.headline)
-                            .foregroundStyle(Color.textPrimary)
+                    } else {
+                        // MARK: - Severity Chart
+                        SeverityChartView(entries: entries)
+                            .frame(height: 200)
                             .padding(.horizontal)
 
-                        LazyVStack(spacing: 0) {
-                            ForEach(entries) { entry in
-                                JournalEntryRow(entry: entry)
-                                if entry.id != entries.last?.id {
-                                    Divider()
-                                        .background(Color.textMuted.opacity(0.2))
-                                        .padding(.horizontal)
+                        // MARK: - Recent Entries
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Recent Entries")
+                                .font(.headline)
+                                .foregroundStyle(Color.textPrimary)
+                                .padding(.horizontal)
+
+                            LazyVStack(spacing: 0) {
+                                ForEach(entries) { entry in
+                                    JournalEntryRow(entry: entry)
+                                    if entry.id != entries.last?.id {
+                                        Divider()
+                                            .background(Color.textMuted.opacity(0.2))
+                                            .padding(.horizontal)
+                                    }
                                 }
                             }
                         }
