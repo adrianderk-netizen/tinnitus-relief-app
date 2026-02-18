@@ -12,6 +12,14 @@ struct FrequencyPresetsView: View {
         GridItem(.adaptive(minimum: 80, maximum: 120), spacing: 12)
     ]
 
+    private var isActiveFreq: (Int) -> Bool {
+        { freq in Int(audioEngine.frequency) == freq }
+    }
+
+    private func earBadges(for freq: Int) -> (left: Bool, right: Bool) {
+        (Int(audioEngine.leftFrequency) == freq, Int(audioEngine.rightFrequency) == freq)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Common Frequencies")
@@ -20,35 +28,56 @@ struct FrequencyPresetsView: View {
 
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(presets, id: \.self) { freq in
+                    let active = isActiveFreq(freq)
+                    let badges = earBadges(for: freq)
+
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .light)
                         impact.impactOccurred()
                         audioEngine.frequency = Float(freq)
                     } label: {
-                        Text("\(freq) Hz")
-                            .font(.system(.callout, design: .monospaced, weight: .semibold))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(
-                                Int(audioEngine.frequency) == freq
-                                    ? Color.accentCyan.opacity(0.2)
+                        VStack(spacing: 4) {
+                            Text("\(freq) Hz")
+                                .font(.system(.callout, design: .monospaced, weight: .semibold))
+                            if badges.left || badges.right {
+                                HStack(spacing: 4) {
+                                    if badges.left {
+                                        Text("L")
+                                            .font(.system(.caption2, design: .monospaced, weight: .bold))
+                                            .foregroundStyle(active ? Color.accentCyan : Color.textMuted)
+                                    }
+                                    if badges.right {
+                                        Text("R")
+                                            .font(.system(.caption2, design: .monospaced, weight: .bold))
+                                            .foregroundStyle(active ? Color.accentCyan : Color.textMuted)
+                                    }
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(
+                            active
+                                ? Color.accentCyan.opacity(0.2)
+                                : (badges.left || badges.right)
+                                    ? Color.accentCyan.opacity(0.07)
                                     : Color.bgCard
-                            )
-                            .foregroundStyle(
-                                Int(audioEngine.frequency) == freq
-                                    ? Color.accentCyan
-                                    : Color.textSecondary
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(
-                                        Int(audioEngine.frequency) == freq
-                                            ? Color.accentCyan
+                        )
+                        .foregroundStyle(
+                            active ? Color.accentCyan : Color.textSecondary
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(
+                                    active
+                                        ? Color.accentCyan
+                                        : (badges.left || badges.right)
+                                            ? Color.accentCyan.opacity(0.3)
                                             : Color.clear,
-                                        lineWidth: 1.5
-                                    )
-                            )
+                                    lineWidth: 1.5
+                                )
+                        )
                     }
                 }
             }
