@@ -43,8 +43,8 @@ struct TinnitusReliefProApp: App {
             ContentView()
                 .overlay {
                     MoodLightOverlay(
-                        colorPreset: appSettings.moodLightColor,
-                        isActive: sessionManager.isRunning
+                        colorPreset: "cyan",
+                        isActive: appSettings.moodLightEnabled && sessionManager.isRunning
                     )
                 }
                 .animation(.easeInOut(duration: 0.8), value: sessionManager.isRunning)
