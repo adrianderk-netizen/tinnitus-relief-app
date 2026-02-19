@@ -32,6 +32,10 @@ final class FrequencyAnalyzer {
     private let lock = NSLock()
     private var _magnitudeSpectrum = [Float](repeating: 0, count: binCount)
 
+    /// Latest waveform samples for oscilloscope display. Protected by the same lock.
+    private static let waveformSampleCount = 200
+    private var _waveformSamples = [Float](repeating: 0, count: waveformSampleCount)
+
     /// The node we installed a tap on (kept for removal).
     private weak var tappedNode: AVAudioNode?
     private var tappedBus: AVAudioNodeBus = 0
@@ -43,6 +47,13 @@ final class FrequencyAnalyzer {
         lock.lock()
         defer { lock.unlock() }
         return _magnitudeSpectrum
+    }
+
+    /// Thread-safe snapshot of the latest waveform samples (200 points, -1 to 1).
+    var waveformSamples: [Float] {
+        lock.lock()
+        defer { lock.unlock() }
+        return _waveformSamples
     }
 
     // MARK: - Init
@@ -73,6 +84,7 @@ final class FrequencyAnalyzer {
 
         let bufferSize = AVAudioFrameCount(Self.fftLength)
         node.installTap(onBus: bus, bufferSize: bufferSize, format: nil) { [weak self] buffer, _ in
+            self?.captureWaveformSamples(buffer)
             self?.analyzeBuffer(buffer)
         }
         Self.logger.info("FFT tap installed on bus \(bus)")
@@ -87,9 +99,26 @@ final class FrequencyAnalyzer {
         }
     }
 
+    // MARK: - Waveform capture
+
+    private func captureWaveformSamples(_ buffer: AVAudioPCMBuffer) {
+        guard let channelData = buffer.floatChannelData?[0] else { return }
+        let frameCount = Int(buffer.frameLength)
+        let sampleCount = Self.waveformSampleCount
+        let stride = max(1, frameCount / sampleCount)
+        var samples = [Float](repeating: 0, count: sampleCount)
+        for i in 0..<sampleCount {
+            let idx = min(i * stride, frameCount - 1)
+            samples[i] = channelData[idx]
+        }
+        lock.lock()
+        _waveformSamples = samples
+        lock.unlock()
+    }
+
     // MARK: - FFT analysis
 
-    func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
+    private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
         guard let fftSetup else { return }
         guard let channelData = buffer.floatChannelData?[0] else { return }
         let frameCount = Int(buffer.frameLength)
