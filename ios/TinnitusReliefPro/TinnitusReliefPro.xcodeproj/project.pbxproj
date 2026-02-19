@@ -45,6 +45,7 @@
 		A3E40006DCDE2EE0B069915E /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5CCA08F2DA6F0239291221 /* JournalView.swift */; };
 		A5703361A3E84B818FFB371E /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE174B21369EC8320D97DC /* ProfileRepository.swift */; };
 		B35CFE30081D507C697FF425 /* SeverityChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */; };
+		C1E9B2CCA4D5B2F3CBDAA267 /* NotchShapeCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABED36416380E23346D8F68 /* NotchShapeCanvas.swift */; };
 		C259163250F2D483026AF650 /* MoodLightOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802363B2699CFE2665A87AF4 /* MoodLightOverlay.swift */; };
 		C5881032DB9F982A149ECC20 /* TuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFF239E886EF3A0B272BCC6 /* TuneView.swift */; };
 		C6E89C45FB599ED4B7AD6C47 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EDA27A1AEF13F806FE206 /* ExportManager.swift */; };
@@ -93,6 +94,7 @@
 		36407DC2DBC17849EA5A53F9 /* AutoTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTuningSection.swift; sourceTree = "<group>"; };
 		368A729D297BB1B17515C05E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3ABED36416380E23346D8F68 /* NotchShapeCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShapeCanvas.swift; sourceTree = "<group>"; };
 		40508E704F54303272E8F4D5 /* TinnitusReliefProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProTests.swift; sourceTree = "<group>"; };
 		413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityChartView.swift; sourceTree = "<group>"; };
 		432CFFBF2C88EA2DDAEC3E35 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				802363B2699CFE2665A87AF4 /* MoodLightOverlay.swift */,
+				3ABED36416380E23346D8F68 /* NotchShapeCanvas.swift */,
 				B62D523BEC750E31D10571AF /* SpectrumCanvas.swift */,
 				E35FC545B7F8212EB1D2D63A /* WaveformCanvas.swift */,
 			);
@@ -639,6 +642,7 @@
 				C259163250F2D483026AF650 /* MoodLightOverlay.swift in Sources */,
 				4EDE5FAF5CF611F6B5756167 /* NoiseGenerator.swift in Sources */,
 				7C058D0633D3A85082CD9A16 /* NotchFilterBank.swift in Sources */,
+				C1E9B2CCA4D5B2F3CBDAA267 /* NotchShapeCanvas.swift in Sources */,
 				3E5610361AD6B715F6639803 /* NotchedMusicSection.swift in Sources */,
 				407D6D4D1E131DCF3A227945 /* NotchedNoiseSection.swift in Sources */,
 				3701E049579877B96C480638 /* NotificationManager.swift in Sources */,

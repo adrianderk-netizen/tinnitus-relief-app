@@ -168,6 +168,19 @@ struct NotchedMusicSection: View {
                 .tint(Color.accentCyan)
 
                 if notchEnabled {
+                    // MARK: - Notch Shape Diagram
+                    NotchShapeCanvas(
+                        notchFrequency: audioEngine.notchFrequency,
+                        notchWidth: audioEngine.notchWidth,
+                        notchDepth: audioEngine.notchDepth,
+                        isActive: audioEngine.isMusicPlaying && notchEnabled
+                    )
+                    .frame(height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchFrequency)
+                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchWidth)
+                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchDepth)
+
                     // MARK: - Notch Controls
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
