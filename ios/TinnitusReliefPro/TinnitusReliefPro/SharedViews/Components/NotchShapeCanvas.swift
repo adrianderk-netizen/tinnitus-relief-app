@@ -12,9 +12,6 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
     var notchUpperEdgeHz: Float
     var notchDepth: Float           // 0.0–1.0
     var isActive: Bool
-    /// Whether the notch width was specified in Hz (narrow) vs octaves (wide).
-    /// Controls section count and Q selection to match `NotchFilterBank`.
-    private var isNarrowBand: Bool = true
 
     // MARK: - Animatable
 
@@ -43,11 +40,9 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
 
         switch notchWidth {
         case .hz(let v):
-            self.isNarrowBand = true
             self.notchLowerEdgeHz = max(20, notchFrequency - Float(v))
             self.notchUpperEdgeHz = notchFrequency + Float(v)
         case .octave(let v):
-            self.isNarrowBand = false
             let halfOct = v / 2.0
             self.notchLowerEdgeHz = max(20, notchFrequency / powf(2.0, halfOct))
             self.notchUpperEdgeHz = notchFrequency * powf(2.0, halfOct)
@@ -160,37 +155,21 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
         }
     }
 
-    /// Build biquad sections matching `NotchFilterBank.recalculateCoefficients` logic.
+    /// Build biquad sections for visualization.
+    /// Uses fewer sections with lower Q than the audio filter to produce
+    /// a clear, visually readable notch shape rather than a comb-like pattern.
     private func buildSections() -> [NotchSection] {
         let bandwidthHz = notchUpperEdgeHz - notchLowerEdgeHz
-        let halfBandwidth = bandwidthHz / 2.0
-
-        let numFilters: Int
-        let baseQ: Float
-
-        if isNarrowBand {
-            numFilters = max(2, Int(ceil(halfBandwidth / 25.0)))
-            baseQ = 50.0
-        } else {
-            let octaveWidth = log2(max(notchUpperEdgeHz, 1) / max(notchLowerEdgeHz, 1))
-            numFilters = max(1, Int(ceil(octaveWidth * 4.0)))
-            baseQ = 30.0
-        }
+        guard bandwidthHz > 0, notchCenterFreq > 0 else { return [] }
 
         let nyquist = sampleRate / 2.0
         let clampedUpper = min(notchUpperEdgeHz, nyquist - 100)
-        let clampedLower = min(notchLowerEdgeHz, clampedUpper - 1)
+        let clampedLower = max(notchLowerEdgeHz, 20)
+        guard clampedLower < clampedUpper else { return [] }
 
-        let effectiveCount = min(numFilters + 1, 16)
-        let freqStep = (clampedUpper - clampedLower) / Float(max(1, effectiveCount - 1))
-        let q = baseQ * max(0.01, notchDepth)
-
-        var sections: [NotchSection] = []
-        for i in 0..<effectiveCount {
-            let freq = clampedLower + freqStep * Float(i)
-            sections.append(NotchSection(centerFreq: freq, q: q, sampleRate: sampleRate))
-        }
-        return sections
+        // Single section: Q chosen so the -3 dB points match the configured edges.
+        let q = max(0.5, notchCenterFreq / bandwidthHz)
+        return [NotchSection(centerFreq: notchCenterFreq, q: q, sampleRate: sampleRate)]
     }
 
     /// Compute dB response at logarithmically-spaced sample points.
@@ -198,6 +177,7 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
         let sections = buildSections()
         let logMin = log10(minFreq)
         let logMax = log10(maxFreq)
+        let depth = max(0.01, notchDepth)
 
         return (0..<sampleCount).map { i in
             let t = Float(i) / Float(sampleCount - 1)
@@ -208,7 +188,8 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
                 magnitude *= section.magnitudeAt(freq, sampleRate: sampleRate)
             }
 
-            let db = 20.0 * log10(max(magnitude, 1e-6))
+            // Scale dB by depth so depth=0 is flat and depth=1 shows full notch
+            let db = 20.0 * log10(max(magnitude, 1e-6)) * depth
             let clampedDB = max(-60, min(0, db))
             return (freq: freq, db: clampedDB)
         }
@@ -252,7 +233,7 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
         fillPath.addLine(to: CGPoint(x: logPosition(for: response.last!.freq) * w, y: plotHeight))
         fillPath.closeSubpath()
 
-        let opacity: CGFloat = isActive ? 1.0 : 0.2
+        let opacity: CGFloat = isActive ? 1.0 : 0.5
         let gradient = Gradient(colors: [
             Color.accentCyan.opacity(0.15 * opacity),
             Color.accentCyan.opacity(0.03 * opacity)
@@ -277,7 +258,7 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
             curvePath.addLine(to: CGPoint(x: x, y: y))
         }
 
-        let curveOpacity: CGFloat = isActive ? 1.0 : 0.2
+        let curveOpacity: CGFloat = isActive ? 1.0 : 0.5
 
         // Glow layer (only when active)
         if isActive {
