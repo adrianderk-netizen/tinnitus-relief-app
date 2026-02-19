@@ -568,11 +568,13 @@ final class AudioEngineManager {
     private func startAnalysis() {
         guard analysisTimer == nil else { return }
 
-        // Single tap for both waveform capture and FFT analysis
+        // Single tap for both waveform capture and FFT analysis.
+        // Capture analyzer locally so the closure doesn't access @MainActor self
+        // from the audio render thread.
         let bufferSize: AVAudioFrameCount = 2048
         let sampleCount = waveformSampleCount
+        let analyzer = self.analyzer
         engine.mainMixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: nil) { [weak self] buffer, _ in
-            guard let self else { return }
             // Waveform sampling
             if let channelData = buffer.floatChannelData?[0] {
                 let frameCount = Int(buffer.frameLength)
@@ -583,11 +585,11 @@ final class AudioEngineManager {
                     samples[i] = channelData[idx]
                 }
                 Task { @MainActor in
-                    self.waveformSamples = samples
+                    self?.waveformSamples = samples
                 }
             }
             // FFT analysis
-            self.analyzer.analyzeBuffer(buffer)
+            analyzer.analyzeBuffer(buffer)
         }
 
         // Poll the analyzer ~30 times/sec and push to the observable property
