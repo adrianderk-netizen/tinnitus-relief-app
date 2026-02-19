@@ -94,6 +94,11 @@ final class AudioEngineManager {
     var musicVolume: Float = 0.7 { didSet { musicGain.outputVolume = musicVolume } }
     private(set) var isMusicPlaying: Bool = false
 
+    // Playlist queue
+    var playlistQueue: [URL] = []
+    var currentTrackIndex: Int = 0
+    var currentTrackName: String?
+
     // Master
     var masterVolume: Float = 0.8 {
         didSet { engine.mainMixerNode.outputVolume = masterVolume }
@@ -430,6 +435,9 @@ final class AudioEngineManager {
 
     func loadAudioFile(_ url: URL) throws {
         musicFile = try AVAudioFile(forReading: url)
+        currentTrackName = url.lastPathComponent
+        playlistQueue = []
+        currentTrackIndex = 0
         Self.logger.info("Audio file loaded: \(url.lastPathComponent)")
     }
 
@@ -450,7 +458,13 @@ final class AudioEngineManager {
         musicPlayer.stop()
         musicPlayer.scheduleFile(file, at: nil) { [weak self] in
             Task { @MainActor in
-                self?.isMusicPlaying = false
+                guard let self else { return }
+                if !self.playlistQueue.isEmpty {
+                    self.playNextTrack()
+                } else {
+                    self.isMusicPlaying = false
+                    self.stopAnalysisIfIdle()
+                }
             }
         }
         musicPlayer.play()
@@ -483,6 +497,44 @@ final class AudioEngineManager {
         }
         musicPlayer.play()
         Self.logger.info("Music seeked to \(time)s")
+    }
+
+    /// Loads a playlist queue and starts playback from the first track.
+    func loadPlaylist(_ urls: [URL]) {
+        guard !urls.isEmpty else { return }
+        playlistQueue = urls
+        currentTrackIndex = 0
+        loadTrackAt(index: 0)
+        playMusic()
+    }
+
+    /// Advances to the next track in the playlist queue.
+    func playNextTrack() {
+        guard !playlistQueue.isEmpty else { return }
+        let nextIndex = currentTrackIndex + 1
+        if nextIndex < playlistQueue.count {
+            currentTrackIndex = nextIndex
+            loadTrackAt(index: nextIndex)
+            playMusic()
+        } else {
+            // End of playlist
+            playlistQueue = []
+            currentTrackIndex = 0
+            currentTrackName = nil
+            isMusicPlaying = false
+            stopAnalysisIfIdle()
+            Self.logger.info("Playlist finished")
+        }
+    }
+
+    private func loadTrackAt(index: Int) {
+        let url = playlistQueue[index]
+        do {
+            musicFile = try AVAudioFile(forReading: url)
+            currentTrackName = url.lastPathComponent
+        } catch {
+            Self.logger.error("Failed to load track: \(url.lastPathComponent)")
+        }
     }
 
     // MARK: - Panning (ear selection)
