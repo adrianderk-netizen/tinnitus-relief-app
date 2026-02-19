@@ -480,6 +480,14 @@ final class AudioEngineManager {
         Self.logger.info("Music paused")
     }
 
+    func stopMusic() {
+        musicPlayer.stop()
+        isMusicPlaying = false
+        musicFile?.framePosition = 0
+        stopAnalysisIfIdle()
+        Self.logger.info("Music stopped")
+    }
+
     /// Seeks music playback to the given time in seconds.
     func seekMusic(to time: Double) {
         guard let file = musicFile else { return }

@@ -51,22 +51,16 @@ struct NotchedNoiseSection: View {
                 .disabled(!audioEngine.isNoisePlaying)
             }
 
-            // MARK: - Waveform
-            WaveformCanvas(
+            // MARK: - Unified Visualization
+            TherapyVisualizationCanvas(
                 samples: audioEngine.waveformSamples,
-                isActive: audioEngine.isNoisePlaying
-            )
-            .frame(height: 80)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-
-            // MARK: - Spectrum Placeholder
-            NotchShapeCanvas(
+                isActive: audioEngine.isNoisePlaying,
+                showNotch: true,
                 notchFrequency: audioEngine.notchFrequency,
                 notchWidth: audioEngine.notchWidth,
-                notchDepth: audioEngine.notchDepth,
-                isActive: audioEngine.isNoisePlaying
+                notchDepth: audioEngine.notchDepth
             )
-            .frame(height: 120)
+            .frame(height: 170)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .animation(.easeInOut(duration: 0.3), value: audioEngine.notchFrequency)
             .animation(.easeInOut(duration: 0.3), value: audioEngine.notchWidth)
