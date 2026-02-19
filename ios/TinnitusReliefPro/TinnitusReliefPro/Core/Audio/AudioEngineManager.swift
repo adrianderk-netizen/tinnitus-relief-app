@@ -106,6 +106,8 @@ final class AudioEngineManager {
 
     // Analysis
     var frequencyData: [Float] = []
+    var waveformSamples: [Float] = Array(repeating: 0, count: 200)
+    private let waveformSampleCount = 200
 
     // Ear routing
     var earSelection: EarSelection = .both {
@@ -507,6 +509,23 @@ final class AudioEngineManager {
         guard analysisTimer == nil else { return }
         analyzer.attachToNode(engine.mainMixerNode)
 
+        // Install waveform tap on main mixer
+        let bufferSize: AVAudioFrameCount = 1024
+        let sampleCount = waveformSampleCount
+        engine.mainMixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: nil) { [weak self] buffer, _ in
+            guard let channelData = buffer.floatChannelData?[0] else { return }
+            let frameCount = Int(buffer.frameLength)
+            let stride = max(1, frameCount / sampleCount)
+            var samples = [Float](repeating: 0, count: sampleCount)
+            for i in 0..<sampleCount {
+                let idx = min(i * stride, frameCount - 1)
+                samples[i] = channelData[idx]
+            }
+            Task { @MainActor in
+                self?.waveformSamples = samples
+            }
+        }
+
         // Poll the analyzer ~30 times/sec and push to the observable property
         analysisTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             Task { @MainActor in
@@ -519,8 +538,10 @@ final class AudioEngineManager {
         guard !isTonePlaying, !isNoisePlaying, !isMusicPlaying else { return }
         analysisTimer?.invalidate()
         analysisTimer = nil
+        engine.mainMixerNode.removeTap(onBus: 0)
         analyzer.detach()
         frequencyData = []
+        waveformSamples = Array(repeating: 0, count: waveformSampleCount)
     }
 
     // MARK: - Interruption handling
