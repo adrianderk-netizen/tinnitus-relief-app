@@ -120,7 +120,7 @@ struct NotchedMusicSection: View {
                 .background(Color.bgPrimary, in: RoundedRectangle(cornerRadius: 8))
             }
 
-            // MARK: - Play / Pause
+            // MARK: - Play / Pause / Stop
             if selectedFileURL != nil || !audioEngine.playlistQueue.isEmpty {
                 HStack(spacing: 16) {
                     Button {
@@ -140,6 +140,19 @@ struct NotchedMusicSection: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(audioEngine.isMusicPlaying ? Color.accentAmber : Color.accentGreen)
+
+                    Button {
+                        audioEngine.stopMusic()
+                        currentTime = 0
+                    } label: {
+                        Label("Stop", systemImage: "stop.fill")
+                            .font(.subheadline.bold())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.accentRed)
+                    .disabled(!audioEngine.isMusicPlaying)
                 }
 
                 // MARK: - Seek
@@ -184,13 +197,21 @@ struct NotchedMusicSection: View {
                         }
                 }
 
-                // MARK: - Waveform
-                WaveformCanvas(
+                // MARK: - Unified Visualization
+                TherapyVisualizationCanvas(
                     samples: audioEngine.waveformSamples,
-                    isActive: audioEngine.isMusicPlaying
+                    isActive: audioEngine.isMusicPlaying,
+                    showNotch: notchEnabled,
+                    notchFrequency: audioEngine.notchFrequency,
+                    notchWidth: audioEngine.notchWidth,
+                    notchDepth: audioEngine.notchDepth
                 )
-                .frame(height: 80)
+                .frame(height: 170)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .animation(.easeInOut(duration: 0.3), value: audioEngine.notchFrequency)
+                .animation(.easeInOut(duration: 0.3), value: audioEngine.notchWidth)
+                .animation(.easeInOut(duration: 0.3), value: audioEngine.notchDepth)
+                .animation(.easeInOut(duration: 0.3), value: notchEnabled)
 
                 // MARK: - Notch Toggle
                 Toggle(isOn: $notchEnabled) {
@@ -201,19 +222,6 @@ struct NotchedMusicSection: View {
                 .tint(Color.accentCyan)
 
                 if notchEnabled {
-                    // MARK: - Notch Shape Diagram
-                    NotchShapeCanvas(
-                        notchFrequency: audioEngine.notchFrequency,
-                        notchWidth: audioEngine.notchWidth,
-                        notchDepth: audioEngine.notchDepth,
-                        isActive: audioEngine.isMusicPlaying && notchEnabled
-                    )
-                    .frame(height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchFrequency)
-                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchWidth)
-                    .animation(.easeInOut(duration: 0.3), value: audioEngine.notchDepth)
-
                     // MARK: - Notch Controls
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
