@@ -94,6 +94,11 @@ final class AudioEngineManager {
     var musicVolume: Float = 0.7 { didSet { musicGain.outputVolume = musicVolume } }
     private(set) var isMusicPlaying: Bool = false
 
+    // Playlist queue
+    private(set) var playlistQueue: [URL] = []
+    private(set) var currentTrackIndex: Int = 0
+    private(set) var currentTrackName: String?
+
     // Master
     var masterVolume: Float = 0.8 {
         didSet { engine.mainMixerNode.outputVolume = masterVolume }
@@ -106,6 +111,8 @@ final class AudioEngineManager {
 
     // Analysis
     var frequencyData: [Float] = []
+    var waveformSamples: [Float] = Array(repeating: 0, count: 200)
+    private let waveformSampleCount = 200
 
     // Ear routing
     var earSelection: EarSelection = .both {
@@ -428,6 +435,9 @@ final class AudioEngineManager {
 
     func loadAudioFile(_ url: URL) throws {
         musicFile = try AVAudioFile(forReading: url)
+        currentTrackName = url.lastPathComponent
+        playlistQueue = []
+        currentTrackIndex = 0
         Self.logger.info("Audio file loaded: \(url.lastPathComponent)")
     }
 
@@ -448,7 +458,13 @@ final class AudioEngineManager {
         musicPlayer.stop()
         musicPlayer.scheduleFile(file, at: nil) { [weak self] in
             Task { @MainActor in
-                self?.isMusicPlaying = false
+                guard let self else { return }
+                if !self.playlistQueue.isEmpty {
+                    self.playNextTrack()
+                } else {
+                    self.isMusicPlaying = false
+                    self.stopAnalysisIfIdle()
+                }
             }
         }
         musicPlayer.play()
@@ -476,11 +492,57 @@ final class AudioEngineManager {
         file.framePosition = targetFrame
         musicPlayer.scheduleSegment(file, startingFrame: targetFrame, frameCount: totalFrames, at: nil) { [weak self] in
             Task { @MainActor in
-                self?.isMusicPlaying = false
+                guard let self else { return }
+                if !self.playlistQueue.isEmpty {
+                    self.playNextTrack()
+                } else {
+                    self.isMusicPlaying = false
+                    self.stopAnalysisIfIdle()
+                }
             }
         }
         musicPlayer.play()
         Self.logger.info("Music seeked to \(time)s")
+    }
+
+    /// Loads a playlist queue and starts playback from the first track.
+    func loadPlaylist(_ urls: [URL]) {
+        guard !urls.isEmpty else { return }
+        playlistQueue = urls
+        currentTrackIndex = 0
+        loadTrackAt(index: 0)
+        playMusic()
+    }
+
+    /// Advances to the next track in the playlist queue.
+    func playNextTrack() {
+        guard !playlistQueue.isEmpty else { return }
+        let nextIndex = currentTrackIndex + 1
+        if nextIndex < playlistQueue.count {
+            currentTrackIndex = nextIndex
+            loadTrackAt(index: nextIndex)
+            playMusic()
+        } else {
+            // End of playlist
+            playlistQueue = []
+            currentTrackIndex = 0
+            currentTrackName = nil
+            isMusicPlaying = false
+            stopAnalysisIfIdle()
+            Self.logger.info("Playlist finished")
+        }
+    }
+
+    private func loadTrackAt(index: Int) {
+        let url = playlistQueue[index]
+        do {
+            musicFile = try AVAudioFile(forReading: url)
+            currentTrackName = url.lastPathComponent
+        } catch {
+            Self.logger.error("Failed to load track: \(url.lastPathComponent) - \(error.localizedDescription)")
+            musicFile = nil
+            currentTrackName = url.lastPathComponent
+        }
     }
 
     // MARK: - Panning (ear selection)
@@ -505,7 +567,28 @@ final class AudioEngineManager {
 
     private func startAnalysis() {
         guard analysisTimer == nil else { return }
-        analyzer.attachToNode(engine.mainMixerNode)
+
+        // Single tap for both waveform capture and FFT analysis
+        let bufferSize: AVAudioFrameCount = 2048
+        let sampleCount = waveformSampleCount
+        engine.mainMixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: nil) { [weak self] buffer, _ in
+            guard let self else { return }
+            // Waveform sampling
+            if let channelData = buffer.floatChannelData?[0] {
+                let frameCount = Int(buffer.frameLength)
+                let stride = max(1, frameCount / sampleCount)
+                var samples = [Float](repeating: 0, count: sampleCount)
+                for i in 0..<sampleCount {
+                    let idx = min(i * stride, frameCount - 1)
+                    samples[i] = channelData[idx]
+                }
+                Task { @MainActor in
+                    self.waveformSamples = samples
+                }
+            }
+            // FFT analysis
+            self.analyzer.analyzeBuffer(buffer)
+        }
 
         // Poll the analyzer ~30 times/sec and push to the observable property
         analysisTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
@@ -519,8 +602,9 @@ final class AudioEngineManager {
         guard !isTonePlaying, !isNoisePlaying, !isMusicPlaying else { return }
         analysisTimer?.invalidate()
         analysisTimer = nil
-        analyzer.detach()
+        engine.mainMixerNode.removeTap(onBus: 0)
         frequencyData = []
+        waveformSamples = Array(repeating: 0, count: waveformSampleCount)
     }
 
     // MARK: - Interruption handling

@@ -17,6 +17,7 @@ struct NotchedMusicSection: View {
     @State private var musicNotchFrequencyText: String = "4000"
     @State private var showImportError = false
     @State private var importErrorMessage = ""
+    @State private var showPlaylistSheet = false
 
     private var timeFormatter: DateComponentsFormatter {
         let f = DateComponentsFormatter()
@@ -84,16 +85,35 @@ struct NotchedMusicSection: View {
                 }
             }
 
-            if let fileName = selectedFileName {
+            Button {
+                showPlaylistSheet = true
+            } label: {
+                Label("Playlists", systemImage: "music.note.list")
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(Color.accentAmber)
+            .sheet(isPresented: $showPlaylistSheet) {
+                PlaylistSheetView()
+            }
+
+            if let trackName = audioEngine.currentTrackName ?? selectedFileName {
                 HStack {
                     Image(systemName: "music.note")
                         .foregroundStyle(Color.accentCyan)
-                    Text(fileName)
+                    Text(trackName)
                         .font(.subheadline)
                         .foregroundStyle(Color.textPrimary)
                         .lineLimit(1)
                         .truncationMode(.middle)
                     Spacer()
+                    if !audioEngine.playlistQueue.isEmpty {
+                        Text("\(audioEngine.currentTrackIndex + 1)/\(audioEngine.playlistQueue.count)")
+                            .font(.caption)
+                            .foregroundStyle(Color.textMuted)
+                    }
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
@@ -101,7 +121,7 @@ struct NotchedMusicSection: View {
             }
 
             // MARK: - Play / Pause
-            if selectedFileURL != nil {
+            if selectedFileURL != nil || !audioEngine.playlistQueue.isEmpty {
                 HStack(spacing: 16) {
                     Button {
                         if audioEngine.isMusicPlaying {
@@ -163,6 +183,14 @@ struct NotchedMusicSection: View {
                             audioEngine.musicVolume = Float(newVal / 100.0)
                         }
                 }
+
+                // MARK: - Waveform
+                WaveformCanvas(
+                    samples: audioEngine.waveformSamples,
+                    isActive: audioEngine.isMusicPlaying
+                )
+                .frame(height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 // MARK: - Notch Toggle
                 Toggle(isOn: $notchEnabled) {
