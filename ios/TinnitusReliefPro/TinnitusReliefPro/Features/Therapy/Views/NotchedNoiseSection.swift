@@ -52,15 +52,17 @@ struct NotchedNoiseSection: View {
             }
 
             // MARK: - Spectrum Placeholder
-            SpectrumCanvas(
-                frequencyData: audioEngine.frequencyData,
-                notchFrequency: Double(audioEngine.notchFrequency),
-                notchWidth: audioEngine.notchWidth.hzValue(
-                    centerFrequency: Double(audioEngine.notchFrequency)
-                )
+            NotchShapeCanvas(
+                notchFrequency: audioEngine.notchFrequency,
+                notchWidth: audioEngine.notchWidth,
+                notchDepth: audioEngine.notchDepth,
+                isActive: audioEngine.isNoisePlaying
             )
             .frame(height: 120)
             .clipShape(RoundedRectangle(cornerRadius: 10))
+            .animation(.easeInOut(duration: 0.3), value: audioEngine.notchFrequency)
+            .animation(.easeInOut(duration: 0.3), value: audioEngine.notchWidth)
+            .animation(.easeInOut(duration: 0.3), value: audioEngine.notchDepth)
 
             // MARK: - Noise Type
             VStack(alignment: .leading, spacing: 6) {
