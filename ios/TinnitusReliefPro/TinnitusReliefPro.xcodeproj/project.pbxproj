@@ -52,6 +52,7 @@
 		DB79699750CFDB3D23A8B6FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C061E47298D2ECEBF2A94D3C /* ContentView.swift */; };
 		DD75155C913BE8CE81CD4366 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB418C7548423868CEA8B67 /* PaywallView.swift */; };
 		E3E9569DF2C23B02DF521DC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10CDB0187627521347C54583 /* Assets.xcassets */; };
+		F4E3CB66AC8CBB5ABC2210A9 /* GettingStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */; };
 		FC6E22379C856E08621CA05B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226FBA3079E60F0C9B3C89C6 /* AppSettings.swift */; };
 		FF8FD8F2728A118907B5BC05 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7325F1A8BCD7BF74DEF77ED /* HapticManager.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +80,7 @@
 		0496ECEE1971B827A089999C /* TinnitusReliefProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProUITests.swift; sourceTree = "<group>"; };
 		08FE0AFAF5AE1D698CAA1504 /* TinnitusReliefProTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinnitusReliefProTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		09158F86A2688615235A08F1 /* TinnitusReliefPro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TinnitusReliefPro.entitlements; sourceTree = "<group>"; };
+		0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStartedView.swift; sourceTree = "<group>"; };
 		10CDB0187627521347C54583 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		12410F306FCD0329A5379895 /* CircularTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTimerView.swift; sourceTree = "<group>"; };
 		201F9354399A9AD22E691C21 /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				C061E47298D2ECEBF2A94D3C /* ContentView.swift */,
+				3AA8ABBAEAB8D6DCFC08D1F6 /* Help */,
 				E36065582A9B9FB7B9417E3F /* Journal */,
 				62A8BBB0F64B1D2637B40D70 /* Onboarding */,
 				65B73BADB05FA307D1B2CCE9 /* Paywall */,
@@ -208,6 +211,14 @@
 				888B9BB4339495D2C0C56E0D /* Views */,
 			);
 			path = Therapy;
+			sourceTree = "<group>";
+		};
+		3AA8ABBAEAB8D6DCFC08D1F6 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */,
+			);
+			path = Help;
 			sourceTree = "<group>";
 		};
 		43D6A4165B79242B2335B019 /* Managers */ = {
@@ -604,6 +615,7 @@
 				2932CA4C171029F8740AF064 /* FrequencyAnalyzer.swift in Sources */,
 				10080717CED382C6B0954523 /* FrequencyHeroView.swift in Sources */,
 				CD9907BD4DEE10CF4C27882B /* FrequencyPresetsView.swift in Sources */,
+				F4E3CB66AC8CBB5ABC2210A9 /* GettingStartedView.swift in Sources */,
 				FF8FD8F2728A118907B5BC05 /* HapticManager.swift in Sources */,
 				3B33F3F5F82B4BA246E0028F /* JournalEntry.swift in Sources */,
 				208E66FD847817B347717D1A /* JournalEntryRow.swift in Sources */,

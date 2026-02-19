@@ -124,6 +124,15 @@ struct SettingsView: View {
                 }
                 #endif
 
+                // MARK: - Help
+                Section("Help") {
+                    NavigationLink {
+                        GettingStartedView()
+                    } label: {
+                        Label("Getting Started Guide", systemImage: "book")
+                    }
+                }
+
                 // MARK: - About
                 Section("About") {
                     HStack {
