@@ -51,6 +51,14 @@ struct NotchedNoiseSection: View {
                 .disabled(!audioEngine.isNoisePlaying)
             }
 
+            // MARK: - Waveform
+            WaveformCanvas(
+                samples: audioEngine.waveformSamples,
+                isActive: audioEngine.isNoisePlaying
+            )
+            .frame(height: 80)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+
             // MARK: - Spectrum Placeholder
             NotchShapeCanvas(
                 notchFrequency: audioEngine.notchFrequency,
