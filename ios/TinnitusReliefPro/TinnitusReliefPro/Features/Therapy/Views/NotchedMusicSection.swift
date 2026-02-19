@@ -56,15 +56,20 @@ struct NotchedMusicSection: View {
                 switch result {
                 case .success(let urls):
                     if let url = urls.first {
-                        guard url.startAccessingSecurityScopedResource() else {
-                            importErrorMessage = "Unable to access this file. Please try a different file."
-                            showImportError = true
-                            return
-                        }
-                        defer { url.stopAccessingSecurityScopedResource() }
+                        let hasAccess = url.startAccessingSecurityScopedResource()
+                        defer { if hasAccess { url.stopAccessingSecurityScopedResource() } }
                         do {
-                            try audioEngine.loadAudioFile(url)
-                            selectedFileURL = url
+                            // Read file data into memory while we have access,
+                            // then write a local copy so playback works after
+                            // the security-scoped resource is released.
+                            let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                            let importDir = docs.appendingPathComponent("ImportedMusic")
+                            try FileManager.default.createDirectory(at: importDir, withIntermediateDirectories: true)
+                            let localURL = importDir.appendingPathComponent(url.lastPathComponent)
+                            let data = try Data(contentsOf: url)
+                            try data.write(to: localURL, options: .atomic)
+                            try audioEngine.loadAudioFile(localURL)
+                            selectedFileURL = localURL
                             selectedFileName = url.lastPathComponent
                         } catch {
                             selectedFileURL = nil

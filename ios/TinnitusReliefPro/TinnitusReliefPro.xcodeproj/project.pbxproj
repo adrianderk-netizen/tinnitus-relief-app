@@ -129,6 +129,7 @@
 		DC084E1E20F656E25C9A56DF /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		DEFF239E886EF3A0B272BCC6 /* TuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
 		E35FC545B7F8212EB1D2D63A /* WaveformCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformCanvas.swift; sourceTree = "<group>"; };
+		E9F3FC3AD691E3BB851C0937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EC647190E3A7548BE15C53F8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F3A7DC77601AE0861F181026 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -479,6 +480,7 @@
 		FB351923A89DC611136795F3 /* TinnitusReliefPro */ = {
 			isa = PBXGroup;
 			children = (
+				E9F3FC3AD691E3BB851C0937 /* Info.plist */,
 				3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */,
 				09158F86A2688615235A08F1 /* TinnitusReliefPro.entitlements */,
 				CA5950F553D029C9766AD05A /* App */,
@@ -820,13 +822,7 @@
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = TinnitusReliefPro/TinnitusReliefPro.entitlements;
 				CODE_SIGN_IDENTITY = "-";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Tinnitus Relief";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Tinnitus Relief Pro sends daily reminders to help you maintain a consistent therapy routine.";
-				INFOPLIST_KEY_RevenueCatAPIKey = "$(REVENUECAT_API_KEY)";
-				INFOPLIST_KEY_UIBackgroundModes = audio;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = TinnitusReliefPro/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -912,13 +908,7 @@
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = TinnitusReliefPro/TinnitusReliefPro.entitlements;
 				CODE_SIGN_IDENTITY = "-";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Tinnitus Relief";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Tinnitus Relief Pro sends daily reminders to help you maintain a consistent therapy routine.";
-				INFOPLIST_KEY_RevenueCatAPIKey = "$(REVENUECAT_API_KEY)";
-				INFOPLIST_KEY_UIBackgroundModes = audio;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = TinnitusReliefPro/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
