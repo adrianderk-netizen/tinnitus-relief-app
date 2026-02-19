@@ -33,19 +33,23 @@ targets:
     resources:
       - path: TinnitusReliefPro/Resources/Assets.xcassets
       - path: TinnitusReliefPro/PrivacyInfo.xcprivacy
+    info:
+      path: TinnitusReliefPro/Info.plist
+      properties:
+        CFBundleDisplayName: Tinnitus Relief
+        LSApplicationCategoryType: public.app-category.healthcare-fitness
+        UIBackgroundModes: [audio]
+        UILaunchScreen: {}
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        NSUserNotificationsUsageDescription: "Tinnitus Relief Pro sends daily reminders to help you maintain a consistent therapy routine."
+        RevenueCatAPIKey: $(REVENUECAT_API_KEY)
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitusreliefpro
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_UIBackgroundModes: audio
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_CFBundleDisplayName: "Tinnitus Relief"
-        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.healthcare-fitness"
         SWIFT_STRICT_CONCURRENCY: complete
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: NO
-        INFOPLIST_KEY_NSUserNotificationsUsageDescription: "Tinnitus Relief Pro sends daily reminders to help you maintain a consistent therapy routine."
-        INFOPLIST_KEY_RevenueCatAPIKey: $(REVENUECAT_API_KEY)
     dependencies:
       - package: RevenueCat
         product: RevenueCat
