@@ -184,6 +184,14 @@ struct NotchedMusicSection: View {
                         }
                 }
 
+                // MARK: - Waveform
+                WaveformCanvas(
+                    samples: audioEngine.waveformSamples,
+                    isActive: audioEngine.isMusicPlaying
+                )
+                .frame(height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+
                 // MARK: - Notch Toggle
                 Toggle(isOn: $notchEnabled) {
                     Text("Apply Notch Filter")
@@ -193,14 +201,6 @@ struct NotchedMusicSection: View {
                 .tint(Color.accentCyan)
 
                 if notchEnabled {
-                    // MARK: - Waveform
-                    WaveformCanvas(
-                        samples: audioEngine.waveformSamples,
-                        isActive: audioEngine.isMusicPlaying
-                    )
-                    .frame(height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-
                     // MARK: - Notch Shape Diagram
                     NotchShapeCanvas(
                         notchFrequency: audioEngine.notchFrequency,

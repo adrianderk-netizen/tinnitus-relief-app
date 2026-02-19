@@ -95,9 +95,9 @@ final class AudioEngineManager {
     private(set) var isMusicPlaying: Bool = false
 
     // Playlist queue
-    var playlistQueue: [URL] = []
-    var currentTrackIndex: Int = 0
-    var currentTrackName: String?
+    private(set) var playlistQueue: [URL] = []
+    private(set) var currentTrackIndex: Int = 0
+    private(set) var currentTrackName: String?
 
     // Master
     var masterVolume: Float = 0.8 {
@@ -492,7 +492,13 @@ final class AudioEngineManager {
         file.framePosition = targetFrame
         musicPlayer.scheduleSegment(file, startingFrame: targetFrame, frameCount: totalFrames, at: nil) { [weak self] in
             Task { @MainActor in
-                self?.isMusicPlaying = false
+                guard let self else { return }
+                if !self.playlistQueue.isEmpty {
+                    self.playNextTrack()
+                } else {
+                    self.isMusicPlaying = false
+                    self.stopAnalysisIfIdle()
+                }
             }
         }
         musicPlayer.play()
@@ -533,7 +539,9 @@ final class AudioEngineManager {
             musicFile = try AVAudioFile(forReading: url)
             currentTrackName = url.lastPathComponent
         } catch {
-            Self.logger.error("Failed to load track: \(url.lastPathComponent)")
+            Self.logger.error("Failed to load track: \(url.lastPathComponent) - \(error.localizedDescription)")
+            musicFile = nil
+            currentTrackName = url.lastPathComponent
         }
     }
 
@@ -559,23 +567,27 @@ final class AudioEngineManager {
 
     private func startAnalysis() {
         guard analysisTimer == nil else { return }
-        analyzer.attachToNode(engine.mainMixerNode)
 
-        // Install waveform tap on main mixer
-        let bufferSize: AVAudioFrameCount = 1024
+        // Single tap for both waveform capture and FFT analysis
+        let bufferSize: AVAudioFrameCount = 2048
         let sampleCount = waveformSampleCount
         engine.mainMixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: nil) { [weak self] buffer, _ in
-            guard let channelData = buffer.floatChannelData?[0] else { return }
-            let frameCount = Int(buffer.frameLength)
-            let stride = max(1, frameCount / sampleCount)
-            var samples = [Float](repeating: 0, count: sampleCount)
-            for i in 0..<sampleCount {
-                let idx = min(i * stride, frameCount - 1)
-                samples[i] = channelData[idx]
+            guard let self else { return }
+            // Waveform sampling
+            if let channelData = buffer.floatChannelData?[0] {
+                let frameCount = Int(buffer.frameLength)
+                let stride = max(1, frameCount / sampleCount)
+                var samples = [Float](repeating: 0, count: sampleCount)
+                for i in 0..<sampleCount {
+                    let idx = min(i * stride, frameCount - 1)
+                    samples[i] = channelData[idx]
+                }
+                Task { @MainActor in
+                    self.waveformSamples = samples
+                }
             }
-            Task { @MainActor in
-                self?.waveformSamples = samples
-            }
+            // FFT analysis
+            self.analyzer.analyzeBuffer(buffer)
         }
 
         // Poll the analyzer ~30 times/sec and push to the observable property
@@ -591,7 +603,6 @@ final class AudioEngineManager {
         analysisTimer?.invalidate()
         analysisTimer = nil
         engine.mainMixerNode.removeTap(onBus: 0)
-        analyzer.detach()
         frequencyData = []
         waveformSamples = Array(repeating: 0, count: waveformSampleCount)
     }

@@ -89,7 +89,7 @@ final class FrequencyAnalyzer {
 
     // MARK: - FFT analysis
 
-    private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
+    func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
         guard let fftSetup else { return }
         guard let channelData = buffer.floatChannelData?[0] else { return }
         let frameCount = Int(buffer.frameLength)
