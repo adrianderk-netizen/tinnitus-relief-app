@@ -24,7 +24,9 @@ struct TinnitusReliefProApp: App {
         let schema = Schema([
             TinnitusSession.self,
             UserProfile.self,
-            JournalEntry.self
+            JournalEntry.self,
+            Playlist.self,
+            PlaylistTrack.self
         ])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {

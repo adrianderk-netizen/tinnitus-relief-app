@@ -14,6 +14,7 @@
 		1DBFAD72E113D2DE549294E1 /* ManualTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */; };
 		208E66FD847817B347717D1A /* JournalEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B80C2B09AFA7FEA719A30D /* JournalEntryRow.swift */; };
 		2932CA4C171029F8740AF064 /* FrequencyAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EC21C5509699880E7028EB /* FrequencyAnalyzer.swift */; };
+		2E35628057EFBACA220E9E58 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */; };
 		2E62F88D2D85016A6FC65F4A /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = E37ACB95E3AA58A2A9B03647 /* RevenueCat */; };
 		3364B8D5C6986E4DBF9A442B /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339CD0360797DAE4F8B48BFF /* JournalRepository.swift */; };
 		3701E049579877B96C480638 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */; };
@@ -41,6 +42,7 @@
 		8B38EBF4B20E28E1AABBFC44 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325DFB6E9AAC72F132CB12E /* SessionRepository.swift */; };
 		9754A80CA6589314FCFB81D5 /* SessionStatsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283D9241B9CD6B966FB59FE7 /* SessionStatsGrid.swift */; };
 		98D595AEC48AB6827A697715 /* OscillatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EC27821790BA06F15470A /* OscillatorNode.swift */; };
+		9C33D9E33E52EFAC1899FA1C /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA260E565EC42BCC68D10F22 /* Playlist.swift */; };
 		9E5969859B338BAEAB46FBA0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */; };
 		A3E40006DCDE2EE0B069915E /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5CCA08F2DA6F0239291221 /* JournalView.swift */; };
 		A5703361A3E84B818FFB371E /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE174B21369EC8320D97DC /* ProfileRepository.swift */; };
@@ -94,6 +96,7 @@
 		36407DC2DBC17849EA5A53F9 /* AutoTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTuningSection.swift; sourceTree = "<group>"; };
 		368A729D297BB1B17515C05E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
 		3ABED36416380E23346D8F68 /* NotchShapeCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShapeCanvas.swift; sourceTree = "<group>"; };
 		40508E704F54303272E8F4D5 /* TinnitusReliefProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProTests.swift; sourceTree = "<group>"; };
 		413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityChartView.swift; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 		DEFF239E886EF3A0B272BCC6 /* TuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
 		E35FC545B7F8212EB1D2D63A /* WaveformCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformCanvas.swift; sourceTree = "<group>"; };
 		E9F3FC3AD691E3BB851C0937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EA260E565EC42BCC68D10F22 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		EC647190E3A7548BE15C53F8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F3A7DC77601AE0861F181026 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -414,6 +418,8 @@
 			isa = PBXGroup;
 			children = (
 				201F9354399A9AD22E691C21 /* JournalEntry.swift */,
+				EA260E565EC42BCC68D10F22 /* Playlist.swift */,
+				39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */,
 				9C5C942834CC4EC7EFA55732 /* TinnitusSession.swift */,
 				AE8898291ADD27437E840B78 /* UserProfile.swift */,
 			);
@@ -651,6 +657,8 @@
 				4911FEBC54F53955B8E30D50 /* OnboardingView.swift in Sources */,
 				98D595AEC48AB6827A697715 /* OscillatorNode.swift in Sources */,
 				DD75155C913BE8CE81CD4366 /* PaywallView.swift in Sources */,
+				9C33D9E33E52EFAC1899FA1C /* Playlist.swift in Sources */,
+				2E35628057EFBACA220E9E58 /* PlaylistTrack.swift in Sources */,
 				75C142088FEB4A5DC9ECBEC6 /* PrivacyPolicyView.swift in Sources */,
 				A5703361A3E84B818FFB371E /* ProfileRepository.swift in Sources */,
 				77463E6288AFE585D2DB462C /* SessionManager.swift in Sources */,
