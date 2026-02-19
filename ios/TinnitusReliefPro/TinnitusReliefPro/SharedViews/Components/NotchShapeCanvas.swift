@@ -12,6 +12,9 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
     var notchUpperEdgeHz: Float
     var notchDepth: Float           // 0.0–1.0
     var isActive: Bool
+    /// Whether the notch width was specified in Hz (narrow) vs octaves (wide).
+    /// Controls section count and Q selection to match `NotchFilterBank`.
+    private var isNarrowBand: Bool = true
 
     // MARK: - Animatable
 
@@ -40,9 +43,11 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
 
         switch notchWidth {
         case .hz(let v):
+            self.isNarrowBand = true
             self.notchLowerEdgeHz = max(20, notchFrequency - Float(v))
             self.notchUpperEdgeHz = notchFrequency + Float(v)
         case .octave(let v):
+            self.isNarrowBand = false
             let halfOct = v / 2.0
             self.notchLowerEdgeHz = max(20, notchFrequency / powf(2.0, halfOct))
             self.notchUpperEdgeHz = notchFrequency * powf(2.0, halfOct)
@@ -162,9 +167,8 @@ struct NotchShapeCanvas: View, @preconcurrency Animatable {
 
         let numFilters: Int
         let baseQ: Float
-        let isNarrow = halfBandwidth < (notchCenterFreq * 0.1)
 
-        if isNarrow {
+        if isNarrowBand {
             numFilters = max(2, Int(ceil(halfBandwidth / 25.0)))
             baseQ = 50.0
         } else {
