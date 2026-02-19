@@ -22,6 +22,25 @@ struct GettingStartedView: View {
                 }
                 .padding(.top, 8)
 
+                // MARK: - How It Works
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "brain.head.profile")
+                        .foregroundStyle(Color.accentCyan)
+                        .font(.title3)
+                        .frame(width: 28)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("How It Works")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(Color.textPrimary)
+                        Text("Notched therapy removes your tinnitus frequency from background sound. This activates surrounding neurons that gradually quiet the overactive ones causing your tinnitus \u{2014} a process called lateral inhibition.")
+                            .font(.caption)
+                            .foregroundStyle(Color.textSecondary)
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.bgCard, in: RoundedRectangle(cornerRadius: 12))
+
                 // MARK: - Step 1: Find Your Frequency
                 StepSection(
                     number: 1,

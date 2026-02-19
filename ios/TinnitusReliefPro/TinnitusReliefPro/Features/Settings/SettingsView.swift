@@ -142,11 +142,15 @@ struct SettingsView: View {
                             .foregroundStyle(Color.textSecondary)
                     }
 
-                    Link(destination: URL(string: "https://github.com/adrianderk-netizen/tinnitus-relief-app/blob/main/docs/legal/privacy-policy.md")!) {
+                    NavigationLink {
+                        PrivacyPolicyView()
+                    } label: {
                         Label("Privacy Policy", systemImage: "hand.raised")
                     }
 
-                    Link(destination: URL(string: "https://github.com/adrianderk-netizen/tinnitus-relief-app/blob/main/docs/legal/terms-of-service.md")!) {
+                    NavigationLink {
+                        TermsOfServiceView()
+                    } label: {
                         Label("Terms of Service", systemImage: "doc.text")
                     }
                 }
