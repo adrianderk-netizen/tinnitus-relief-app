@@ -93,6 +93,7 @@ final class AudioEngineManager {
     // Music
     var musicVolume: Float = 0.7 { didSet { musicGain.outputVolume = musicVolume } }
     private(set) var isMusicPlaying: Bool = false
+    private var musicScheduleGeneration: Int = 0
 
     // Playlist queue
     private(set) var playlistQueue: [URL] = []
@@ -456,9 +457,11 @@ final class AudioEngineManager {
 
         applyPanning()
         musicPlayer.stop()
+        musicScheduleGeneration += 1
+        let generation = musicScheduleGeneration
         musicPlayer.scheduleFile(file, at: nil) { [weak self] in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, self.musicScheduleGeneration == generation else { return }
                 if !self.playlistQueue.isEmpty {
                     self.playNextTrack()
                 } else {
@@ -481,6 +484,7 @@ final class AudioEngineManager {
     }
 
     func stopMusic() {
+        musicScheduleGeneration += 1
         musicPlayer.stop()
         isMusicPlaying = false
         musicFile?.framePosition = 0
@@ -498,9 +502,11 @@ final class AudioEngineManager {
 
         musicPlayer.stop()
         file.framePosition = targetFrame
+        musicScheduleGeneration += 1
+        let generation = musicScheduleGeneration
         musicPlayer.scheduleSegment(file, startingFrame: targetFrame, frameCount: totalFrames, at: nil) { [weak self] in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, self.musicScheduleGeneration == generation else { return }
                 if !self.playlistQueue.isEmpty {
                     self.playNextTrack()
                 } else {
