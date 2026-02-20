@@ -14,7 +14,6 @@ struct NotchedMusicSection: View {
     @State private var isSeeking = false
     @State private var musicVolume: Double = 70
     @State private var notchEnabled = true
-    @State private var musicNotchFrequencyText: String = "4000"
     @State private var showImportError = false
     @State private var importErrorMessage = ""
     @State private var showPlaylistSheet = false
@@ -220,50 +219,6 @@ struct NotchedMusicSection: View {
                         .foregroundStyle(Color.textPrimary)
                 }
                 .tint(Color.accentCyan)
-
-                if notchEnabled {
-                    // MARK: - Notch Controls
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Text("Notch Frequency")
-                                .font(.subheadline)
-                                .foregroundStyle(Color.textSecondary)
-                            Spacer()
-                            TextField("Hz", text: $musicNotchFrequencyText)
-                                .font(.system(.body, design: .monospaced))
-                                .multilineTextAlignment(.trailing)
-                                .textFieldStyle(.roundedBorder)
-                                .keyboardType(.numberPad)
-                                .frame(width: 80)
-                                .onChange(of: musicNotchFrequencyText) { _, newVal in
-                                    let filtered = newVal.filter(\.isNumber)
-                                    if filtered != newVal { musicNotchFrequencyText = filtered }
-                                }
-                                .onSubmit {
-                                    if let val = Float(musicNotchFrequencyText), (100...15000).contains(val) {
-                                        audioEngine.notchFrequency = val
-                                    }
-                                    musicNotchFrequencyText = "\(Int(audioEngine.notchFrequency))"
-                                }
-                            Text("Hz")
-                                .font(.caption)
-                                .foregroundStyle(Color.textMuted)
-                        }
-
-                        Slider(
-                            value: Binding(
-                                get: { Double(audioEngine.notchFrequency) },
-                                set: { newVal in
-                                    audioEngine.notchFrequency = Float(newVal)
-                                    musicNotchFrequencyText = "\(Int(newVal))"
-                                }
-                            ),
-                            in: 100...15000,
-                            step: 10
-                        )
-                        .tint(Color.accentCyan)
-                    }
-                }
             }
         }
         .padding()
