@@ -111,9 +111,7 @@ private struct WelcomeSlide: View {
             VStack(spacing: 24) {
                 Spacer(minLength: 20)
 
-                Image(systemName: "ear.and.waveform")
-                    .font(.system(size: 64))
-                    .foregroundStyle(Color.accentCyan)
+                DinoLogo(size: 80)
                     .padding(.bottom, 8)
 
                 Text("Welcome to\nTinnitussaurus")
