@@ -1,4 +1,4 @@
-name: TinnitusReliefPro
+name: Tinnitussaurus
 options:
   bundleIdPrefix: com.paulabac
   deploymentTarget:
@@ -22,31 +22,31 @@ settings:
     CURRENT_PROJECT_VERSION: "1"
 
 targets:
-  TinnitusReliefPro:
+  Tinnitussaurus:
     type: application
     platform: iOS
     deploymentTarget: "17.0"
     sources:
-      - path: TinnitusReliefPro
+      - path: Tinnitussaurus
         excludes:
           - "Preview Content/**"
     resources:
-      - path: TinnitusReliefPro/Resources/Assets.xcassets
-      - path: TinnitusReliefPro/PrivacyInfo.xcprivacy
+      - path: Tinnitussaurus/Resources/Assets.xcassets
+      - path: Tinnitussaurus/PrivacyInfo.xcprivacy
     info:
-      path: TinnitusReliefPro/Info.plist
+      path: Tinnitussaurus/Info.plist
       properties:
-        CFBundleDisplayName: Tinnitus Relief
+        CFBundleDisplayName: Tinnitussaurus
         LSApplicationCategoryType: public.app-category.healthcare-fitness
         UIBackgroundModes: [audio]
         UILaunchScreen: {}
         UIFileSharingEnabled: true
         LSSupportsOpeningDocumentsInPlace: true
-        NSUserNotificationsUsageDescription: "Tinnitus Relief Pro sends daily reminders to help you maintain a consistent therapy routine."
+        NSUserNotificationsUsageDescription: "Tinnitussaurus sends daily reminders to help you maintain a consistent therapy routine."
         RevenueCatAPIKey: $(REVENUECAT_API_KEY)
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitusreliefpro
+        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitussaurus
         SWIFT_STRICT_CONCURRENCY: complete
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: NO
@@ -54,30 +54,30 @@ targets:
       - package: RevenueCat
         product: RevenueCat
     entitlements:
-      path: TinnitusReliefPro/TinnitusReliefPro.entitlements
+      path: Tinnitussaurus/Tinnitussaurus.entitlements
       properties:
         com.apple.developer.healthkit: false
 
-  TinnitusReliefProTests:
+  TinnitussaurusTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: TinnitusReliefProTests
+      - path: TinnitussaurusTests
     dependencies:
-      - target: TinnitusReliefPro
+      - target: Tinnitussaurus
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitusreliefpro.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitussaurus.tests
         GENERATE_INFOPLIST_FILE: YES
 
-  TinnitusReliefProUITests:
+  TinnitussaurusUITests:
     type: bundle.ui-testing
     platform: iOS
     sources:
-      - path: TinnitusReliefProUITests
+      - path: TinnitussaurusUITests
     dependencies:
-      - target: TinnitusReliefPro
+      - target: Tinnitussaurus
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitusreliefpro.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: com.paulabac.tinnitussaurus.uitests
         GENERATE_INFOPLIST_FILE: YES
