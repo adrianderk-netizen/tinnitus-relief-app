@@ -1,7 +1,7 @@
 import XCTest
-@testable import TinnitusReliefPro
+@testable import Tinnitussaurus
 
-final class TinnitusReliefProTests: XCTestCase {
+final class TinnitussaurusTests: XCTestCase {
 
     func testAppLaunches() throws {
         // Placeholder — real tests coming soon

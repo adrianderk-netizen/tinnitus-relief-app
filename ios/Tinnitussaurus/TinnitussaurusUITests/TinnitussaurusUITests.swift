@@ -1,6 +1,6 @@
 import XCTest
 
-final class TinnitusReliefProUITests: XCTestCase {
+final class TinnitussaurusUITests: XCTestCase {
 
     func testAppLaunches() throws {
         let app = XCUIApplication()
