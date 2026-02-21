@@ -32,6 +32,7 @@ targets:
           - "Preview Content/**"
     resources:
       - path: Tinnitussaurus/Resources/Assets.xcassets
+      - path: Tinnitussaurus/Resources/Fonts
       - path: Tinnitussaurus/PrivacyInfo.xcprivacy
     info:
       path: Tinnitussaurus/Info.plist
@@ -41,6 +42,12 @@ targets:
         UIBackgroundModes: [audio]
         UILaunchScreen: {}
         UIFileSharingEnabled: true
+        UIAppFonts:
+          - SpaceGrotesk-Regular.ttf
+          - SpaceGrotesk-Medium.ttf
+          - SpaceGrotesk-SemiBold.ttf
+          - SpaceGrotesk-Bold.ttf
+          - Inter-Regular.ttf
         LSSupportsOpeningDocumentsInPlace: true
         NSUserNotificationsUsageDescription: "Tinnitussaurus sends daily reminders to help you maintain a consistent therapy routine."
         RevenueCatAPIKey: $(REVENUECAT_API_KEY)

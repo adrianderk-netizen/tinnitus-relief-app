@@ -7,578 +7,596 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06550058FEBEDE29262269C1 /* TinnitusReliefProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5D3EBC67C11A6BFD33053C /* TinnitusReliefProApp.swift */; };
-		10080717CED382C6B0954523 /* FrequencyHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5636B1332A90F6F7DE8E48A1 /* FrequencyHeroView.swift */; };
-		18D444FA6D526EACDEE126C2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC084E1E20F656E25C9A56DF /* Theme.swift */; };
-		1BFD7DFCAAD59B1608B55949 /* AudioSessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8945E351D8FE93F15CAA57F6 /* AudioSessionConfig.swift */; };
-		1DBFAD72E113D2DE549294E1 /* ManualTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */; };
-		208E66FD847817B347717D1A /* JournalEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B80C2B09AFA7FEA719A30D /* JournalEntryRow.swift */; };
-		2932CA4C171029F8740AF064 /* FrequencyAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EC21C5509699880E7028EB /* FrequencyAnalyzer.swift */; };
-		2E35628057EFBACA220E9E58 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */; };
-		2E62F88D2D85016A6FC65F4A /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = E37ACB95E3AA58A2A9B03647 /* RevenueCat */; };
-		3364B8D5C6986E4DBF9A442B /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339CD0360797DAE4F8B48BFF /* JournalRepository.swift */; };
-		3701E049579877B96C480638 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */; };
-		39E49143113AFDAA5846FA96 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647190E3A7548BE15C53F8 /* SettingsView.swift */; };
-		3B33F3F5F82B4BA246E0028F /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201F9354399A9AD22E691C21 /* JournalEntry.swift */; };
-		3B8417142D65966F5E70200B /* CheckInSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B6A213B983042B05B7A72F /* CheckInSheet.swift */; };
-		3E5610361AD6B715F6639803 /* NotchedMusicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C26D50BAA00BF019D49F3D8 /* NotchedMusicSection.swift */; };
-		3F88E30D19F273910E900097 /* TinnitusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C942834CC4EC7EFA55732 /* TinnitusSession.swift */; };
-		407D6D4D1E131DCF3A227945 /* NotchedNoiseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE51C6B7329EC2C9D460605D /* NotchedNoiseSection.swift */; };
-		44760CEBA20D792C80D3DFD4 /* TherapyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC2CF9CF0AD3DE749AAC473 /* TherapyView.swift */; };
-		4640C64676AEBE6F74E13C43 /* AutoTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36407DC2DBC17849EA5A53F9 /* AutoTuningSection.swift */; };
-		4911FEBC54F53955B8E30D50 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368A729D297BB1B17515C05E /* OnboardingView.swift */; };
-		4B810927C5F5E6F7FE05D1AF /* CircularTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12410F306FCD0329A5379895 /* CircularTimerView.swift */; };
-		4CCB0565CEB27B51354F5941 /* PlaylistSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2665ACB67BADE2EF3AEBA8 /* PlaylistSheetView.swift */; };
-		4EDE5FAF5CF611F6B5756167 /* NoiseGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62022ECD2A40533A8C03101 /* NoiseGenerator.swift */; };
-		4EFD33D1F456C0C7D0D06EB3 /* TinnitusReliefProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496ECEE1971B827A089999C /* TinnitusReliefProUITests.swift */; };
-		5CCA868A167CDB3831A56320 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3BDA3FED6493540B4160D /* SubscriptionManager.swift */; };
-		5DF6E3F2924E79E8B5945844 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432CFFBF2C88EA2DDAEC3E35 /* SessionView.swift */; };
-		703EC51E8990A1DB982A885D /* TinnitusReliefProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40508E704F54303272E8F4D5 /* TinnitusReliefProTests.swift */; };
-		74F1D856D3F50E792A6B5455 /* SpectrumCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62D523BEC750E31D10571AF /* SpectrumCanvas.swift */; };
-		75C142088FEB4A5DC9ECBEC6 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7DC77601AE0861F181026 /* PrivacyPolicyView.swift */; };
-		77463E6288AFE585D2DB462C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5259E557AB8585F67C6A89B4 /* SessionManager.swift */; };
-		7C058D0633D3A85082CD9A16 /* NotchFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DA632196E3DB4794A42470 /* NotchFilterBank.swift */; };
-		81CD4B6EBE14703327C0EE8C /* TherapyVisualizationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B679670CF9D8CB6D229606EF /* TherapyVisualizationCanvas.swift */; };
-		875287F34829FC41D7D39CF8 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A77EC23E16EB030DD814AF /* AudioEngineManager.swift */; };
-		8B38EBF4B20E28E1AABBFC44 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325DFB6E9AAC72F132CB12E /* SessionRepository.swift */; };
-		9754A80CA6589314FCFB81D5 /* SessionStatsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283D9241B9CD6B966FB59FE7 /* SessionStatsGrid.swift */; };
-		98D595AEC48AB6827A697715 /* OscillatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EC27821790BA06F15470A /* OscillatorNode.swift */; };
-		9C33D9E33E52EFAC1899FA1C /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA260E565EC42BCC68D10F22 /* Playlist.swift */; };
-		9E5969859B338BAEAB46FBA0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */; };
-		A3E40006DCDE2EE0B069915E /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5CCA08F2DA6F0239291221 /* JournalView.swift */; };
-		A5703361A3E84B818FFB371E /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE174B21369EC8320D97DC /* ProfileRepository.swift */; };
-		B35CFE30081D507C697FF425 /* SeverityChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */; };
-		C259163250F2D483026AF650 /* MoodLightOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802363B2699CFE2665A87AF4 /* MoodLightOverlay.swift */; };
-		C5881032DB9F982A149ECC20 /* TuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFF239E886EF3A0B272BCC6 /* TuneView.swift */; };
-		C6E89C45FB599ED4B7AD6C47 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EDA27A1AEF13F806FE206 /* ExportManager.swift */; };
-		C872DB3098F11C4B999739CB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8898291ADD27437E840B78 /* UserProfile.swift */; };
-		CD9907BD4DEE10CF4C27882B /* FrequencyPresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC96F0F9361D0F9757E9FC89 /* FrequencyPresetsView.swift */; };
-		DB4F12FD945F72DF7FE11370 /* PlaylistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D92AEF8AF712D871C277B6 /* PlaylistListView.swift */; };
-		DB79699750CFDB3D23A8B6FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C061E47298D2ECEBF2A94D3C /* ContentView.swift */; };
-		DD75155C913BE8CE81CD4366 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB418C7548423868CEA8B67 /* PaywallView.swift */; };
-		E3E9569DF2C23B02DF521DC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10CDB0187627521347C54583 /* Assets.xcassets */; };
-		F2FF02347BCCA3FF5EBDB958 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE2697D65429813E75E4941 /* TermsOfServiceView.swift */; };
-		F4E3CB66AC8CBB5ABC2210A9 /* GettingStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */; };
-		F561123CCB28C7E8A09CD5B7 /* PlaylistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2887ABC6ABD3E7FB03E4129 /* PlaylistDetailView.swift */; };
-		FC6E22379C856E08621CA05B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226FBA3079E60F0C9B3C89C6 /* AppSettings.swift */; };
-		FF8FD8F2728A118907B5BC05 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7325F1A8BCD7BF74DEF77ED /* HapticManager.swift */; };
+		02171B1CF1B267601CD84F76 /* GettingStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D275CBD11A53665C822756 /* GettingStartedView.swift */; };
+		04EEA859DB4280A612C63920 /* SpaceGrotesk-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F4EE1D143EA9CE8F4A1F55B /* SpaceGrotesk-Regular.ttf */; };
+		072094EF45FAAB964B92ED96 /* NotchedMusicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE67054BC3844742B2C0B80 /* NotchedMusicSection.swift */; };
+		0B6C21186DA7A97F3E422175 /* SpaceGrotesk-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 794B2D8AE368669B788EF894 /* SpaceGrotesk-Medium.ttf */; };
+		120A7DA65BAD3F02048ADC3F /* NotchFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB690FF4A28D6227536F7C /* NotchFilterBank.swift */; };
+		1E44A97A526F28CFE2697C0F /* TuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF2F85B19E27A9D237A01CE /* TuneView.swift */; };
+		1F69C7A356E96D3DDCEF6904 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4115A5556E5B01379E412883 /* SessionView.swift */; };
+		200029503D61159F3A8B3A38 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1E95B694B2EEFCA5C7B75 /* PlaylistTrack.swift */; };
+		227147BCE784DFE4D7F3B50C /* SpaceGrotesk-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6683F77E3C17D9D87C84EB82 /* SpaceGrotesk-Bold.ttf */; };
+		23071B86E43664AFD0B0A1B7 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2ED9B1171FC109373E320 /* UserProfile.swift */; };
+		2A6DFD6B6F3DDA205FFBE2FE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541C07AFB309F9290FC2B264 /* OnboardingView.swift */; };
+		2E37D6EAB85EA94C78015F98 /* SpaceGrotesk-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4DAEA4446A7311F4C4769E4 /* SpaceGrotesk-SemiBold.ttf */; };
+		328E18EB2D9D3F05605E83FF /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E782478E36A36E5CE7AFD3 /* SubscriptionManager.swift */; };
+		33110C95F11176E1D2307A65 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B82E1BDF7793EED36808B2 /* AudioEngineManager.swift */; };
+		33EAD27986AC46DA4093746F /* FrequencyHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F42AC45A388A726DF4C9EAB /* FrequencyHeroView.swift */; };
+		35E72F701EF0BFE1CFC2DC3F /* NoiseGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D48AA5E3F6A281B566738 /* NoiseGenerator.swift */; };
+		3781AB50593D7E983EA34AA1 /* FrequencyPresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27439A240BF2C1A90577D8B0 /* FrequencyPresetsView.swift */; };
+		3D7C9E0C6414AA9C12D051DD /* AudioSessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F8E76E524FE8D0857C724E /* AudioSessionConfig.swift */; };
+		3F95B2CB06BEBBE3DAC96B40 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5AEA92A1BEC6381132607C /* TermsOfServiceView.swift */; };
+		445135FB961A6AA95F6321F1 /* CircularTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69F30DD26D2BD4A4CD26D73 /* CircularTimerView.swift */; };
+		45524753E7855F5A7CC7BE5B /* TinnitusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CF142A65D894144FCE2DFC /* TinnitusSession.swift */; };
+		45DCD45ACCAC762947F0EBB6 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A3A684748E51F44F241C /* Playlist.swift */; };
+		5283A3CA56EA72819FB0F51B /* MoodLightOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2C3A88EA8A6D659630EA9 /* MoodLightOverlay.swift */; };
+		5A078EEC9198EEC3185C97DE /* PlaylistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1361B82678037F34C9B66 /* PlaylistListView.swift */; };
+		5FF4AE95AC2196AA4E98922E /* SeverityChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857A17CCE054436903A6E348 /* SeverityChartView.swift */; };
+		68536EC94A98D457B472CDBE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00898B2A3FCCB6BBDE1C9C5 /* AppSettings.swift */; };
+		6EBC9507623970788F116ADA /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5EE97B0975BA2A6FBEFD47 /* JournalRepository.swift */; };
+		70AB271E219856C62C966D51 /* OscillatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCBCF39149F17D028CA72F /* OscillatorNode.swift */; };
+		71969184C074F8575802ACAC /* SessionStatsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA962D83DC7FC72A26D0C38 /* SessionStatsGrid.swift */; };
+		7292FF4D8423545B0AC67CC8 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F088D341D99D7E1BAE7F8F15 /* Theme.swift */; };
+		7CE92B55BCA6B34968968635 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4221B3FA4A30D67F3186C38 /* PaywallView.swift */; };
+		7DCD4C147F72AD93FA938C89 /* TherapyVisualizationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F614ACF78418FFC62ACB776A /* TherapyVisualizationCanvas.swift */; };
+		820413AEAE907F5FE7A66721 /* JournalEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F9CCBA2BBF5963E5969AA /* JournalEntryRow.swift */; };
+		84B65D5FE182E5D5C9C9B284 /* AutoTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F2F65D9796BBB88821A0AF /* AutoTuningSection.swift */; };
+		90741276C18A80120C1C67D1 /* FrequencyAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C2B66B5A32537DA3AB979 /* FrequencyAnalyzer.swift */; };
+		93263DD43352FA19285BA2E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE443E6C0F2B38A05126EF /* ContentView.swift */; };
+		98BABD458111950EF9E61A90 /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0163B585B9A8207DA5F23B67 /* JournalEntry.swift */; };
+		9D9C464F321BF28137B96675 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4F743F8BAB97E2C7C4A39 /* SessionManager.swift */; };
+		A1378C577EAF7B99B79F50EB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 394BBF414BB8E1D8F05CE553 /* PrivacyInfo.xcprivacy */; };
+		A4B368262C839F70F66DF9FA /* NotchedNoiseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2624AD8E9E8742289F7F11 /* NotchedNoiseSection.swift */; };
+		A72DCFDE56CDB9D8B13FDF19 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C13BA809EEE5FB5CEE4568 /* HapticManager.swift */; };
+		A85EC9EECABD406C1A4C8074 /* CheckInSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF09862DE183EABFC54C255 /* CheckInSheet.swift */; };
+		B2EB24D862C5B19ABDDF42FD /* DinoLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA8D3EEF4FCC5CB61EF3AE9 /* DinoLogo.swift */; };
+		B3F5CA157A7BDD587186E3BC /* ManualTuningSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7061B30B5E79ADA960442AC /* ManualTuningSection.swift */; };
+		B4FDFC9DA5F0991AEBEE51A7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B827ABA67F3C32E7F8079E /* NotificationManager.swift */; };
+		B5CBB8C72D17C0F1E3DC3F98 /* TinnitussaurusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDE6C8127E7B6C4DA6BD350 /* TinnitussaurusApp.swift */; };
+		B9429831FCA46F749E588F5B /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3002E608D35DF6B8CCB05F /* PrivacyPolicyView.swift */; };
+		C44853A09BF15FB4D9C8FACE /* PlaylistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F01E1A0B9D69B91694256 /* PlaylistDetailView.swift */; };
+		C4D8563F67880ADD93EE83C5 /* TherapyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E3E1F2AA46BB4EB09D311 /* TherapyView.swift */; };
+		C5044C42535421C7BCD9BDAD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 1CE102B0D7AA09ABBDF3A602 /* RevenueCat */; };
+		CC0DDD95A1793E7A51337C27 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0BBCAFE5AAA856A8770938 /* ExportManager.swift */; };
+		CF3BF2334C5D2E4EC5F133E5 /* TinnitussaurusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC9421B8C7A18351881604 /* TinnitussaurusTests.swift */; };
+		DA21546A9577E27D9863722B /* SpectrumCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E646FDAE5C890DF2BA752 /* SpectrumCanvas.swift */; };
+		DB43C461FCB2BDFC71F53050 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3C1EBD3FCA81C0EE184698 /* ProfileRepository.swift */; };
+		DFC2AAD0E045B3F312351AB3 /* PlaylistSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84CB26E16A5B3F22809FD61 /* PlaylistSheetView.swift */; };
+		E0E4B9EFCB09F3A5DD256665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95DC3BCCCE9F1E8D327F737 /* Assets.xcassets */; };
+		E4FAA506A1EA77F07015A6C2 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAA705B633D54A617417ED /* SessionRepository.swift */; };
+		F0E4AF56F786DF073CAA4DF6 /* TinnitussaurusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB88AB6C56BB05F9B3EAC20A /* TinnitussaurusUITests.swift */; };
+		F4549C58997BF1C49D7E14E6 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E09952FFA0ED5B47578CC46 /* Inter-Regular.ttf */; };
+		FBCA37B621130D0ADB401C1D /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F828A3936BD1413DD45D4D54 /* JournalView.swift */; };
+		FF6243F34939B49924187E18 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3004E90268869C47BDD099CB /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3F45AF1433BD4FD609A9926B /* PBXContainerItemProxy */ = {
+		3FA508D37578A576E1A466A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 626182405EEF0554542C89CA /* Project object */;
+			containerPortal = A8442FC0529EB968EE864226 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B9CB06AEF3CAA7E170FD9A83;
-			remoteInfo = TinnitusReliefPro;
+			remoteGlobalIDString = F30C2B291727D2DF2E8AEB9E;
+			remoteInfo = Tinnitussaurus;
 		};
-		7F5ECC2C127D0CCE8E06D9D4 /* PBXContainerItemProxy */ = {
+		FAE8898B28362F6F7DDE7769 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 626182405EEF0554542C89CA /* Project object */;
+			containerPortal = A8442FC0529EB968EE864226 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B9CB06AEF3CAA7E170FD9A83;
-			remoteInfo = TinnitusReliefPro;
+			remoteGlobalIDString = F30C2B291727D2DF2E8AEB9E;
+			remoteInfo = Tinnitussaurus;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		01B6A213B983042B05B7A72F /* CheckInSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInSheet.swift; sourceTree = "<group>"; };
-		02495E8C31E09EF254C0F863 /* TinnitusReliefProUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinnitusReliefProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0496ECEE1971B827A089999C /* TinnitusReliefProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProUITests.swift; sourceTree = "<group>"; };
-		08FE0AFAF5AE1D698CAA1504 /* TinnitusReliefProTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinnitusReliefProTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		09158F86A2688615235A08F1 /* TinnitusReliefPro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TinnitusReliefPro.entitlements; sourceTree = "<group>"; };
-		0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStartedView.swift; sourceTree = "<group>"; };
-		10CDB0187627521347C54583 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		12410F306FCD0329A5379895 /* CircularTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTimerView.swift; sourceTree = "<group>"; };
-		201F9354399A9AD22E691C21 /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
-		226FBA3079E60F0C9B3C89C6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		27CE174B21369EC8320D97DC /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
-		283D9241B9CD6B966FB59FE7 /* SessionStatsGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatsGrid.swift; sourceTree = "<group>"; };
-		339CD0360797DAE4F8B48BFF /* JournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalRepository.swift; sourceTree = "<group>"; };
-		36407DC2DBC17849EA5A53F9 /* AutoTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTuningSection.swift; sourceTree = "<group>"; };
-		368A729D297BB1B17515C05E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
-		3D2665ACB67BADE2EF3AEBA8 /* PlaylistSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSheetView.swift; sourceTree = "<group>"; };
-		40508E704F54303272E8F4D5 /* TinnitusReliefProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProTests.swift; sourceTree = "<group>"; };
-		413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityChartView.swift; sourceTree = "<group>"; };
-		432CFFBF2C88EA2DDAEC3E35 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
-		46B80C2B09AFA7FEA719A30D /* JournalEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryRow.swift; sourceTree = "<group>"; };
-		495EDA27A1AEF13F806FE206 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
-		4CB418C7548423868CEA8B67 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
-		5259E557AB8585F67C6A89B4 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		5325DFB6E9AAC72F132CB12E /* SessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRepository.swift; sourceTree = "<group>"; };
-		5636B1332A90F6F7DE8E48A1 /* FrequencyHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyHeroView.swift; sourceTree = "<group>"; };
-		6CE9A87099623FE52B7DDAD1 /* TinnitusReliefPro.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TinnitusReliefPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		70DAADF56A1F00674CF8F41C /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		76EC21C5509699880E7028EB /* FrequencyAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyAnalyzer.swift; sourceTree = "<group>"; };
-		7A5CCA08F2DA6F0239291221 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
-		802363B2699CFE2665A87AF4 /* MoodLightOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodLightOverlay.swift; sourceTree = "<group>"; };
-		85D92AEF8AF712D871C277B6 /* PlaylistListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistListView.swift; sourceTree = "<group>"; };
-		8945E351D8FE93F15CAA57F6 /* AudioSessionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionConfig.swift; sourceTree = "<group>"; };
-		8BC2CF9CF0AD3DE749AAC473 /* TherapyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyView.swift; sourceTree = "<group>"; };
-		8C5D3EBC67C11A6BFD33053C /* TinnitusReliefProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusReliefProApp.swift; sourceTree = "<group>"; };
-		8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTuningSection.swift; sourceTree = "<group>"; };
-		9489F9E8E3B577B320620C48 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		956EC27821790BA06F15470A /* OscillatorNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatorNode.swift; sourceTree = "<group>"; };
-		9C26D50BAA00BF019D49F3D8 /* NotchedMusicSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedMusicSection.swift; sourceTree = "<group>"; };
-		9C5C942834CC4EC7EFA55732 /* TinnitusSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusSession.swift; sourceTree = "<group>"; };
-		AE8898291ADD27437E840B78 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		B62D523BEC750E31D10571AF /* SpectrumCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectrumCanvas.swift; sourceTree = "<group>"; };
-		B679670CF9D8CB6D229606EF /* TherapyVisualizationCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyVisualizationCanvas.swift; sourceTree = "<group>"; };
-		B8A77EC23E16EB030DD814AF /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
-		C061E47298D2ECEBF2A94D3C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C4DA632196E3DB4794A42470 /* NotchFilterBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchFilterBank.swift; sourceTree = "<group>"; };
-		D62022ECD2A40533A8C03101 /* NoiseGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseGenerator.swift; sourceTree = "<group>"; };
-		D7325F1A8BCD7BF74DEF77ED /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
-		DBD3BDA3FED6493540B4160D /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
-		DBE2697D65429813E75E4941 /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
-		DC084E1E20F656E25C9A56DF /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		DEFF239E886EF3A0B272BCC6 /* TuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
-		E9F3FC3AD691E3BB851C0937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		EA260E565EC42BCC68D10F22 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		EC647190E3A7548BE15C53F8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		F2887ABC6ABD3E7FB03E4129 /* PlaylistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailView.swift; sourceTree = "<group>"; };
-		F3A7DC77601AE0861F181026 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
-		F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		FC96F0F9361D0F9757E9FC89 /* FrequencyPresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyPresetsView.swift; sourceTree = "<group>"; };
-		FE51C6B7329EC2C9D460605D /* NotchedNoiseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedNoiseSection.swift; sourceTree = "<group>"; };
+		0163B585B9A8207DA5F23B67 /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
+		01E782478E36A36E5CE7AFD3 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		08CF142A65D894144FCE2DFC /* TinnitusSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitusSession.swift; sourceTree = "<group>"; };
+		0B3002E608D35DF6B8CCB05F /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		0B7E646FDAE5C890DF2BA752 /* SpectrumCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectrumCanvas.swift; sourceTree = "<group>"; };
+		0CDE443E6C0F2B38A05126EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0CEAA705B633D54A617417ED /* SessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRepository.swift; sourceTree = "<group>"; };
+		0E719C0CD435400A2A57B7DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		13B82E1BDF7793EED36808B2 /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
+		19B827ABA67F3C32E7F8079E /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		27439A240BF2C1A90577D8B0 /* FrequencyPresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyPresetsView.swift; sourceTree = "<group>"; };
+		2AF09862DE183EABFC54C255 /* CheckInSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInSheet.swift; sourceTree = "<group>"; };
+		3004E90268869C47BDD099CB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		35DCBCF39149F17D028CA72F /* OscillatorNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatorNode.swift; sourceTree = "<group>"; };
+		394BBF414BB8E1D8F05CE553 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3A1F01E1A0B9D69B91694256 /* PlaylistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailView.swift; sourceTree = "<group>"; };
+		4115A5556E5B01379E412883 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		41F2F65D9796BBB88821A0AF /* AutoTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTuningSection.swift; sourceTree = "<group>"; };
+		42D275CBD11A53665C822756 /* GettingStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStartedView.swift; sourceTree = "<group>"; };
+		52B2C3A88EA8A6D659630EA9 /* MoodLightOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodLightOverlay.swift; sourceTree = "<group>"; };
+		541C07AFB309F9290FC2B264 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		5B7DFBEAB84F805039939247 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		5CEC9421B8C7A18351881604 /* TinnitussaurusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitussaurusTests.swift; sourceTree = "<group>"; };
+		60C25BE2ED712F3EA5216898 /* Tinnitussaurus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Tinnitussaurus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6683F77E3C17D9D87C84EB82 /* SpaceGrotesk-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Bold.ttf"; sourceTree = "<group>"; };
+		69F4EE0DD09B9E6C9B07608E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		6DA8D3EEF4FCC5CB61EF3AE9 /* DinoLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinoLogo.swift; sourceTree = "<group>"; };
+		6E09952FFA0ED5B47578CC46 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		6F4EE1D143EA9CE8F4A1F55B /* SpaceGrotesk-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Regular.ttf"; sourceTree = "<group>"; };
+		794B2D8AE368669B788EF894 /* SpaceGrotesk-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Medium.ttf"; sourceTree = "<group>"; };
+		7CA962D83DC7FC72A26D0C38 /* SessionStatsGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatsGrid.swift; sourceTree = "<group>"; };
+		8259A3A684748E51F44F241C /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		82E1E95B694B2EEFCA5C7B75 /* PlaylistTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
+		857A17CCE054436903A6E348 /* SeverityChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityChartView.swift; sourceTree = "<group>"; };
+		896D48AA5E3F6A281B566738 /* NoiseGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseGenerator.swift; sourceTree = "<group>"; };
+		8B7E3E1F2AA46BB4EB09D311 /* TherapyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyView.swift; sourceTree = "<group>"; };
+		8E5EE97B0975BA2A6FBEFD47 /* JournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalRepository.swift; sourceTree = "<group>"; };
+		94C13BA809EEE5FB5CEE4568 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		9A0C2B66B5A32537DA3AB979 /* FrequencyAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyAnalyzer.swift; sourceTree = "<group>"; };
+		9AE2ED9B1171FC109373E320 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		9F42AC45A388A726DF4C9EAB /* FrequencyHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyHeroView.swift; sourceTree = "<group>"; };
+		A7061B30B5E79ADA960442AC /* ManualTuningSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTuningSection.swift; sourceTree = "<group>"; };
+		ABE67054BC3844742B2C0B80 /* NotchedMusicSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedMusicSection.swift; sourceTree = "<group>"; };
+		B1B1361B82678037F34C9B66 /* PlaylistListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistListView.swift; sourceTree = "<group>"; };
+		B4DAEA4446A7311F4C4769E4 /* SpaceGrotesk-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-SemiBold.ttf"; sourceTree = "<group>"; };
+		BA74761A463C380D4F63AA93 /* TinnitussaurusUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinnitussaurusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB88AB6C56BB05F9B3EAC20A /* TinnitussaurusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitussaurusUITests.swift; sourceTree = "<group>"; };
+		BD2624AD8E9E8742289F7F11 /* NotchedNoiseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedNoiseSection.swift; sourceTree = "<group>"; };
+		BFDB690FF4A28D6227536F7C /* NotchFilterBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchFilterBank.swift; sourceTree = "<group>"; };
+		C09705CE03F2DD96E69F55E1 /* Tinnitussaurus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tinnitussaurus.entitlements; sourceTree = "<group>"; };
+		C4221B3FA4A30D67F3186C38 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		C7F8E76E524FE8D0857C724E /* AudioSessionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionConfig.swift; sourceTree = "<group>"; };
+		C95DC3BCCCE9F1E8D327F737 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CA5AEA92A1BEC6381132607C /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+		CCF2F85B19E27A9D237A01CE /* TuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
+		CDDE6C8127E7B6C4DA6BD350 /* TinnitussaurusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinnitussaurusApp.swift; sourceTree = "<group>"; };
+		D69F30DD26D2BD4A4CD26D73 /* CircularTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTimerView.swift; sourceTree = "<group>"; };
+		D84CB26E16A5B3F22809FD61 /* PlaylistSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSheetView.swift; sourceTree = "<group>"; };
+		E23F9CCBA2BBF5963E5969AA /* JournalEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryRow.swift; sourceTree = "<group>"; };
+		EC0BBCAFE5AAA856A8770938 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
+		EEF5DCA00D039DF97DA1DF1A /* TinnitussaurusTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinnitussaurusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00898B2A3FCCB6BBDE1C9C5 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		F088D341D99D7E1BAE7F8F15 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		F614ACF78418FFC62ACB776A /* TherapyVisualizationCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyVisualizationCanvas.swift; sourceTree = "<group>"; };
+		F828A3936BD1413DD45D4D54 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
+		F8A4F743F8BAB97E2C7C4A39 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		FE3C1EBD3FCA81C0EE184698 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E1470560D4F909F78FDE3FB6 /* Frameworks */ = {
+		63961014E1E732FEB9C7D5FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E62F88D2D85016A6FC65F4A /* RevenueCat in Frameworks */,
+				C5044C42535421C7BCD9BDAD /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01FCB04405F6B670681221FF /* Tune */ = {
+		08C9FA51DC81003B9762725F /* Legal */ = {
 			isa = PBXGroup;
 			children = (
-				8874EAC36A06A878172FF925 /* Views */,
+				0B3002E608D35DF6B8CCB05F /* PrivacyPolicyView.swift */,
+				CA5AEA92A1BEC6381132607C /* TermsOfServiceView.swift */,
 			);
-			path = Tune;
+			path = Legal;
 			sourceTree = "<group>";
 		};
-		07EB20D17DA3AB82FBEFAAB7 /* Extensions */ = {
+		09F00A101307B61253A22D43 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2AF09862DE183EABFC54C255 /* CheckInSheet.swift */,
+				E23F9CCBA2BBF5963E5969AA /* JournalEntryRow.swift */,
+				F828A3936BD1413DD45D4D54 /* JournalView.swift */,
+				857A17CCE054436903A6E348 /* SeverityChartView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0E9735A29CDC9BFC74CD5627 = {
+			isa = PBXGroup;
+			children = (
+				3F31D569A8BA9FF89BC33EF1 /* Tinnitussaurus */,
+				D33505F23DD989D475E055D4 /* Tinnitussaurus */,
+				B94A05606C97CCB16B6A6A3A /* TinnitussaurusTests */,
+				F895AAE29448633D81C3E1B9 /* TinnitussaurusUITests */,
+				58CF8B5B7897635324524267 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		140D6A56F743C93946886520 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C4221B3FA4A30D67F3186C38 /* PaywallView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		15BF16316E092A6BE6902239 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		0F732532C3D7FF641542251D /* Features */ = {
+		18B3C3A12DD390972FFD26F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C061E47298D2ECEBF2A94D3C /* ContentView.swift */,
-				3AA8ABBAEAB8D6DCFC08D1F6 /* Help */,
-				E36065582A9B9FB7B9417E3F /* Journal */,
-				3DE80521E2BDB0E1C572F7CB /* Legal */,
-				62A8BBB0F64B1D2637B40D70 /* Onboarding */,
-				65B73BADB05FA307D1B2CCE9 /* Paywall */,
-				2D378A798CD4D55FCC3218B5 /* Session */,
-				29EA60E9580D65D00AE3E92E /* Settings */,
-				3376A58D0F141C4DDC9DD878 /* Therapy */,
-				01FCB04405F6B670681221FF /* Tune */,
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		258ED7EC85D7871C1A354F30 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		26BC6AFF9B04ABDB63DC0DE4 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				CF161A76AD30C1888F5DB963 /* Models */,
-				DD26AFB23DFF0E40547DCE79 /* Repositories */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		29EA60E9580D65D00AE3E92E /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				EC647190E3A7548BE15C53F8 /* SettingsView.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
-		2D378A798CD4D55FCC3218B5 /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				5F3F56470AC9B0A00354CEEF /* Views */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
-		3376A58D0F141C4DDC9DD878 /* Therapy */ = {
-			isa = PBXGroup;
-			children = (
-				888B9BB4339495D2C0C56E0D /* Views */,
-			);
-			path = Therapy;
-			sourceTree = "<group>";
-		};
-		3AA8ABBAEAB8D6DCFC08D1F6 /* Help */ = {
-			isa = PBXGroup;
-			children = (
-				0A92DEC24DCDA06B9A11B100 /* GettingStartedView.swift */,
-			);
-			path = Help;
-			sourceTree = "<group>";
-		};
-		3DE80521E2BDB0E1C572F7CB /* Legal */ = {
-			isa = PBXGroup;
-			children = (
-				F3A7DC77601AE0861F181026 /* PrivacyPolicyView.swift */,
-				DBE2697D65429813E75E4941 /* TermsOfServiceView.swift */,
-			);
-			path = Legal;
-			sourceTree = "<group>";
-		};
-		43D6A4165B79242B2335B019 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				226FBA3079E60F0C9B3C89C6 /* AppSettings.swift */,
-				495EDA27A1AEF13F806FE206 /* ExportManager.swift */,
-				D7325F1A8BCD7BF74DEF77ED /* HapticManager.swift */,
-				F8D6F620A113A10A0FB13C74 /* NotificationManager.swift */,
-				5259E557AB8585F67C6A89B4 /* SessionManager.swift */,
-				DBD3BDA3FED6493540B4160D /* SubscriptionManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		4C92B3770FD445379651AD76 /* TinnitusReliefProTests */ = {
-			isa = PBXGroup;
-			children = (
-				40508E704F54303272E8F4D5 /* TinnitusReliefProTests.swift */,
-			);
-			path = TinnitusReliefProTests;
-			sourceTree = "<group>";
-		};
-		4DF8ABA80DB29E7EE55E2BA7 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				4CB418C7548423868CEA8B67 /* PaywallView.swift */,
+				D69F30DD26D2BD4A4CD26D73 /* CircularTimerView.swift */,
+				7CA962D83DC7FC72A26D0C38 /* SessionStatsGrid.swift */,
+				4115A5556E5B01379E412883 /* SessionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		5EA0B4EB8BD7FFEF165A01FA /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				10CDB0187627521347C54583 /* Assets.xcassets */,
-				258ED7EC85D7871C1A354F30 /* Fonts */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		5F3F56470AC9B0A00354CEEF /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				12410F306FCD0329A5379895 /* CircularTimerView.swift */,
-				283D9241B9CD6B966FB59FE7 /* SessionStatsGrid.swift */,
-				432CFFBF2C88EA2DDAEC3E35 /* SessionView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		62A8BBB0F64B1D2637B40D70 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				737236A51D4A14EB7E666F4B /* Views */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		62C4E4B2A0AF4016FD55027E /* TinnitusReliefProUITests */ = {
-			isa = PBXGroup;
-			children = (
-				0496ECEE1971B827A089999C /* TinnitusReliefProUITests.swift */,
-			);
-			path = TinnitusReliefProUITests;
-			sourceTree = "<group>";
-		};
-		65B73BADB05FA307D1B2CCE9 /* Paywall */ = {
-			isa = PBXGroup;
-			children = (
-				4DF8ABA80DB29E7EE55E2BA7 /* Views */,
-			);
-			path = Paywall;
-			sourceTree = "<group>";
-		};
-		67CD7158232034183E434750 /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				DC084E1E20F656E25C9A56DF /* Theme.swift */,
-			);
-			path = Theme;
-			sourceTree = "<group>";
-		};
-		737236A51D4A14EB7E666F4B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				368A729D297BB1B17515C05E /* OnboardingView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8874EAC36A06A878172FF925 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				36407DC2DBC17849EA5A53F9 /* AutoTuningSection.swift */,
-				5636B1332A90F6F7DE8E48A1 /* FrequencyHeroView.swift */,
-				FC96F0F9361D0F9757E9FC89 /* FrequencyPresetsView.swift */,
-				8E8F30A658BB973530D86E8C /* ManualTuningSection.swift */,
-				DEFF239E886EF3A0B272BCC6 /* TuneView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		888B9BB4339495D2C0C56E0D /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9C26D50BAA00BF019D49F3D8 /* NotchedMusicSection.swift */,
-				FE51C6B7329EC2C9D460605D /* NotchedNoiseSection.swift */,
-				F2887ABC6ABD3E7FB03E4129 /* PlaylistDetailView.swift */,
-				85D92AEF8AF712D871C277B6 /* PlaylistListView.swift */,
-				3D2665ACB67BADE2EF3AEBA8 /* PlaylistSheetView.swift */,
-				8BC2CF9CF0AD3DE749AAC473 /* TherapyView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8EEA1108B53EF250E088E8F7 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				802363B2699CFE2665A87AF4 /* MoodLightOverlay.swift */,
-				B62D523BEC750E31D10571AF /* SpectrumCanvas.swift */,
-				B679670CF9D8CB6D229606EF /* TherapyVisualizationCanvas.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		9F6D8F632CDC9CC5A35A013A /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				B8A77EC23E16EB030DD814AF /* AudioEngineManager.swift */,
-				8945E351D8FE93F15CAA57F6 /* AudioSessionConfig.swift */,
-				76EC21C5509699880E7028EB /* FrequencyAnalyzer.swift */,
-				D62022ECD2A40533A8C03101 /* NoiseGenerator.swift */,
-				C4DA632196E3DB4794A42470 /* NotchFilterBank.swift */,
-				956EC27821790BA06F15470A /* OscillatorNode.swift */,
-			);
-			path = Audio;
-			sourceTree = "<group>";
-		};
-		BB68E1861E0FB9217F8ACF7E = {
-			isa = PBXGroup;
-			children = (
-				FB351923A89DC611136795F3 /* TinnitusReliefPro */,
-				E2FC6E16226A2319660736D3 /* TinnitusReliefPro */,
-				4C92B3770FD445379651AD76 /* TinnitusReliefProTests */,
-				62C4E4B2A0AF4016FD55027E /* TinnitusReliefProUITests */,
-				D070265342C41DDF40B1D97D /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		C59A3FB45CB71C404783B3B8 /* SharedViews */ = {
-			isa = PBXGroup;
-			children = (
-				8EEA1108B53EF250E088E8F7 /* Components */,
-			);
-			path = SharedViews;
-			sourceTree = "<group>";
-		};
-		CA5950F553D029C9766AD05A /* App */ = {
-			isa = PBXGroup;
-			children = (
-				8C5D3EBC67C11A6BFD33053C /* TinnitusReliefProApp.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		CAF56879E9E6D4BDBF7DEA95 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				01B6A213B983042B05B7A72F /* CheckInSheet.swift */,
-				46B80C2B09AFA7FEA719A30D /* JournalEntryRow.swift */,
-				7A5CCA08F2DA6F0239291221 /* JournalView.swift */,
-				413775B2D6B0A67AFA985D8A /* SeverityChartView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		CF161A76AD30C1888F5DB963 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				201F9354399A9AD22E691C21 /* JournalEntry.swift */,
-				EA260E565EC42BCC68D10F22 /* Playlist.swift */,
-				39FDC9727C1003E9B1118531 /* PlaylistTrack.swift */,
-				9C5C942834CC4EC7EFA55732 /* TinnitusSession.swift */,
-				AE8898291ADD27437E840B78 /* UserProfile.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		D070265342C41DDF40B1D97D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6CE9A87099623FE52B7DDAD1 /* TinnitusReliefPro.app */,
-				08FE0AFAF5AE1D698CAA1504 /* TinnitusReliefProTests.xctest */,
-				02495E8C31E09EF254C0F863 /* TinnitusReliefProUITests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DD26AFB23DFF0E40547DCE79 /* Repositories */ = {
-			isa = PBXGroup;
-			children = (
-				339CD0360797DAE4F8B48BFF /* JournalRepository.swift */,
-				27CE174B21369EC8320D97DC /* ProfileRepository.swift */,
-				5325DFB6E9AAC72F132CB12E /* SessionRepository.swift */,
-			);
-			path = Repositories;
-			sourceTree = "<group>";
-		};
-		E2FC6E16226A2319660736D3 /* TinnitusReliefPro */ = {
-			isa = PBXGroup;
-			children = (
-				9489F9E8E3B577B320620C48 /* Debug.xcconfig */,
-				70DAADF56A1F00674CF8F41C /* Release.xcconfig */,
-			);
-			name = TinnitusReliefPro;
-			path = .;
-			sourceTree = "<group>";
-		};
-		E36065582A9B9FB7B9417E3F /* Journal */ = {
-			isa = PBXGroup;
-			children = (
-				CAF56879E9E6D4BDBF7DEA95 /* Views */,
-			);
-			path = Journal;
-			sourceTree = "<group>";
-		};
-		ED64DDC86BD5C0615EB62BAD /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				9F6D8F632CDC9CC5A35A013A /* Audio */,
-				26BC6AFF9B04ABDB63DC0DE4 /* Data */,
-				07EB20D17DA3AB82FBEFAAB7 /* Extensions */,
-				43D6A4165B79242B2335B019 /* Managers */,
-				67CD7158232034183E434750 /* Theme */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		F0F0D346D33C7673DAE2481C /* Preview Content */ = {
+		1F5C62EDF9139C88B301B607 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		FB351923A89DC611136795F3 /* TinnitusReliefPro */ = {
+		24B1B062A68988CC58B20EC7 /* Help */ = {
 			isa = PBXGroup;
 			children = (
-				E9F3FC3AD691E3BB851C0937 /* Info.plist */,
-				3897C94F2336F638083C1C61 /* PrivacyInfo.xcprivacy */,
-				09158F86A2688615235A08F1 /* TinnitusReliefPro.entitlements */,
-				CA5950F553D029C9766AD05A /* App */,
-				ED64DDC86BD5C0615EB62BAD /* Core */,
-				0F732532C3D7FF641542251D /* Features */,
-				F0F0D346D33C7673DAE2481C /* Preview Content */,
-				5EA0B4EB8BD7FFEF165A01FA /* Resources */,
-				C59A3FB45CB71C404783B3B8 /* SharedViews */,
+				42D275CBD11A53665C822756 /* GettingStartedView.swift */,
 			);
-			path = TinnitusReliefPro;
+			path = Help;
+			sourceTree = "<group>";
+		};
+		2C9E982136DD4FA15097E66A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				41F2F65D9796BBB88821A0AF /* AutoTuningSection.swift */,
+				9F42AC45A388A726DF4C9EAB /* FrequencyHeroView.swift */,
+				27439A240BF2C1A90577D8B0 /* FrequencyPresetsView.swift */,
+				A7061B30B5E79ADA960442AC /* ManualTuningSection.swift */,
+				CCF2F85B19E27A9D237A01CE /* TuneView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2E68F9DC6B080476D8D879CF /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				09F00A101307B61253A22D43 /* Views */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		35FBC05D3EF4AECC449B91D2 /* SharedViews */ = {
+			isa = PBXGroup;
+			children = (
+				49DF2BE6B63BAF6296B5E953 /* Components */,
+			);
+			path = SharedViews;
+			sourceTree = "<group>";
+		};
+		36E348F2FE4198C5C8CA11BD /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				18B3C3A12DD390972FFD26F1 /* Views */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		3F31D569A8BA9FF89BC33EF1 /* Tinnitussaurus */ = {
+			isa = PBXGroup;
+			children = (
+				0E719C0CD435400A2A57B7DC /* Info.plist */,
+				394BBF414BB8E1D8F05CE553 /* PrivacyInfo.xcprivacy */,
+				C09705CE03F2DD96E69F55E1 /* Tinnitussaurus.entitlements */,
+				F4C8EE94536CD538ED84BC0C /* App */,
+				E5CCA7600A1D32F14293DA23 /* Core */,
+				A79030955BF467241A573FB4 /* Features */,
+				1F5C62EDF9139C88B301B607 /* Preview Content */,
+				81FB46B0E82FE40AB645511C /* Resources */,
+				35FBC05D3EF4AECC449B91D2 /* SharedViews */,
+			);
+			path = Tinnitussaurus;
+			sourceTree = "<group>";
+		};
+		41050627ABD65AA30F68C264 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				13B82E1BDF7793EED36808B2 /* AudioEngineManager.swift */,
+				C7F8E76E524FE8D0857C724E /* AudioSessionConfig.swift */,
+				9A0C2B66B5A32537DA3AB979 /* FrequencyAnalyzer.swift */,
+				896D48AA5E3F6A281B566738 /* NoiseGenerator.swift */,
+				BFDB690FF4A28D6227536F7C /* NotchFilterBank.swift */,
+				35DCBCF39149F17D028CA72F /* OscillatorNode.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		49DF2BE6B63BAF6296B5E953 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6DA8D3EEF4FCC5CB61EF3AE9 /* DinoLogo.swift */,
+				52B2C3A88EA8A6D659630EA9 /* MoodLightOverlay.swift */,
+				0B7E646FDAE5C890DF2BA752 /* SpectrumCanvas.swift */,
+				F614ACF78418FFC62ACB776A /* TherapyVisualizationCanvas.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4AADA01DD13F9BA3E49F803F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ABE67054BC3844742B2C0B80 /* NotchedMusicSection.swift */,
+				BD2624AD8E9E8742289F7F11 /* NotchedNoiseSection.swift */,
+				3A1F01E1A0B9D69B91694256 /* PlaylistDetailView.swift */,
+				B1B1361B82678037F34C9B66 /* PlaylistListView.swift */,
+				D84CB26E16A5B3F22809FD61 /* PlaylistSheetView.swift */,
+				8B7E3E1F2AA46BB4EB09D311 /* TherapyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5395EEF7A75266F7DC71244C /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				140D6A56F743C93946886520 /* Views */,
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
+		58CF8B5B7897635324524267 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60C25BE2ED712F3EA5216898 /* Tinnitussaurus.app */,
+				EEF5DCA00D039DF97DA1DF1A /* TinnitussaurusTests.xctest */,
+				BA74761A463C380D4F63AA93 /* TinnitussaurusUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5960E4195675864232C5ED18 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				F088D341D99D7E1BAE7F8F15 /* Theme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		5BA05A577DCF309898CFE3CE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0163B585B9A8207DA5F23B67 /* JournalEntry.swift */,
+				8259A3A684748E51F44F241C /* Playlist.swift */,
+				82E1E95B694B2EEFCA5C7B75 /* PlaylistTrack.swift */,
+				08CF142A65D894144FCE2DFC /* TinnitusSession.swift */,
+				9AE2ED9B1171FC109373E320 /* UserProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5EE579DBDC5CD3DA76EF8533 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F00898B2A3FCCB6BBDE1C9C5 /* AppSettings.swift */,
+				EC0BBCAFE5AAA856A8770938 /* ExportManager.swift */,
+				94C13BA809EEE5FB5CEE4568 /* HapticManager.swift */,
+				19B827ABA67F3C32E7F8079E /* NotificationManager.swift */,
+				F8A4F743F8BAB97E2C7C4A39 /* SessionManager.swift */,
+				01E782478E36A36E5CE7AFD3 /* SubscriptionManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		81FB46B0E82FE40AB645511C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C95DC3BCCCE9F1E8D327F737 /* Assets.xcassets */,
+				B24B411BCDEFF5866E99C2B6 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		84321A54C8B872BF30C97D42 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D4E002A07EB6A938608C30A3 /* Views */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A79030955BF467241A573FB4 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				0CDE443E6C0F2B38A05126EF /* ContentView.swift */,
+				24B1B062A68988CC58B20EC7 /* Help */,
+				2E68F9DC6B080476D8D879CF /* Journal */,
+				08C9FA51DC81003B9762725F /* Legal */,
+				84321A54C8B872BF30C97D42 /* Onboarding */,
+				5395EEF7A75266F7DC71244C /* Paywall */,
+				36E348F2FE4198C5C8CA11BD /* Session */,
+				D68341EC212C75D4AB733441 /* Settings */,
+				CE0B269B1A3FDEC1966CBE68 /* Therapy */,
+				C50778C5E1EF390E6A74AEBF /* Tune */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A8C5ED2AAEA604C657261C3D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				8E5EE97B0975BA2A6FBEFD47 /* JournalRepository.swift */,
+				FE3C1EBD3FCA81C0EE184698 /* ProfileRepository.swift */,
+				0CEAA705B633D54A617417ED /* SessionRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B24B411BCDEFF5866E99C2B6 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6E09952FFA0ED5B47578CC46 /* Inter-Regular.ttf */,
+				6683F77E3C17D9D87C84EB82 /* SpaceGrotesk-Bold.ttf */,
+				794B2D8AE368669B788EF894 /* SpaceGrotesk-Medium.ttf */,
+				6F4EE1D143EA9CE8F4A1F55B /* SpaceGrotesk-Regular.ttf */,
+				B4DAEA4446A7311F4C4769E4 /* SpaceGrotesk-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B94A05606C97CCB16B6A6A3A /* TinnitussaurusTests */ = {
+			isa = PBXGroup;
+			children = (
+				5CEC9421B8C7A18351881604 /* TinnitussaurusTests.swift */,
+			);
+			path = TinnitussaurusTests;
+			sourceTree = "<group>";
+		};
+		C50778C5E1EF390E6A74AEBF /* Tune */ = {
+			isa = PBXGroup;
+			children = (
+				2C9E982136DD4FA15097E66A /* Views */,
+			);
+			path = Tune;
+			sourceTree = "<group>";
+		};
+		CE0B269B1A3FDEC1966CBE68 /* Therapy */ = {
+			isa = PBXGroup;
+			children = (
+				4AADA01DD13F9BA3E49F803F /* Views */,
+			);
+			path = Therapy;
+			sourceTree = "<group>";
+		};
+		D33505F23DD989D475E055D4 /* Tinnitussaurus */ = {
+			isa = PBXGroup;
+			children = (
+				69F4EE0DD09B9E6C9B07608E /* Debug.xcconfig */,
+				5B7DFBEAB84F805039939247 /* Release.xcconfig */,
+			);
+			name = Tinnitussaurus;
+			path = .;
+			sourceTree = "<group>";
+		};
+		D4E002A07EB6A938608C30A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				541C07AFB309F9290FC2B264 /* OnboardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D68341EC212C75D4AB733441 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3004E90268869C47BDD099CB /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		D6D5FCC67B88E63CB9D0148A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				5BA05A577DCF309898CFE3CE /* Models */,
+				A8C5ED2AAEA604C657261C3D /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		E5CCA7600A1D32F14293DA23 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				41050627ABD65AA30F68C264 /* Audio */,
+				D6D5FCC67B88E63CB9D0148A /* Data */,
+				15BF16316E092A6BE6902239 /* Extensions */,
+				5EE579DBDC5CD3DA76EF8533 /* Managers */,
+				5960E4195675864232C5ED18 /* Theme */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F4C8EE94536CD538ED84BC0C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CDDE6C8127E7B6C4DA6BD350 /* TinnitussaurusApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F895AAE29448633D81C3E1B9 /* TinnitussaurusUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BB88AB6C56BB05F9B3EAC20A /* TinnitussaurusUITests.swift */,
+			);
+			path = TinnitussaurusUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		503CA4E45B46E2BB15E73C13 /* TinnitusReliefProTests */ = {
+		B04E5D62764C8677A248224F /* TinnitussaurusUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 72072D44AECAB0C682952283 /* Build configuration list for PBXNativeTarget "TinnitusReliefProTests" */;
+			buildConfigurationList = 63B5458229DEF151B4881CDC /* Build configuration list for PBXNativeTarget "TinnitussaurusUITests" */;
 			buildPhases = (
-				4FA5165EC409F4ACF504C37F /* Sources */,
+				E11D9C4D18B1E63B439AA6F0 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				ABE275E02C8230BA745DF8DD /* PBXTargetDependency */,
+				AC4C3E9E4B7AF2A7B8F6E43E /* PBXTargetDependency */,
 			);
-			name = TinnitusReliefProTests;
+			name = TinnitussaurusUITests;
 			packageProductDependencies = (
 			);
-			productName = TinnitusReliefProTests;
-			productReference = 08FE0AFAF5AE1D698CAA1504 /* TinnitusReliefProTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		66C8466BD035E1A714DBB22A /* TinnitusReliefProUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 93ED7159D8AC53F073E339C7 /* Build configuration list for PBXNativeTarget "TinnitusReliefProUITests" */;
-			buildPhases = (
-				284BA766F60CA4AAB5E0641F /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0B2979FDA29E17CA90349946 /* PBXTargetDependency */,
-			);
-			name = TinnitusReliefProUITests;
-			packageProductDependencies = (
-			);
-			productName = TinnitusReliefProUITests;
-			productReference = 02495E8C31E09EF254C0F863 /* TinnitusReliefProUITests.xctest */;
+			productName = TinnitussaurusUITests;
+			productReference = BA74761A463C380D4F63AA93 /* TinnitussaurusUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		B9CB06AEF3CAA7E170FD9A83 /* TinnitusReliefPro */ = {
+		F30C2B291727D2DF2E8AEB9E /* Tinnitussaurus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 224A45050C714C3650B8D832 /* Build configuration list for PBXNativeTarget "TinnitusReliefPro" */;
+			buildConfigurationList = 307A06C7730FB646732916FA /* Build configuration list for PBXNativeTarget "Tinnitussaurus" */;
 			buildPhases = (
-				D15A19F9208FED2533A5F873 /* Sources */,
-				D4289D32544CE82A2F4E939C /* Resources */,
-				E1470560D4F909F78FDE3FB6 /* Frameworks */,
+				FB15AC778FF26846130B9754 /* Sources */,
+				E1EAF753176C70C60CCE89B2 /* Resources */,
+				63961014E1E732FEB9C7D5FA /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = TinnitusReliefPro;
+			name = Tinnitussaurus;
 			packageProductDependencies = (
-				E37ACB95E3AA58A2A9B03647 /* RevenueCat */,
+				1CE102B0D7AA09ABBDF3A602 /* RevenueCat */,
 			);
-			productName = TinnitusReliefPro;
-			productReference = 6CE9A87099623FE52B7DDAD1 /* TinnitusReliefPro.app */;
+			productName = Tinnitussaurus;
+			productReference = 60C25BE2ED712F3EA5216898 /* Tinnitussaurus.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F88B1B829078F970EAA0F012 /* TinnitussaurusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE93C1BF9BE75CFD4FCD52CF /* Build configuration list for PBXNativeTarget "TinnitussaurusTests" */;
+			buildPhases = (
+				82053F6540E833872A234476 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAD384DDB2003197EE1F05B5 /* PBXTargetDependency */,
+			);
+			name = TinnitussaurusTests;
+			packageProductDependencies = (
+			);
+			productName = TinnitussaurusTests;
+			productReference = EEF5DCA00D039DF97DA1DF1A /* TinnitussaurusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		626182405EEF0554542C89CA /* Project object */ = {
+		A8442FC0529EB968EE864226 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					66C8466BD035E1A714DBB22A = {
-						TestTargetID = B9CB06AEF3CAA7E170FD9A83;
+					B04E5D62764C8677A248224F = {
+						TestTargetID = F30C2B291727D2DF2E8AEB9E;
 					};
 				};
 			};
-			buildConfigurationList = 4F345A859B7A0286BF5E9FA9 /* Build configuration list for PBXProject "TinnitusReliefPro" */;
+			buildConfigurationList = 37BA5F158C0732BA843F0D42 /* Build configuration list for PBXProject "Tinnitussaurus" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -586,125 +604,131 @@
 				Base,
 				en,
 			);
-			mainGroup = BB68E1861E0FB9217F8ACF7E;
+			mainGroup = 0E9735A29CDC9BFC74CD5627;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				A98A7403FBF3284EBC7FDF4B /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				C51C5FF81C283DEBF475CA75 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B9CB06AEF3CAA7E170FD9A83 /* TinnitusReliefPro */,
-				503CA4E45B46E2BB15E73C13 /* TinnitusReliefProTests */,
-				66C8466BD035E1A714DBB22A /* TinnitusReliefProUITests */,
+				F30C2B291727D2DF2E8AEB9E /* Tinnitussaurus */,
+				F88B1B829078F970EAA0F012 /* TinnitussaurusTests */,
+				B04E5D62764C8677A248224F /* TinnitussaurusUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D4289D32544CE82A2F4E939C /* Resources */ = {
+		E1EAF753176C70C60CCE89B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3E9569DF2C23B02DF521DC4 /* Assets.xcassets in Resources */,
-				9E5969859B338BAEAB46FBA0 /* PrivacyInfo.xcprivacy in Resources */,
+				E0E4B9EFCB09F3A5DD256665 /* Assets.xcassets in Resources */,
+				F4549C58997BF1C49D7E14E6 /* Inter-Regular.ttf in Resources */,
+				A1378C577EAF7B99B79F50EB /* PrivacyInfo.xcprivacy in Resources */,
+				227147BCE784DFE4D7F3B50C /* SpaceGrotesk-Bold.ttf in Resources */,
+				0B6C21186DA7A97F3E422175 /* SpaceGrotesk-Medium.ttf in Resources */,
+				04EEA859DB4280A612C63920 /* SpaceGrotesk-Regular.ttf in Resources */,
+				2E37D6EAB85EA94C78015F98 /* SpaceGrotesk-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		284BA766F60CA4AAB5E0641F /* Sources */ = {
+		82053F6540E833872A234476 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4EFD33D1F456C0C7D0D06EB3 /* TinnitusReliefProUITests.swift in Sources */,
+				CF3BF2334C5D2E4EC5F133E5 /* TinnitussaurusTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4FA5165EC409F4ACF504C37F /* Sources */ = {
+		E11D9C4D18B1E63B439AA6F0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				703EC51E8990A1DB982A885D /* TinnitusReliefProTests.swift in Sources */,
+				F0E4AF56F786DF073CAA4DF6 /* TinnitussaurusUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D15A19F9208FED2533A5F873 /* Sources */ = {
+		FB15AC778FF26846130B9754 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC6E22379C856E08621CA05B /* AppSettings.swift in Sources */,
-				875287F34829FC41D7D39CF8 /* AudioEngineManager.swift in Sources */,
-				1BFD7DFCAAD59B1608B55949 /* AudioSessionConfig.swift in Sources */,
-				4640C64676AEBE6F74E13C43 /* AutoTuningSection.swift in Sources */,
-				3B8417142D65966F5E70200B /* CheckInSheet.swift in Sources */,
-				4B810927C5F5E6F7FE05D1AF /* CircularTimerView.swift in Sources */,
-				DB79699750CFDB3D23A8B6FE /* ContentView.swift in Sources */,
-				C6E89C45FB599ED4B7AD6C47 /* ExportManager.swift in Sources */,
-				2932CA4C171029F8740AF064 /* FrequencyAnalyzer.swift in Sources */,
-				10080717CED382C6B0954523 /* FrequencyHeroView.swift in Sources */,
-				CD9907BD4DEE10CF4C27882B /* FrequencyPresetsView.swift in Sources */,
-				F4E3CB66AC8CBB5ABC2210A9 /* GettingStartedView.swift in Sources */,
-				FF8FD8F2728A118907B5BC05 /* HapticManager.swift in Sources */,
-				3B33F3F5F82B4BA246E0028F /* JournalEntry.swift in Sources */,
-				208E66FD847817B347717D1A /* JournalEntryRow.swift in Sources */,
-				3364B8D5C6986E4DBF9A442B /* JournalRepository.swift in Sources */,
-				A3E40006DCDE2EE0B069915E /* JournalView.swift in Sources */,
-				1DBFAD72E113D2DE549294E1 /* ManualTuningSection.swift in Sources */,
-				C259163250F2D483026AF650 /* MoodLightOverlay.swift in Sources */,
-				4EDE5FAF5CF611F6B5756167 /* NoiseGenerator.swift in Sources */,
-				7C058D0633D3A85082CD9A16 /* NotchFilterBank.swift in Sources */,
-				3E5610361AD6B715F6639803 /* NotchedMusicSection.swift in Sources */,
-				407D6D4D1E131DCF3A227945 /* NotchedNoiseSection.swift in Sources */,
-				3701E049579877B96C480638 /* NotificationManager.swift in Sources */,
-				4911FEBC54F53955B8E30D50 /* OnboardingView.swift in Sources */,
-				98D595AEC48AB6827A697715 /* OscillatorNode.swift in Sources */,
-				DD75155C913BE8CE81CD4366 /* PaywallView.swift in Sources */,
-				9C33D9E33E52EFAC1899FA1C /* Playlist.swift in Sources */,
-				F561123CCB28C7E8A09CD5B7 /* PlaylistDetailView.swift in Sources */,
-				DB4F12FD945F72DF7FE11370 /* PlaylistListView.swift in Sources */,
-				4CCB0565CEB27B51354F5941 /* PlaylistSheetView.swift in Sources */,
-				2E35628057EFBACA220E9E58 /* PlaylistTrack.swift in Sources */,
-				75C142088FEB4A5DC9ECBEC6 /* PrivacyPolicyView.swift in Sources */,
-				A5703361A3E84B818FFB371E /* ProfileRepository.swift in Sources */,
-				77463E6288AFE585D2DB462C /* SessionManager.swift in Sources */,
-				8B38EBF4B20E28E1AABBFC44 /* SessionRepository.swift in Sources */,
-				9754A80CA6589314FCFB81D5 /* SessionStatsGrid.swift in Sources */,
-				5DF6E3F2924E79E8B5945844 /* SessionView.swift in Sources */,
-				39E49143113AFDAA5846FA96 /* SettingsView.swift in Sources */,
-				B35CFE30081D507C697FF425 /* SeverityChartView.swift in Sources */,
-				74F1D856D3F50E792A6B5455 /* SpectrumCanvas.swift in Sources */,
-				5CCA868A167CDB3831A56320 /* SubscriptionManager.swift in Sources */,
-				F2FF02347BCCA3FF5EBDB958 /* TermsOfServiceView.swift in Sources */,
-				18D444FA6D526EACDEE126C2 /* Theme.swift in Sources */,
-				44760CEBA20D792C80D3DFD4 /* TherapyView.swift in Sources */,
-				81CD4B6EBE14703327C0EE8C /* TherapyVisualizationCanvas.swift in Sources */,
-				06550058FEBEDE29262269C1 /* TinnitusReliefProApp.swift in Sources */,
-				3F88E30D19F273910E900097 /* TinnitusSession.swift in Sources */,
-				C5881032DB9F982A149ECC20 /* TuneView.swift in Sources */,
-				C872DB3098F11C4B999739CB /* UserProfile.swift in Sources */,
+				68536EC94A98D457B472CDBE /* AppSettings.swift in Sources */,
+				33110C95F11176E1D2307A65 /* AudioEngineManager.swift in Sources */,
+				3D7C9E0C6414AA9C12D051DD /* AudioSessionConfig.swift in Sources */,
+				84B65D5FE182E5D5C9C9B284 /* AutoTuningSection.swift in Sources */,
+				A85EC9EECABD406C1A4C8074 /* CheckInSheet.swift in Sources */,
+				445135FB961A6AA95F6321F1 /* CircularTimerView.swift in Sources */,
+				93263DD43352FA19285BA2E7 /* ContentView.swift in Sources */,
+				B2EB24D862C5B19ABDDF42FD /* DinoLogo.swift in Sources */,
+				CC0DDD95A1793E7A51337C27 /* ExportManager.swift in Sources */,
+				90741276C18A80120C1C67D1 /* FrequencyAnalyzer.swift in Sources */,
+				33EAD27986AC46DA4093746F /* FrequencyHeroView.swift in Sources */,
+				3781AB50593D7E983EA34AA1 /* FrequencyPresetsView.swift in Sources */,
+				02171B1CF1B267601CD84F76 /* GettingStartedView.swift in Sources */,
+				A72DCFDE56CDB9D8B13FDF19 /* HapticManager.swift in Sources */,
+				98BABD458111950EF9E61A90 /* JournalEntry.swift in Sources */,
+				820413AEAE907F5FE7A66721 /* JournalEntryRow.swift in Sources */,
+				6EBC9507623970788F116ADA /* JournalRepository.swift in Sources */,
+				FBCA37B621130D0ADB401C1D /* JournalView.swift in Sources */,
+				B3F5CA157A7BDD587186E3BC /* ManualTuningSection.swift in Sources */,
+				5283A3CA56EA72819FB0F51B /* MoodLightOverlay.swift in Sources */,
+				35E72F701EF0BFE1CFC2DC3F /* NoiseGenerator.swift in Sources */,
+				120A7DA65BAD3F02048ADC3F /* NotchFilterBank.swift in Sources */,
+				072094EF45FAAB964B92ED96 /* NotchedMusicSection.swift in Sources */,
+				A4B368262C839F70F66DF9FA /* NotchedNoiseSection.swift in Sources */,
+				B4FDFC9DA5F0991AEBEE51A7 /* NotificationManager.swift in Sources */,
+				2A6DFD6B6F3DDA205FFBE2FE /* OnboardingView.swift in Sources */,
+				70AB271E219856C62C966D51 /* OscillatorNode.swift in Sources */,
+				7CE92B55BCA6B34968968635 /* PaywallView.swift in Sources */,
+				45DCD45ACCAC762947F0EBB6 /* Playlist.swift in Sources */,
+				C44853A09BF15FB4D9C8FACE /* PlaylistDetailView.swift in Sources */,
+				5A078EEC9198EEC3185C97DE /* PlaylistListView.swift in Sources */,
+				DFC2AAD0E045B3F312351AB3 /* PlaylistSheetView.swift in Sources */,
+				200029503D61159F3A8B3A38 /* PlaylistTrack.swift in Sources */,
+				B9429831FCA46F749E588F5B /* PrivacyPolicyView.swift in Sources */,
+				DB43C461FCB2BDFC71F53050 /* ProfileRepository.swift in Sources */,
+				9D9C464F321BF28137B96675 /* SessionManager.swift in Sources */,
+				E4FAA506A1EA77F07015A6C2 /* SessionRepository.swift in Sources */,
+				71969184C074F8575802ACAC /* SessionStatsGrid.swift in Sources */,
+				1F69C7A356E96D3DDCEF6904 /* SessionView.swift in Sources */,
+				FF6243F34939B49924187E18 /* SettingsView.swift in Sources */,
+				5FF4AE95AC2196AA4E98922E /* SeverityChartView.swift in Sources */,
+				DA21546A9577E27D9863722B /* SpectrumCanvas.swift in Sources */,
+				328E18EB2D9D3F05605E83FF /* SubscriptionManager.swift in Sources */,
+				3F95B2CB06BEBBE3DAC96B40 /* TermsOfServiceView.swift in Sources */,
+				7292FF4D8423545B0AC67CC8 /* Theme.swift in Sources */,
+				C4D8563F67880ADD93EE83C5 /* TherapyView.swift in Sources */,
+				7DCD4C147F72AD93FA938C89 /* TherapyVisualizationCanvas.swift in Sources */,
+				45524753E7855F5A7CC7BE5B /* TinnitusSession.swift in Sources */,
+				B5CBB8C72D17C0F1E3DC3F98 /* TinnitussaurusApp.swift in Sources */,
+				1E44A97A526F28CFE2697C0F /* TuneView.swift in Sources */,
+				23071B86E43664AFD0B0A1B7 /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B2979FDA29E17CA90349946 /* PBXTargetDependency */ = {
+		AAD384DDB2003197EE1F05B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B9CB06AEF3CAA7E170FD9A83 /* TinnitusReliefPro */;
-			targetProxy = 3F45AF1433BD4FD609A9926B /* PBXContainerItemProxy */;
+			target = F30C2B291727D2DF2E8AEB9E /* Tinnitussaurus */;
+			targetProxy = 3FA508D37578A576E1A466A6 /* PBXContainerItemProxy */;
 		};
-		ABE275E02C8230BA745DF8DD /* PBXTargetDependency */ = {
+		AC4C3E9E4B7AF2A7B8F6E43E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B9CB06AEF3CAA7E170FD9A83 /* TinnitusReliefPro */;
-			targetProxy = 7F5ECC2C127D0CCE8E06D9D4 /* PBXContainerItemProxy */;
+			target = F30C2B291727D2DF2E8AEB9E /* Tinnitussaurus */;
+			targetProxy = FAE8898B28362F6F7DDE7769 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0232FF40009C294DDBCBDC3F /* Release */ = {
+		0139D9405C52189091A1089D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -714,146 +738,16 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinnitusReliefPro.app/TinnitusReliefPro";
+				TEST_TARGET_NAME = Tinnitussaurus;
 			};
 			name = Release;
 		};
-		09864E8A92A2969794BF2D8F /* Debug */ = {
+		104139909709659171024BEA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro.uitests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TinnitusReliefPro;
-			};
-			name = Debug;
-		};
-		163696B04D6347DA354FBB14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro.uitests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TinnitusReliefPro;
-			};
-			name = Release;
-		};
-		250EA988DD4AFBAEED587C69 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70DAADF56A1F00674CF8F41C /* Release.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 6.0;
-			};
-			name = Release;
-		};
-		5249481371E0AE5B07516133 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro.tests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinnitusReliefPro.app/TinnitusReliefPro";
-			};
-			name = Debug;
-		};
-		9311189BFDCD3DADE8C755C4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_ENTITLEMENTS = TinnitusReliefPro/TinnitusReliefPro.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				INFOPLIST_FILE = TinnitusReliefPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro;
-				SDKROOT = iphoneos;
-				SWIFT_STRICT_CONCURRENCY = complete;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		A343A14E43D3D5522527348D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9489F9E8E3B577B320620C48 /* Debug.xcconfig */;
+			baseConfigurationReference = 69F4EE0DD09B9E6C9B07608E /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -917,61 +811,191 @@
 			};
 			name = Debug;
 		};
-		C82C65E170568BFB3317DED8 /* Release */ = {
+		19D4CD934083FBC4AE6EF56B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tinnitussaurus.app/Tinnitussaurus";
+			};
+			name = Debug;
+		};
+		30DECDA5D71EE22165DB9B2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_ENTITLEMENTS = TinnitusReliefPro/TinnitusReliefPro.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Tinnitussaurus/Tinnitussaurus.entitlements;
 				CODE_SIGN_IDENTITY = "-";
-				INFOPLIST_FILE = TinnitusReliefPro/Info.plist;
+				INFOPLIST_FILE = Tinnitussaurus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitusreliefpro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		614C1DCDB50AF56E197807B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Tinnitussaurus;
+			};
+			name = Debug;
+		};
+		BCD81616D8C613F19337C729 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = Tinnitussaurus/Tinnitussaurus.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				INFOPLIST_FILE = Tinnitussaurus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
+		C696048B920D605BAB6D1ED3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulabac.tinnitussaurus.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tinnitussaurus.app/Tinnitussaurus";
+			};
+			name = Release;
+		};
+		EFCC4109F81B45D4AE13531A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B7DFBEAB84F805039939247 /* Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		224A45050C714C3650B8D832 /* Build configuration list for PBXNativeTarget "TinnitusReliefPro" */ = {
+		307A06C7730FB646732916FA /* Build configuration list for PBXNativeTarget "Tinnitussaurus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9311189BFDCD3DADE8C755C4 /* Debug */,
-				C82C65E170568BFB3317DED8 /* Release */,
+				30DECDA5D71EE22165DB9B2B /* Debug */,
+				BCD81616D8C613F19337C729 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		4F345A859B7A0286BF5E9FA9 /* Build configuration list for PBXProject "TinnitusReliefPro" */ = {
+		37BA5F158C0732BA843F0D42 /* Build configuration list for PBXProject "Tinnitussaurus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A343A14E43D3D5522527348D /* Debug */,
-				250EA988DD4AFBAEED587C69 /* Release */,
+				104139909709659171024BEA /* Debug */,
+				EFCC4109F81B45D4AE13531A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		72072D44AECAB0C682952283 /* Build configuration list for PBXNativeTarget "TinnitusReliefProTests" */ = {
+		63B5458229DEF151B4881CDC /* Build configuration list for PBXNativeTarget "TinnitussaurusUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5249481371E0AE5B07516133 /* Debug */,
-				0232FF40009C294DDBCBDC3F /* Release */,
+				614C1DCDB50AF56E197807B1 /* Debug */,
+				0139D9405C52189091A1089D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		93ED7159D8AC53F073E339C7 /* Build configuration list for PBXNativeTarget "TinnitusReliefProUITests" */ = {
+		FE93C1BF9BE75CFD4FCD52CF /* Build configuration list for PBXNativeTarget "TinnitussaurusTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				09864E8A92A2969794BF2D8F /* Debug */,
-				163696B04D6347DA354FBB14 /* Release */,
+				19D4CD934083FBC4AE6EF56B /* Debug */,
+				C696048B920D605BAB6D1ED3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -979,7 +1003,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A98A7403FBF3284EBC7FDF4B /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+		C51C5FF81C283DEBF475CA75 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
 			requirement = {
@@ -990,12 +1014,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E37ACB95E3AA58A2A9B03647 /* RevenueCat */ = {
+		1CE102B0D7AA09ABBDF3A602 /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A98A7403FBF3284EBC7FDF4B /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			package = C51C5FF81C283DEBF475CA75 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 626182405EEF0554542C89CA /* Project object */;
+	rootObject = A8442FC0529EB968EE864226 /* Project object */;
 }
