@@ -1,5 +1,5 @@
 {
-  "name": "tinnitus-relief-pro",
+  "name": "tinnitussaurus",
   "version": "1.1.0",
   "description": "Notched Sound Therapy & Frequency Matching for Tinnitus Relief",
   "main": "index.html",
@@ -42,8 +42,8 @@
     "@capacitor/keyboard": "^5.0.6"
   },
   "capacitor": {
-    "appId": "com.paulabac.tinnitusreliefpro",
-    "appName": "Tinnitus Relief Pro",
+    "appId": "com.paulabac.tinnitussaurus",
+    "appName": "Tinnitussaurus",
     "webDir": ".",
     "plugins": {
       "SplashScreen": {

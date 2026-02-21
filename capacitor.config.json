@@ -1,6 +1,6 @@
 {
-  "appId": "com.paulabac.tinnitusreliefpro",
-  "appName": "Tinnitus Relief Pro",
+  "appId": "com.paulabac.tinnitussaurus",
+  "appName": "Tinnitussaurus",
   "webDir": ".",
   "bundledWebRuntime": false,
   "plugins": {
