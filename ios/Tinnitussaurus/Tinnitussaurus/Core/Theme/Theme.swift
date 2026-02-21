@@ -6,18 +6,23 @@ import SwiftUI
 /// Use these everywhere instead of raw Color literals to keep the UI consistent.
 extension Color {
 
-    // Backgrounds
-    static let bgPrimary   = Color(hex: 0x0A0E1A)
-    static let bgCard      = Color(hex: 0x111827)
-    static let bgCardHover = Color(hex: 0x1F2937)
+    // Backgrounds (abyss palette from site)
+    static let bgPrimary   = Color(hex: 0x080C18)  // abyss-950
+    static let bgSecondary = Color(hex: 0x0F172A)  // abyss-900
+    static let bgCard      = Color(hex: 0x1A1A2E)  // abyss-800
+    static let bgCardHover = Color(hex: 0x252547)  // abyss-700
 
-    // Accents
-    static let accentCyan    = Color(hex: 0x00D9FF)
-    static let accentCyanDim = Color(hex: 0x00D9FF).opacity(0.15)
-    static let accentGreen   = Color(hex: 0x10B981)
-    static let accentRed     = Color(hex: 0xEF4444)
-    static let accentPurple  = Color(hex: 0x8B5CF6)
-    static let accentAmber   = Color(hex: 0xF59E0B)
+    // Accents (dino + jungle palette from site)
+    static let accentCyan      = Color(hex: 0x00D9FF)  // dino-500
+    static let accentCyanDim   = Color(hex: 0x00D9FF).opacity(0.15)
+    static let accentCyanLight = Color(hex: 0x33E1FF)  // dino-400
+    static let accentCyanDark  = Color(hex: 0x00B8D9)  // dino-600
+    static let accentGreen     = Color(hex: 0x22C55E)  // jungle-500
+    static let accentGreenLight = Color(hex: 0x4ADE80) // jungle-400
+    static let accentRed       = Color(hex: 0xEF4444)
+    static let accentPurple    = Color(hex: 0x8B5CF6)
+    static let accentAmber     = Color(hex: 0xF59E0B)
+    static let accentAmberLight = Color(hex: 0xFBBF24) // amber-400
 
     // Typography
     static let textPrimary   = Color(hex: 0xF9FAFB)
@@ -63,10 +68,14 @@ extension View {
         self
             .background(Color.bgCard)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(Color.white.opacity(0.05), lineWidth: 1)
+            )
     }
 
     /// Applies a subtle cyan glow used for selected/active elements.
-    func cyanGlow(radius: CGFloat = 8) -> some View {
-        self.shadow(color: Color.accentCyan.opacity(0.3), radius: radius, x: 0, y: 0)
+    func cyanGlow(radius: CGFloat = 10) -> some View {
+        self.shadow(color: Color.accentCyan.opacity(0.4), radius: radius, x: 0, y: 0)
     }
 }
