@@ -116,7 +116,7 @@ private struct WelcomeSlide: View {
                     .foregroundStyle(Color.accentCyan)
                     .padding(.bottom, 8)
 
-                Text("Welcome to\nTinnitus Relief Pro")
+                Text("Welcome to\nTinnitussaurus")
                     .font(.title.bold())
                     .foregroundStyle(Color.textPrimary)
                     .multilineTextAlignment(.center)

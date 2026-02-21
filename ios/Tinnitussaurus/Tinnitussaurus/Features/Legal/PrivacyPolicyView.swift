@@ -7,7 +7,7 @@ struct PrivacyPolicyView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // Header
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Tinnitus Relief Pro")
+                    Text("Tinnitussaurus")
                         .font(.subheadline.bold())
                         .foregroundStyle(Color.textPrimary)
                     Text("Last updated: February 17, 2026")
@@ -17,7 +17,7 @@ struct PrivacyPolicyView: View {
 
                 // Information We Collect
                 sectionHeader("Information We Collect")
-                bodyText("Tinnitus Relief Pro stores all data locally on your device. We do not collect, transmit, or store any personal information on external servers.")
+                bodyText("Tinnitussaurus stores all data locally on your device. We do not collect, transmit, or store any personal information on external servers.")
 
                 sectionHeader("Data Stored on Your Device")
                 bulletList([

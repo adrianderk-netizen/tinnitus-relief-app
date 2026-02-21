@@ -7,7 +7,7 @@ struct TermsOfServiceView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // Header
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Tinnitus Relief Pro")
+                    Text("Tinnitussaurus")
                         .font(.subheadline.bold())
                         .foregroundStyle(Color.textPrimary)
                     Text("Last updated: February 17, 2026")
@@ -17,15 +17,15 @@ struct TermsOfServiceView: View {
 
                 // Acceptance
                 sectionHeader("Acceptance of Terms")
-                bodyText("By downloading or using Tinnitus Relief Pro, you agree to these Terms of Service.")
+                bodyText("By downloading or using Tinnitussaurus, you agree to these Terms of Service.")
 
                 // Description
                 sectionHeader("Description of Service")
-                bodyText("Tinnitus Relief Pro is a sound therapy application that provides customizable audio tones and notched sound therapy to help manage tinnitus symptoms.")
+                bodyText("Tinnitussaurus is a sound therapy application that provides customizable audio tones and notched sound therapy to help manage tinnitus symptoms.")
 
                 // Medical Disclaimer
                 sectionHeader("Medical Disclaimer")
-                bodyText("Tinnitus Relief Pro is not a medical device and is not intended to diagnose, treat, cure, or prevent any medical condition. It is a wellness tool that provides sound therapy techniques based on published research.")
+                bodyText("Tinnitussaurus is not a medical device and is not intended to diagnose, treat, cure, or prevent any medical condition. It is a wellness tool that provides sound therapy techniques based on published research.")
                 bodyText("Consult a healthcare professional if your tinnitus:")
                 bulletList([
                     "Is sudden or worsening",
@@ -45,11 +45,11 @@ struct TermsOfServiceView: View {
 
                 // IP
                 sectionHeader("Intellectual Property")
-                bodyText("All content, design, and code in Tinnitus Relief Pro are the property of the developer. You may not copy, modify, or redistribute the app.")
+                bodyText("All content, design, and code in Tinnitussaurus are the property of the developer. You may not copy, modify, or redistribute the app.")
 
                 // Liability
                 sectionHeader("Limitation of Liability")
-                bodyText("Tinnitus Relief Pro is provided \u{201C}as is\u{201D} without warranties of any kind. The developer is not liable for any damages arising from your use of the app.")
+                bodyText("Tinnitussaurus is provided \u{201C}as is\u{201D} without warranties of any kind. The developer is not liable for any damages arising from your use of the app.")
 
                 // Changes
                 sectionHeader("Changes to Terms")

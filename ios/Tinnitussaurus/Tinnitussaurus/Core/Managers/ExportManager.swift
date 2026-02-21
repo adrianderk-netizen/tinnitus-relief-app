@@ -28,7 +28,7 @@ enum ExportManager {
         let contentWidth = pageWidth - margin * 2
 
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("TinnitusRelief-Report-\(dateStamp()).pdf")
+            .appendingPathComponent("Tinnitussaurus-Report-\(dateStamp()).pdf")
 
         let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
 
@@ -53,7 +53,7 @@ enum ExportManager {
                 .font: UIFont.systemFont(ofSize: 24, weight: .bold),
                 .foregroundColor: UIColor.label
             ]
-            let title = "Tinnitus Relief Report"
+            let title = "Tinnitussaurus Report"
             title.draw(at: CGPoint(x: margin, y: y), withAttributes: titleAttrs)
             y += 36
 
@@ -201,7 +201,7 @@ enum ExportManager {
         }
 
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("TinnitusRelief-Report-\(dateStamp()).txt")
+            .appendingPathComponent("Tinnitussaurus-Report-\(dateStamp()).txt")
         try text.write(to: url, atomically: true, encoding: .utf8)
         logger.info("Text report generated at \(url.path)")
         return url
