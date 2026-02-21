@@ -439,7 +439,7 @@ describe('ReliefJournalManager', () => {
 
             journal.exportReport();
 
-            expect(blobContent).toContain('TINNITUS RELIEF JOURNAL');
+            expect(blobContent).toContain('TINNITUSSAURUS JOURNAL');
             expect(blobContent).toContain('Total Entries: 1');
             expect(blobContent).toContain('Average Severity: 4.0/10');
             expect(blobContent).toContain('my note');

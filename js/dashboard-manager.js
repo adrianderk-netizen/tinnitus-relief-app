@@ -32,7 +32,7 @@ class DashboardManager {
                 
                 <div class="dashboard-hero">
                     <h2 id="heroTitle">Welcome Back!</h2>
-                    <p id="heroSubtitle">Continue your tinnitus relief journey</p>
+                    <p id="heroSubtitle">Continue your Tinnitussaurus journey</p>
                 </div>
                 
                 <div class="quick-actions">

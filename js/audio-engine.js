@@ -105,8 +105,8 @@ class AudioEngine {
         if (!('mediaSession' in navigator)) return;
 
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: 'Tinnitus Relief Therapy',
-            artist: 'Tinnitus Relief Pro',
+            title: 'Tinnitussaurus Therapy',
+            artist: 'Tinnitussaurus',
             album: 'Sound Therapy'
         });
 

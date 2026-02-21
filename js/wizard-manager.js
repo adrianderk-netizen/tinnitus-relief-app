@@ -224,7 +224,7 @@ class WizardManager {
             <div class="celebration-content">
                 <div class="celebration-icon">🎉</div>
                 <h2>Setup Complete!</h2>
-                <p>You're ready to start your tinnitus relief journey!</p>
+                <p>You're ready to start your Tinnitussaurus journey!</p>
                 <button class="btn btn-start" id="celebrationOk">Let's Go!</button>
             </div>
         `;

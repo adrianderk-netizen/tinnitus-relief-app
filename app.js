@@ -1,9 +1,9 @@
 /**
- * Tinnitus Relief Pro - Main Application
+ * Tinnitussaurus - Main Application
  * Integrates tone matching, notched noise therapy, and notched music
  */
 
-class TinnitusReliefApp {
+class TinnitussaurusApp {
     constructor() {
         this.audioEngine = new AudioEngine();
         this.sessionManager = new SessionManager();
@@ -1247,10 +1247,10 @@ class TinnitusReliefApp {
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => { 
     try {
-        window.tinnitusApp = new TinnitusReliefApp(); 
+        window.tinnitusApp = new TinnitussaurusApp();
     } catch(e) {
         console.error('Error initializing app:', e);
     }
 });
 window.addEventListener('beforeunload', () => { if (window.tinnitusApp) { window.tinnitusApp.stopTone(); window.tinnitusApp.stopNoise(); } });
-export { TinnitusReliefApp };
+export { TinnitussaurusApp };

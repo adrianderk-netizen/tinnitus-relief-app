@@ -148,7 +148,7 @@ class NotificationManager {
     showReminder() {
         if (!this.isPermitted()) return;
 
-        const notification = new Notification('Tinnitus Relief Pro', {
+        const notification = new Notification('Tinnitussaurus', {
             body: 'Time for your daily therapy session! Consistency helps improve results.',
             icon: '/icons/icon-192x192.png',
             badge: '/icons/icon-96x96.png',

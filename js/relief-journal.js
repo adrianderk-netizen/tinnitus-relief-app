@@ -426,7 +426,7 @@ class ReliefJournalManager {
         }
         
         // Create text report
-        let report = 'TINNITUS RELIEF JOURNAL - PROGRESS REPORT\n';
+        let report = 'TINNITUSSAURUS JOURNAL - PROGRESS REPORT\n';
         report += '='.repeat(50) + '\n\n';
         report += `Generated: ${new Date().toLocaleString()}\n`;
         report += `Total Entries: ${this.entries.length}\n\n`;

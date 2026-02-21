@@ -502,7 +502,7 @@ describe('AudioEngine', () => {
     it('should set media session metadata', () => {
       engine.setupMediaSession();
       expect(navigator.mediaSession.metadata).toBeDefined();
-      expect(navigator.mediaSession.metadata.title).toBe('Tinnitus Relief Therapy');
+      expect(navigator.mediaSession.metadata.title).toBe('Tinnitussaurus Therapy');
     });
 
     it('should register action handlers when callbacks provided', () => {

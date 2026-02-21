@@ -662,7 +662,7 @@ describe('NotificationManager', () => {
 
       expect(notificationInstances.length).toBe(1);
       const n = notificationInstances[0];
-      expect(n.title).toBe('Tinnitus Relief Pro');
+      expect(n.title).toBe('Tinnitussaurus');
       expect(n.body).toBe('Time for your daily therapy session! Consistency helps improve results.');
       expect(n.icon).toBe('/icons/icon-192x192.png');
       expect(n.badge).toBe('/icons/icon-96x96.png');

@@ -445,7 +445,7 @@ class SubscriptionManager {
         }
         
         // In production, direct to App Store subscription management
-        alert('To cancel your subscription, please go to:\n\niOS Settings → [Your Name] → Subscriptions → Tinnitus Relief Pro');
+        alert('To cancel your subscription, please go to:\n\niOS Settings → [Your Name] → Subscriptions → Tinnitussaurus');
     }
     
     /**
