@@ -33,7 +33,7 @@ Preference stored in `AppSettings` as a string (default: `"cyan"`).
 |------|--------|
 | **Create:** `SharedViews/Components/MoodLightOverlay.swift` | Animated glow border view |
 | `AppSettings.swift` | Add `moodLightColor: String` preference |
-| `TinnitusReliefProApp.swift` | Overlay on ContentView, gated on session state |
+| `TinnitussaurusApp.swift` | Overlay on ContentView, gated on session state |
 | `SettingsView.swift` | Add "Mood Light" color picker section |
 
 ## Out of Scope

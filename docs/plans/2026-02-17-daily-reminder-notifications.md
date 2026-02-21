@@ -13,7 +13,7 @@
 ### Task 1: Inject NotificationManager and re-schedule on launch
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/App/TinnitusReliefProApp.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/App/TinnitussaurusApp.swift`
 
 **Step 1: Add NotificationManager as a state property**
 
@@ -46,7 +46,7 @@ Add at the end of the `.onAppear` block (after line 56, `showOnboarding = !appSe
 
 **Step 4: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
@@ -55,7 +55,7 @@ Note: `NotificationManager` is `@MainActor` but NOT `@Observable`. SwiftUI's `.e
 **Step 5: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/App/TinnitusReliefProApp.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/App/TinnitussaurusApp.swift
 git commit -m "Inject NotificationManager and re-schedule reminders on launch"
 ```
 
@@ -68,7 +68,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines to the commit message.
 ### Task 2: Wire SettingsView to NotificationManager
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/Features/Settings/SettingsView.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/Features/Settings/SettingsView.swift`
 
 **Step 1: Add NotificationManager environment injection**
 
@@ -133,14 +133,14 @@ Add `NotificationManager` to the preview. Replace the preview (lines 150-156):
 
 **Step 4: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 5: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/Features/Settings/SettingsView.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/Features/Settings/SettingsView.swift
 git commit -m "Wire SettingsView to schedule and cancel reminders via NotificationManager"
 ```
 
@@ -152,7 +152,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines to the commit message.
 
 **Step 1: Build the full project**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
@@ -172,6 +172,6 @@ In the simulator:
 
 | Task | What | Files |
 |------|------|-------|
-| 1 | Inject `NotificationManager`, re-schedule on launch | `TinnitusReliefProApp.swift` (+ possibly `NotificationManager.swift`) |
+| 1 | Inject `NotificationManager`, re-schedule on launch | `TinnitussaurusApp.swift` (+ possibly `NotificationManager.swift`) |
 | 2 | Wire `SettingsView` to schedule/cancel on toggle and time changes | `SettingsView.swift` |
 | 3 | End-to-end build + manual verification | — |

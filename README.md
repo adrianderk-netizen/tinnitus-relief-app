@@ -1,4 +1,4 @@
-# Tinnitus Relief Pro
+# Tinnitussaurus
 
 Notched sound therapy and frequency matching app for tinnitus relief. Available as a Progressive Web App (PWA) and a native iOS app.
 
@@ -29,10 +29,10 @@ Runs in any modern browser. Installable on iPhone, Android, and desktop.
 
 Native Swift/SwiftUI app with AVAudioEngine for low-latency audio processing.
 
-Located in `ios/TinnitusReliefPro/`. Requires Xcode 15+ and iOS 17+.
+Located in `ios/Tinnitussaurus/`. Requires Xcode 15+ and iOS 17+.
 
 ```bash
-open ios/TinnitusReliefPro/TinnitusReliefPro.xcodeproj
+open ios/Tinnitussaurus/Tinnitussaurus.xcodeproj
 ```
 
 ## Tech Stack
@@ -99,7 +99,7 @@ tinnitus-relief-app/
 │   └── wizard-manager.js   # Onboarding flow
 ├── tests/                  # Unit tests
 ├── ios/
-│   └── TinnitusReliefPro/  # Native iOS app
+│   └── Tinnitussaurus/  # Native iOS app
 │       ├── Core/
 │       │   ├── Audio/      # AVAudioEngine, oscillators, filters
 │       │   ├── Data/       # Models & repositories

@@ -1,4 +1,4 @@
-# 🎧 Tinnitus Relief Pro
+# Tinnitussaurus
 
 A Progressive Web App (PWA) for tinnitus relief using notched sound therapy and frequency matching.
 

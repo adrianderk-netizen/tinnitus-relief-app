@@ -8,7 +8,7 @@
 
 **Tech Stack:** SwiftUI Canvas, AVAudioEngine installTap, SwiftData `@Model`, NavigationStack, FileManager
 
-All paths relative to `ios/TinnitusReliefPro/TinnitusReliefPro/`.
+All paths relative to `ios/Tinnitussaurus/Tinnitussaurus/`.
 
 ---
 
@@ -80,14 +80,14 @@ private func stopAnalysisIfIdle() {
 
 Run:
 ```bash
-cd ios/TinnitusReliefPro && xcodebuild -project TinnitusReliefPro.xcodeproj -scheme TinnitusReliefPro -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build build 2>&1 | tail -5
+cd ios/Tinnitussaurus && xcodebuild -project Tinnitussaurus.xcodeproj -scheme Tinnitussaurus -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build build 2>&1 | tail -5
 ```
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 5: Commit**
 
 ```bash
-git add TinnitusReliefPro/Core/Audio/AudioEngineManager.swift
+git add Tinnitussaurus/Core/Audio/AudioEngineManager.swift
 git commit -m "Add waveform sample capture tap to audio engine"
 ```
 
@@ -201,7 +201,7 @@ Expected: `** BUILD SUCCEEDED **`
 **Step 3: Commit**
 
 ```bash
-git add TinnitusReliefPro/SharedViews/Components/WaveformCanvas.swift
+git add Tinnitussaurus/SharedViews/Components/WaveformCanvas.swift
 git commit -m "Add WaveformCanvas oscilloscope component"
 ```
 
@@ -248,8 +248,8 @@ Build, install on simulator, start noise or music playback, confirm the waveform
 **Step 4: Commit**
 
 ```bash
-git add TinnitusReliefPro/Features/Therapy/Views/NotchedNoiseSection.swift \
-       TinnitusReliefPro/Features/Therapy/Views/NotchedMusicSection.swift
+git add Tinnitussaurus/Features/Therapy/Views/NotchedNoiseSection.swift \
+       Tinnitussaurus/Features/Therapy/Views/NotchedMusicSection.swift
 git commit -m "Add live waveform visualization to noise and music sections"
 ```
 
@@ -260,7 +260,7 @@ git commit -m "Add live waveform visualization to noise and music sections"
 **Files:**
 - Create: `Core/Data/Models/Playlist.swift`
 - Create: `Core/Data/Models/PlaylistTrack.swift`
-- Modify: `App/TinnitusReliefProApp.swift`
+- Modify: `App/TinnitussaurusApp.swift`
 
 **Step 1: Create Playlist model**
 
@@ -322,7 +322,7 @@ final class PlaylistTrack {
 
 **Step 3: Register models in ModelContainer**
 
-In `TinnitusReliefProApp.swift`, add `Playlist.self` and `PlaylistTrack.self` to the Schema array:
+In `TinnitussaurusApp.swift`, add `Playlist.self` and `PlaylistTrack.self` to the Schema array:
 
 ```swift
 let schema = Schema([
@@ -343,9 +343,9 @@ xcodegen generate && xcodebuild ... build 2>&1 | tail -5
 **Step 5: Commit**
 
 ```bash
-git add TinnitusReliefPro/Core/Data/Models/Playlist.swift \
-       TinnitusReliefPro/Core/Data/Models/PlaylistTrack.swift \
-       TinnitusReliefPro/App/TinnitusReliefProApp.swift
+git add Tinnitussaurus/Core/Data/Models/Playlist.swift \
+       Tinnitussaurus/Core/Data/Models/PlaylistTrack.swift \
+       Tinnitussaurus/App/TinnitussaurusApp.swift
 git commit -m "Add Playlist and PlaylistTrack SwiftData models"
 ```
 
@@ -448,7 +448,7 @@ func loadAudioFile(_ url: URL) throws {
 **Step 6: Commit**
 
 ```bash
-git add TinnitusReliefPro/Core/Audio/AudioEngineManager.swift
+git add Tinnitussaurus/Core/Audio/AudioEngineManager.swift
 git commit -m "Add playlist queue playback to audio engine"
 ```
 
@@ -713,9 +713,9 @@ xcodegen generate && xcodebuild ... build 2>&1 | tail -5
 **Step 5: Commit**
 
 ```bash
-git add TinnitusReliefPro/Features/Therapy/Views/PlaylistListView.swift \
-       TinnitusReliefPro/Features/Therapy/Views/PlaylistDetailView.swift \
-       TinnitusReliefPro/Features/Therapy/Views/PlaylistSheetView.swift
+git add Tinnitussaurus/Features/Therapy/Views/PlaylistListView.swift \
+       Tinnitussaurus/Features/Therapy/Views/PlaylistDetailView.swift \
+       Tinnitussaurus/Features/Therapy/Views/PlaylistSheetView.swift
 git commit -m "Add playlist management views (list, detail, sheet)"
 ```
 
@@ -796,7 +796,7 @@ Verify: create a playlist in the sheet, add tracks, tap "Play All", confirm trac
 **Step 6: Commit**
 
 ```bash
-git add TinnitusReliefPro/Features/Therapy/Views/NotchedMusicSection.swift
+git add Tinnitussaurus/Features/Therapy/Views/NotchedMusicSection.swift
 git commit -m "Integrate playlist sheet and queue display into music section"
 ```
 
@@ -807,20 +807,20 @@ git commit -m "Integrate playlist sheet and queue display into music section"
 **Step 1: Run xcodegen**
 
 ```bash
-cd ios/TinnitusReliefPro && xcodegen generate
+cd ios/Tinnitussaurus && xcodegen generate
 ```
 
 **Step 2: Full build**
 
 ```bash
-xcodebuild -project TinnitusReliefPro.xcodeproj -scheme TinnitusReliefPro -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build build 2>&1 | tail -5
+xcodebuild -project Tinnitussaurus.xcodeproj -scheme Tinnitussaurus -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build build 2>&1 | tail -5
 ```
 
 **Step 3: Install and test on simulator**
 
 ```bash
-xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/TinnitusReliefPro.app
-xcrun simctl launch booted com.paulabac.tinnitusreliefpro
+xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/Tinnitussaurus.app
+xcrun simctl launch booted com.paulabac.tinnitussaurus
 ```
 
 **Verification checklist:**

@@ -13,7 +13,7 @@
 ### Task 1: Add moodLightColor preference to AppSettings
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/Core/Managers/AppSettings.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/Core/Managers/AppSettings.swift`
 
 **Step 1: Add the key**
 
@@ -52,14 +52,14 @@ Add after line 90 (`self.reminderMinute = defaults.integer(forKey: Keys.reminder
 
 **Step 5: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 6: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/Core/Managers/AppSettings.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/Core/Managers/AppSettings.swift
 git commit -m "Add moodLightColor preference to AppSettings"
 ```
 
@@ -70,7 +70,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines. The project's CLAUDE.md forbids 
 ### Task 2: Create MoodLightOverlay component
 
 **Files:**
-- Create: `ios/TinnitusReliefPro/TinnitusReliefPro/SharedViews/Components/MoodLightOverlay.swift`
+- Create: `ios/Tinnitussaurus/Tinnitussaurus/SharedViews/Components/MoodLightOverlay.swift`
 
 **Step 1: Create the file with full implementation**
 
@@ -158,14 +158,14 @@ struct MoodLightOverlay: View {
 
 **Step 2: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 3: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/SharedViews/Components/MoodLightOverlay.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/SharedViews/Components/MoodLightOverlay.swift
 git commit -m "Add MoodLightOverlay animated glow border component"
 ```
 
@@ -176,7 +176,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines.
 ### Task 3: Overlay on ContentView in the app entry point
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/App/TinnitusReliefProApp.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/App/TinnitussaurusApp.swift`
 
 **Step 1: Add the mood light overlay**
 
@@ -202,14 +202,14 @@ Add an `.animation` modifier to the overlay so it fades in/out. After the `.over
 
 **Step 3: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 4: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/App/TinnitusReliefProApp.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/App/TinnitussaurusApp.swift
 git commit -m "Activate mood light overlay during therapy sessions"
 ```
 
@@ -220,7 +220,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines.
 ### Task 4: Add Mood Light color picker to SettingsView
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/Features/Settings/SettingsView.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/Features/Settings/SettingsView.swift`
 
 **Step 1: Add the Mood Light section**
 
@@ -323,14 +323,14 @@ private struct RainbowButton: View {
 
 **Step 4: Build and verify**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 5: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/Features/Settings/SettingsView.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/Features/Settings/SettingsView.swift
 git commit -m "Add mood light color picker to Settings"
 ```
 
@@ -342,7 +342,7 @@ IMPORTANT: Do NOT add any Co-Authored-By lines.
 
 **Step 1: Build the full project**
 
-Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/TinnitusReliefPro && xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `cd /Users/carlossmith/Documents/Vibe-Projects/Vibe-Projects/tinnitus-relief-app/ios/Tinnitussaurus && xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
@@ -365,6 +365,6 @@ Expected: `** BUILD SUCCEEDED **`
 |------|------|-------|
 | 1 | Add `moodLightColor` preference | `AppSettings.swift` |
 | 2 | Create `MoodLightOverlay` component | `MoodLightOverlay.swift` (new) |
-| 3 | Overlay on `ContentView` gated on session state | `TinnitusReliefProApp.swift` |
+| 3 | Overlay on `ContentView` gated on session state | `TinnitussaurusApp.swift` |
 | 4 | Add color picker to Settings | `SettingsView.swift` |
 | 5 | End-to-end build + manual verification | — |

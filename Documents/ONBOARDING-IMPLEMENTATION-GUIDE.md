@@ -1,8 +1,8 @@
-# Tinnitus Relief Pro - Onboarding Implementation Guide
+# Tinnitussaurus - Onboarding Implementation Guide
 
 ## 📋 Overview
 
-This guide documents the enhanced onboarding experience and subscription system implemented for Tinnitus Relief Pro.
+This guide documents the enhanced onboarding experience and subscription system implemented for Tinnitussaurus.
 
 ---
 
@@ -197,7 +197,7 @@ For smaller file sizes and better quality:
 ### 2. Configure App in RevenueCat
 
 1. **Add iOS App**:
-   - Bundle ID: `com.paulabac.tinnitusreliefpro`
+   - Bundle ID: `com.paulabac.tinnitussaurus`
    - Shared secret from App Store Connect
 
 2. **Create Entitlements**:
@@ -206,11 +206,11 @@ For smaller file sizes and better quality:
 
 3. **Create Products**:
    - **Monthly Subscription**:
-     - Product ID: `tinnitus_pro_monthly`
+     - Product ID: `tinnitussaurus_pro_monthly`
      - Price: $7.99/month
      - Free trial: 7 days
    - **Annual Subscription**:
-     - Product ID: `tinnitus_pro_annual`
+     - Product ID: `tinnitussaurus_pro_annual`
      - Price: $59.99/year
      - Free trial: 7 days
 
@@ -236,7 +236,7 @@ For smaller file sizes and better quality:
    - Add localized descriptions
 
 2. **Subscription Group**:
-   - Create group: "Tinnitus Relief Pro"
+   - Create group: "Tinnitussaurus"
    - Add both subscriptions to group
    - Set upgrade/downgrade behavior
 
@@ -277,7 +277,7 @@ For smaller file sizes and better quality:
 
 ### App Store Listing
 
-- [ ] **App Name**: "Tinnitus Relief Pro"
+- [ ] **App Name**: "Tinnitussaurus"
 - [ ] **Subtitle**: "Notched Sound Therapy"
 - [ ] **Description**: Highlight benefits, science, features
 - [ ] **Keywords**: tinnitus, sound therapy, hearing, relief, etc.
@@ -341,7 +341,7 @@ npx cap sync ios
    npx cap open ios
    ```
 
-2. **Set Bundle ID**: `com.paulabac.tinnitusreliefpro`
+2. **Set Bundle ID**: `com.paulabac.tinnitussaurus`
 
 3. **Set Team & Signing**: Your Apple Developer account
 
@@ -435,7 +435,7 @@ location.reload();
 ## 📞 Support
 
 For questions or issues:
-- Email: support@tinnitusreliefpro.com
+- Email: support@tinnitussaurus.com
 - RevenueCat Docs: https://docs.revenuecat.com
 - Apple Developer Forums: https://developer.apple.com/forums
 

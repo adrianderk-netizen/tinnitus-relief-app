@@ -1,20 +1,20 @@
 # Terms of Service
 
-**Tinnitus Relief Pro**
+**Tinnitussaurus**
 
 *Last updated: February 17, 2026*
 
 ## Acceptance of Terms
 
-By downloading or using Tinnitus Relief Pro, you agree to these Terms of Service.
+By downloading or using Tinnitussaurus, you agree to these Terms of Service.
 
 ## Description of Service
 
-Tinnitus Relief Pro is a sound therapy application that provides customizable audio tones and notched sound therapy to help manage tinnitus symptoms.
+Tinnitussaurus is a sound therapy application that provides customizable audio tones and notched sound therapy to help manage tinnitus symptoms.
 
 ## Medical Disclaimer
 
-Tinnitus Relief Pro is **not a medical device** and is not intended to diagnose, treat, cure, or prevent any medical condition. It is a wellness tool that provides sound therapy techniques based on published research.
+Tinnitussaurus is **not a medical device** and is not intended to diagnose, treat, cure, or prevent any medical condition. It is a wellness tool that provides sound therapy techniques based on published research.
 
 **Consult a healthcare professional if your tinnitus:**
 - Is sudden or worsening
@@ -34,11 +34,11 @@ Premium features are available through auto-renewable subscriptions managed by A
 
 ## Intellectual Property
 
-All content, design, and code in Tinnitus Relief Pro are the property of the developer. You may not copy, modify, or redistribute the app.
+All content, design, and code in Tinnitussaurus are the property of the developer. You may not copy, modify, or redistribute the app.
 
 ## Limitation of Liability
 
-Tinnitus Relief Pro is provided "as is" without warranties of any kind. The developer is not liable for any damages arising from your use of the app.
+Tinnitussaurus is provided "as is" without warranties of any kind. The developer is not liable for any damages arising from your use of the app.
 
 ## Changes to Terms
 

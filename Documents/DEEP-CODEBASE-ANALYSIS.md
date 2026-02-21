@@ -1,4 +1,4 @@
-# Deep Codebase Analysis: Tinnitus Relief Pro
+# Deep Codebase Analysis: Tinnitussaurus
 
 **Date:** February 12, 2026
 **Scope:** Full codebase audit — architecture, all JS modules, tests, styles, documentation

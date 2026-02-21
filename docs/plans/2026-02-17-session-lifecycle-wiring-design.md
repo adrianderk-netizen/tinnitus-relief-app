@@ -20,7 +20,7 @@ The `SessionRepository` already has all the aggregation methods needed (`getTota
 
 No changes needed to `SessionManager.swift` or `SessionRepository.swift` — their APIs are already correct.
 
-**Base path:** `.../ios/TinnitusReliefPro/TinnitusReliefPro/`
+**Base path:** `.../ios/Tinnitussaurus/Tinnitussaurus/`
 
 ## Design
 

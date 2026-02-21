@@ -1,6 +1,6 @@
-# Test Results - Tinnitus Relief Pro
+# Test Results - Tinnitussaurus
 
-**Project:** Tinnitus Relief Pro  
+**Project:** Tinnitussaurus
 **Live URL:** https://effervescent-strudel-fff5cd.netlify.app  
 **Repository:** https://github.com/adrianderk-netizen/tinnitus-relief-app.git
 

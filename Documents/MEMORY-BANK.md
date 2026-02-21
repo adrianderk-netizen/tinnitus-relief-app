@@ -1,4 +1,4 @@
-# Tinnitus Relief Pro - Memory Bank
+# Tinnitussaurus - Memory Bank
 ## Project Context & State Documentation
 
 **Last Updated:** February 4, 2026  
@@ -9,7 +9,7 @@
 
 ## 🎯 Project Overview
 
-**Name:** Tinnitus Relief Pro  
+**Name:** Tinnitussaurus
 **Type:** Progressive Web App (PWA)  
 **Purpose:** Notched Sound Therapy & Frequency Matching for Tinnitus Relief  
 **Target Users:** Individuals suffering from tinnitus  
@@ -607,8 +607,8 @@ tinnitus-relief-app/
 ### manifest.json
 ```json
 {
-  "name": "Tinnitus Relief Pro",
-  "short_name": "TinnitusRelief",
+  "name": "Tinnitussaurus",
+  "short_name": "Tinnitussaurus",
   "start_url": "/",           // Critical: Must be "/" for Netlify
   "scope": "/",               // Critical: Must be "/" for Netlify
   "display": "standalone",
@@ -627,7 +627,7 @@ const BASE_PATH = '';                      // Empty for Netlify root deployment
 ```json
 {
   "appId": "com.tinnitusrelief.app",
-  "appName": "Tinnitus Relief Pro",
+  "appName": "Tinnitussaurus",
   "webDir": ".",
   "bundledWebRuntime": false
 }

@@ -1,4 +1,4 @@
-# iOS Native Port Analysis: Tinnitus Relief Pro
+# iOS Native Port Analysis: Tinnitussaurus
 
 **Date:** February 12, 2026
 **Scope:** Full feasibility analysis for porting from PWA/Capacitor to native iOS (Swift/SwiftUI)
@@ -142,7 +142,7 @@ The Web Audio API must be replaced with AVAudioEngine + custom DSP. This is the 
 | **Widex Zen / ReSound / Beltone** | Free | Loss leader | Tied to hearing aid hardware |
 | **myNoise** | $9.99 one-time | Utility | No medical claims |
 | **White Noise+** | $2.99 one-time | Utility | Generic masking |
-| **This app** | $7.99/mo, $59.99/yr | Freemium | Notched music + combined matching |
+| **Tinnitussaurus** | $7.99/mo, $59.99/yr | Freemium | Notched music + combined matching |
 
 **Your differentiators:**
 - Notched music therapy from personal library (few competitors offer this)

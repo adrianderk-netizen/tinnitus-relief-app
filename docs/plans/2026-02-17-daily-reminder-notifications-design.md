@@ -10,12 +10,12 @@ Additionally, reminders need to be re-scheduled on app launch because iOS clears
 
 | File | Change |
 |------|--------|
-| `TinnitusReliefProApp.swift` | Create and inject `NotificationManager`, re-schedule on launch |
+| `TinnitussaurusApp.swift` | Create and inject `NotificationManager`, re-schedule on launch |
 | `SettingsView.swift` | React to reminder toggle and time changes via `NotificationManager` |
 
 No changes to `NotificationManager.swift` or `AppSettings.swift` — their APIs are already correct.
 
-**Base path:** `.../ios/TinnitusReliefPro/TinnitusReliefPro/`
+**Base path:** `.../ios/Tinnitussaurus/Tinnitussaurus/`
 
 ## Design
 

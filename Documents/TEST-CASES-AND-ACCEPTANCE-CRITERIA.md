@@ -1,4 +1,4 @@
-# Tinnitus Relief Pro - Test Cases & Acceptance Criteria
+# Tinnitussaurus - Test Cases & Acceptance Criteria
 
 ## Table of Contents
 1. [PWA Installation & Offline Functionality](#1-pwa-installation--offline-functionality)
@@ -37,7 +37,7 @@
 - ✅ Icon matches app branding (headphone icon with blue theme)
 - ✅ Opens in standalone mode
 - ✅ No browser chrome visible
-- ✅ App name displays as "Tinnitus Relief Pro"
+- ✅ App name displays as "Tinnitussaurus"
 
 ---
 

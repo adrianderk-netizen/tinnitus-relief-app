@@ -1,4 +1,4 @@
-# iOS Port Implementation Plan: Tinnitus Relief Pro
+# iOS Port Implementation Plan: Tinnitussaurus
 
 **Date:** February 12, 2026
 **Scope:** Full native iOS rewrite (Swift/SwiftUI) from existing PWA/Capacitor app
@@ -68,8 +68,8 @@ text-muted:     #6B7280
 ### Phase 1: Project Setup & Audio Engine (Week 1-2)
 
 **1.1 Xcode Project Setup**
-- Create new SwiftUI project: `TinnitusReliefPro`
-- Bundle ID: `com.paulabac.tinnitusreliefpro`
+- Create new SwiftUI project: `Tinnitussaurus`
+- Bundle ID: `com.paulabac.tinnitussaurus`
 - Minimum iOS: 16.0
 - Add packages: RevenueCat SDK
 - Configure audio background mode in Info.plist
@@ -97,7 +97,7 @@ text-muted:     #6B7280
 
 | File | Purpose |
 |------|---------|
-| `TinnitusReliefProApp.swift` | App entry, SwiftData container, environment |
+| `TinnitussaurusApp.swift` | App entry, SwiftData container, environment |
 | `ContentView.swift` | TabView with 4 tabs |
 | `Theme.swift` | Color/font constants |
 
@@ -171,8 +171,8 @@ text-muted:     #6B7280
 ## File Structure
 
 ```
-TinnitusReliefPro/
-├── TinnitusReliefProApp.swift
+Tinnitussaurus/
+├── TinnitussaurusApp.swift
 ├── ContentView.swift
 ├── Theme.swift
 ├── Audio/

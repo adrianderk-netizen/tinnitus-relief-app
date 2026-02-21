@@ -13,7 +13,7 @@
 ### Task 1: Wire SessionStatsGrid to SessionRepository
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/Features/Session/Views/SessionStatsGrid.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/Features/Session/Views/SessionStatsGrid.swift`
 
 **Step 1: Replace hardcoded state with repository-backed loading**
 
@@ -86,14 +86,14 @@ Add `import SwiftData` at the top of the file.
 
 **Step 3: Build and verify**
 
-Run: `xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: Build will fail because `SessionView` still calls `SessionStatsGrid()` with no arguments. That's expected — we fix it in Task 2.
 
 **Step 4: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/Features/Session/Views/SessionStatsGrid.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/Features/Session/Views/SessionStatsGrid.swift
 git commit -m "Wire SessionStatsGrid to load real stats from SessionRepository"
 ```
 
@@ -102,7 +102,7 @@ git commit -m "Wire SessionStatsGrid to load real stats from SessionRepository"
 ### Task 2: Wire SessionView — Duration, Persistence, and Stats Refresh
 
 **Files:**
-- Modify: `ios/TinnitusReliefPro/TinnitusReliefPro/Features/Session/Views/SessionView.swift`
+- Modify: `ios/Tinnitussaurus/Tinnitussaurus/Features/Session/Views/SessionView.swift`
 
 **Step 1: Add environment dependencies and state**
 
@@ -213,14 +213,14 @@ Replace the preview with:
 
 **Step 7: Build and verify**
 
-Run: `xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 
 **Step 8: Commit**
 
 ```
-git add ios/TinnitusReliefPro/TinnitusReliefPro/Features/Session/Views/SessionView.swift
+git add ios/Tinnitussaurus/Tinnitussaurus/Features/Session/Views/SessionView.swift
 git commit -m "Wire SessionView to pass duration, persist sessions, and refresh stats"
 ```
 
@@ -230,7 +230,7 @@ git commit -m "Wire SessionView to pass duration, persist sessions, and refresh 
 
 **Step 1: Build the full project**
 
-Run: `xcodebuild -scheme TinnitusReliefPro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
+Run: `xcodebuild -scheme Tinnitussaurus -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build 2>&1 | tail -5`
 
 Expected: `** BUILD SUCCEEDED **`
 

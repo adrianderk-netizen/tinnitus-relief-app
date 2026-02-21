@@ -1,12 +1,12 @@
 # Privacy Policy
 
-**Tinnitus Relief Pro**
+**Tinnitussaurus**
 
 *Last updated: February 17, 2026*
 
 ## Information We Collect
 
-Tinnitus Relief Pro stores all data locally on your device. We do not collect, transmit, or store any personal information on external servers.
+Tinnitussaurus stores all data locally on your device. We do not collect, transmit, or store any personal information on external servers.
 
 ### Data Stored on Your Device
 
