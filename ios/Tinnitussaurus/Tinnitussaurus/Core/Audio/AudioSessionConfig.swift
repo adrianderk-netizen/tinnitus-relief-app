@@ -5,7 +5,7 @@ import os.log
 /// Handles interruptions (phone calls, Siri) and audio route changes (AirPods connect/disconnect).
 enum AudioSessionConfig {
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "AudioSession")
 
     /// Call once at app launch to configure the shared audio session.

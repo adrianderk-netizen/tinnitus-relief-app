@@ -10,7 +10,7 @@ import os.log
 /// ```
 enum ExportManager {
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "ExportManager")
 
     // MARK: - PDF Export

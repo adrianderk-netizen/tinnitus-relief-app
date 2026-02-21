@@ -100,7 +100,7 @@ struct BiquadFilterState {
 /// area and the audio thread picks them up on the next render cycle.
 final class NotchFilterBank: @unchecked Sendable {
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "NotchFilterBank")
 
     // MARK: - Properties

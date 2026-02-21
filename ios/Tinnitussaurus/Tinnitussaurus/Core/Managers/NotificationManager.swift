@@ -8,7 +8,7 @@ import os.log
 final class NotificationManager {
 
     private let center = UNUserNotificationCenter.current()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                 category: "NotificationManager")
 
     /// Identifier used for the repeating daily reminder so it can be cancelled/updated.

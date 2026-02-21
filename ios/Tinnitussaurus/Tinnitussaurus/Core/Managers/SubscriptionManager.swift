@@ -60,7 +60,7 @@ final class SubscriptionManager {
         }
         return key
     }()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                 category: "SubscriptionManager")
 
     // MARK: - Initialization

@@ -54,7 +54,7 @@ final class OscillatorNode {
     /// Running phase in radians.
     private var phase: Double = 0.0
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "OscillatorNode")
 
     // MARK: - Init

@@ -7,7 +7,7 @@ import os.log
 final class ProfileRepository {
 
     private let modelContext: ModelContext
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                 category: "ProfileRepository")
 
     init(modelContext: ModelContext) {

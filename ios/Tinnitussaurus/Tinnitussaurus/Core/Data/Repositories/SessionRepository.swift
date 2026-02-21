@@ -9,7 +9,7 @@ final class SessionRepository {
 
     private let modelContext: ModelContext
     private let calendar = Calendar.current
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                 category: "SessionRepository")
 
     init(modelContext: ModelContext) {

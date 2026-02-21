@@ -143,7 +143,7 @@ final class AudioEngineManager {
 
     // MARK: - Private audio graph components
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "AudioEngineManager")
 
     private let engine = AVAudioEngine()

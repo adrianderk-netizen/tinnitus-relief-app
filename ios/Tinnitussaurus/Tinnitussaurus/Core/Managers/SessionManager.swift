@@ -34,7 +34,7 @@ final class SessionManager {
     // MARK: - Private
 
     private var timer: Timer?
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                 category: "SessionManager")
 
     // MARK: - Computed Properties

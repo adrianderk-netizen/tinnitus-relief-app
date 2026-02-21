@@ -15,7 +15,7 @@ enum NoiseType: String, CaseIterable, Identifiable, Sendable {
 /// - Brown(ian): integrated white noise, peak-limited to [-1, 1].
 enum NoiseGenerator {
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "NoiseGenerator")
 
     /// Generates a stereo PCM buffer of the requested noise type.

@@ -19,7 +19,7 @@ final class FrequencyAnalyzer {
 
     // MARK: - Private state
 
-    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TinnitusReliefPro",
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tinnitussaurus",
                                        category: "FrequencyAnalyzer")
 
     /// vDSP FFT setup object (nil if creation failed — analysis becomes a no-op).
