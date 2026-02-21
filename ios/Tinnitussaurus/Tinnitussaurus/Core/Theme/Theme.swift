@@ -42,14 +42,14 @@ extension Color {
 
 // MARK: - Font Helpers
 
-/// Semantic font styles that map to the app's visual hierarchy.
+/// Semantic font styles matching the tinnitussaurus.com design system.
 extension Font {
 
-    /// Large display text for hero headings (e.g., dashboard session count).
-    static let displayLarge: Font = .system(size: 34, weight: .bold, design: .rounded)
+    /// Large display text for hero headings.
+    static let displayLarge: Font = .custom("SpaceGrotesk-Bold", size: 34)
 
     /// Medium display text for section titles.
-    static let displayMedium: Font = .system(size: 24, weight: .semibold, design: .rounded)
+    static let displayMedium: Font = .custom("SpaceGrotesk-SemiBold", size: 24)
 
     /// Large monospaced text for timers and frequency readouts.
     static let monoLarge: Font = .system(size: 48, weight: .bold, design: .monospaced)
